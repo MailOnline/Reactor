@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Reactor.
 FOUNDATION_EXPORT double ReactorVersionNumber;
