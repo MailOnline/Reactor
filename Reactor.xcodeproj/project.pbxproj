@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C72EE3BE1C9347AA001BD7B3 /* Reactor.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BE69B61C93463D00EA9462 /* Reactor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7470FE51C9353990088B090 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
@@ -24,6 +26,20 @@
 			remoteInfo = Reactor;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C7470FE31C9353910088B090 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */,
+				C7470FE51C9353990088B090 /* Result.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
@@ -176,6 +192,7 @@
 				C7BE699C1C93419E00EA9462 /* Sources */,
 				C7BE699D1C93419E00EA9462 /* Frameworks */,
 				C7BE699E1C93419E00EA9462 /* Resources */,
+				C7470FE31C9353910088B090 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -365,6 +382,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -387,6 +405,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -404,6 +423,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ReactorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.ReactorTests;
@@ -416,6 +440,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ReactorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.ReactorTests;
