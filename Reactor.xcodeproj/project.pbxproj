@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C7BE699A1C93419E00EA9462 /* Reactor.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BE69991C93419E00EA9462 /* Reactor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
 		C7BE69A61C93419E00EA9462 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BE69A51C93419E00EA9462 /* ReactorTests.swift */; };
 /* End PBXBuildFile section */
@@ -24,11 +23,10 @@
 
 /* Begin PBXFileReference section */
 		C7BE69961C93419E00EA9462 /* Reactor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Reactor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7BE69991C93419E00EA9462 /* Reactor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reactor.h; sourceTree = "<group>"; };
-		C7BE699B1C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7BE69A01C93419E00EA9462 /* ReactorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A51C93419E00EA9462 /* ReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
 		C7BE69A71C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7BE69B11C93427400EA9462 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +69,7 @@
 		C7BE69981C93419E00EA9462 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
-				C7BE69991C93419E00EA9462 /* Reactor.h */,
-				C7BE699B1C93419E00EA9462 /* Info.plist */,
+				C7BE69B01C93427400EA9462 /* Supporting Files */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -86,6 +83,14 @@
 			path = ReactorTests;
 			sourceTree = "<group>";
 		};
+		C7BE69B01C93427400EA9462 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C7BE69B11C93427400EA9462 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -93,7 +98,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7BE699A1C93419E00EA9462 /* Reactor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +316,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Reactor/Info.plist;
+				INFOPLIST_FILE = "Reactor/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.Reactor;
@@ -328,7 +332,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Reactor/Info.plist;
+				INFOPLIST_FILE = "Reactor/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.Reactor;
@@ -376,6 +380,7 @@
 				C7BE69AC1C93419E00EA9462 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C7BE69AD1C93419E00EA9462 /* Build configuration list for PBXNativeTarget "ReactorTests" */ = {
 			isa = XCConfigurationList;
@@ -384,6 +389,7 @@
 				C7BE69AF1C93419E00EA9462 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
