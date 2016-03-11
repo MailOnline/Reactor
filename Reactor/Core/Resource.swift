@@ -48,15 +48,15 @@ public func == (lhs: Resource, rhs: Resource) -> Bool {
 }
 
 public enum Method: String {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
+    case OPTIONS
+    case GET
+    case HEAD
+    case POST
+    case PUT
+    case PATCH
+    case DELETE
+    case TRACE
+    case CONNECT
 }
 
 extension Resource {
