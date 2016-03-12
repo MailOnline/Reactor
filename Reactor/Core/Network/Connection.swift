@@ -14,7 +14,7 @@ public protocol Connection {
     var session: NSURLSession { get }
     var baseURL: NSURL { get }
     
-    func makeConnection(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error>
+    func makeRequest(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error>
     func cancelAllConnections()
 }
 

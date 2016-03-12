@@ -25,7 +25,7 @@ final class Network: Connection {
         self.responseModifier = responseModifier
     }
     
-    func makeConnection(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error> {
+    func makeRequest(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error> {
         
         let request = resource.toRequest(self.baseURL)
         
