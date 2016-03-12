@@ -95,5 +95,3 @@ extension Resource {
         }
     }
 }
-
-
