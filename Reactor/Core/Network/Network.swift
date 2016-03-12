@@ -36,7 +36,7 @@ final class Network: Connection {
                 print($0)
                return .Server($0.localizedDescription)
             }
-            .flatMap(.Latest, transform: self.responseModifier)
+            .flatMapLatest(self.responseModifier)
         
         let isReachable: Bool -> Response = { isReachable in
             guard isReachable else { return SignalProducer(error: .NoConnectivity) }
@@ -45,7 +45,7 @@ final class Network: Connection {
         
         return reachability.isConnected()
             .mapError { _ in Error.NoConnectivity }
-            .flatMap(.Latest, transform: isReachable)
+            .flatMapLatest(isReachable)
     }
     
     deinit {
