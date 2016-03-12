@@ -32,10 +32,7 @@ final class Network: Connection {
         
         let networkRequest = self.session
             .rac_dataWithRequest(request)
-            .mapError {
-                print($0)
-               return .Server($0.localizedDescription)
-            }
+            .mapError { .Server($0.localizedDescription) }
             .flatMapLatest(self.responseModifier)
         
         let isReachable: Bool -> Response = { isReachable in
