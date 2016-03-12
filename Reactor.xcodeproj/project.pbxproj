@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C75CE1D81C946490006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */; };
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveCocoa.swift; sourceTree = "<group>"; };
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
@@ -97,9 +99,18 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		C75CE1D61C94648A006F6458 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
 		C76B5F571C934F8700023BD1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C75CE1D61C94648A006F6458 /* Functions */,
 				C7A509041C93B70A006EE048 /* Error */,
 				C7A508FD1C93B6F3006EE048 /* Network */,
 			);
@@ -286,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1D81C946490006F6458 /* ReactiveCocoa.swift in Sources */,
 				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
 				C7A509061C93B70F006EE048 /* Error.swift in Sources */,
 				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
