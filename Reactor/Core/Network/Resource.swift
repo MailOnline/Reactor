@@ -65,10 +65,7 @@ extension Resource {
         
         let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false)
         
-        let queryString = createQueryString(query)
-        if queryString != "" {
-            components?.query = queryString
-        }
+        components?.queryItems = createQueryItems(query)
         components?.path = path
         
         let finalURL = components?.URL ?? baseURL
@@ -88,17 +85,13 @@ extension Resource {
         
         return Resource(path: path, method: method, body: body, headers: headers, query: query)
     }
-}
-
-private func createQueryString(query: Query) -> String {
     
-    guard query.isEmpty == false else { return "" }
-    
-    var queryString = ""
-    
-    for key in query.keys {
-        queryString.appendContentsOf("\(key)=\(query[key]!)&")
+    private func createQueryItems(query: Query) -> [NSURLQueryItem]? {
+        
+        guard query.isEmpty == false else { return nil }
+        
+        return query.map { (key, value) in
+            return NSURLQueryItem(name: key, value: value)
+        }
     }
-    
-    return String(queryString.characters.dropLast())
 }

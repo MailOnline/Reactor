@@ -69,4 +69,11 @@ class ResourceTests: XCTestCase {
         XCTAssertEqual(newResource.headers.keys.count, 2)
         XCTAssertEqual(newResource.headers["key1"], "value1")
     }
+    
+    func testQuery() {
+        let resource = Resource(path: "/path/1", method: .GET, body: nil, query: ["key1": "value1", "key2":"value2"])
+        let request = resource.toRequest(NSURL(string: "http://api.com/")!)
+
+        XCTAssertEqual(request.URL?.absoluteString, "http://api.com/path/1?key1=value1&key2=value2")
+    }
 }

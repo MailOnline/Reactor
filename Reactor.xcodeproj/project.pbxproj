@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C72EE3BE1C9347AA001BD7B3 /* Reactor.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BE69B61C93463D00EA9462 /* Reactor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7470FE51C9353990088B090 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C75CE1D81C946490006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */; };
+		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
+		C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */; };
+		C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C75CE1DF1C949F20006F6458 /* success_request_cassette.json */; };
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
-		C76B5F5F1C93507100023BD1 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F581C934F8F00023BD1 /* Resource.swift */; };
+		C7A509001C93B6F3006EE048 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A508FE1C93B6F3006EE048 /* Connection.swift */; };
+		C7A509011C93B6F3006EE048 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A508FF1C93B6F3006EE048 /* Resource.swift */; };
+		C7A509061C93B70F006EE048 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509051C93B70F006EE048 /* Error.swift */; };
+		C7A509081C93B88E006EE048 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509071C93B88E006EE048 /* Network.swift */; };
+		C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5090B1C93BB54006EE048 /* Reachability.swift */; };
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,16 +36,39 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C7470FE31C9353910088B090 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */,
+				C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */,
+				C7470FE51C9353990088B090 /* Result.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveCocoa.swift; sourceTree = "<group>"; };
+		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
+		C75CE1DF1C949F20006F6458 /* success_request_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_request_cassette.json; sourceTree = "<group>"; };
+		C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableReachability.swift; sourceTree = "<group>"; };
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		C76B5F581C934F8F00023BD1 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
+		C7A508FE1C93B6F3006EE048 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		C7A508FF1C93B6F3006EE048 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		C7A509051C93B70F006EE048 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		C7A509071C93B88E006EE048 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		C7A5090B1C93BB54006EE048 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		C7BE69961C93419E00EA9462 /* Reactor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Reactor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A01C93419E00EA9462 /* ReactorTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactorTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A71C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7BE69B11C93427400EA9462 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7BE69B61C93463D00EA9462 /* Reactor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reactor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */,
 				C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +96,7 @@
 		C7470FDD1C9350E80088B090 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C75CE1DB1C949E3C006F6458 /* Vinyl.framework */,
 				C7470FDE1C9350F40088B090 /* iOS */,
 			);
 			name = Frameworks;
@@ -75,10 +111,36 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		C75CE1D61C94648A006F6458 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
+		C75CE1DE1C949ED8006F6458 /* Cassettes */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
+			);
+			path = Cassettes;
+			sourceTree = "<group>";
+		};
+		C75CE1E11C94A0E0006F6458 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */,
+			);
+			path = Stubs;
+			sourceTree = "<group>";
+		};
 		C76B5F571C934F8700023BD1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C76B5F581C934F8F00023BD1 /* Resource.swift */,
+				C75CE1D61C94648A006F6458 /* Functions */,
+				C7A509041C93B70A006EE048 /* Error */,
+				C7A508FD1C93B6F3006EE048 /* Network */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -86,9 +148,31 @@
 		C76B5F5B1C934FEF00023BD1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C75CE1E11C94A0E0006F6458 /* Stubs */,
+				C75CE1DE1C949ED8006F6458 /* Cassettes */,
 				C76B5F5D1C93500300023BD1 /* ResourceTests.swift */,
+				C75CE1D91C949BA3006F6458 /* NetworkTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C7A508FD1C93B6F3006EE048 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C7A508FE1C93B6F3006EE048 /* Connection.swift */,
+				C7A5090B1C93BB54006EE048 /* Reachability.swift */,
+				C7A509071C93B88E006EE048 /* Network.swift */,
+				C7A508FF1C93B6F3006EE048 /* Resource.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C7A509041C93B70A006EE048 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				C7A509051C93B70F006EE048 /* Error.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		C7BE698C1C93419E00EA9462 = {
@@ -131,7 +215,6 @@
 		C7BE69B01C93427400EA9462 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C7BE69B61C93463D00EA9462 /* Reactor.h */,
 				C7BE69B11C93427400EA9462 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -144,7 +227,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C72EE3BE1C9347AA001BD7B3 /* Reactor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +258,7 @@
 				C7BE699C1C93419E00EA9462 /* Sources */,
 				C7BE699D1C93419E00EA9462 /* Frameworks */,
 				C7BE699E1C93419E00EA9462 /* Resources */,
+				C7470FE31C9353910088B090 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -235,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +329,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C76B5F5F1C93507100023BD1 /* Resource.swift in Sources */,
+				C75CE1D81C946490006F6458 /* ReactiveCocoa.swift in Sources */,
+				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
+				C7A509061C93B70F006EE048 /* Error.swift in Sources */,
+				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
+				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
+				C7A509011C93B6F3006EE048 /* Resource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +342,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */,
+				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,
 				C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +456,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -387,6 +479,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -404,6 +497,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ReactorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.ReactorTests;
@@ -416,6 +514,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ReactorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.ReactorTests;
