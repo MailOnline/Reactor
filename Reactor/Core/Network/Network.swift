@@ -8,7 +8,8 @@
 
 import ReactiveCocoa
 
-typealias ResponseModifier = (NSData, NSURLResponse) -> SignalProducer<(NSData, NSURLResponse), Error>
+typealias Response = SignalProducer<(NSData, NSURLResponse), Error>
+typealias ResponseModifier = (NSData, NSURLResponse) -> Response
 
 final class Network: Connection {
     
@@ -25,13 +26,26 @@ final class Network: Connection {
         self.responseModifier = responseModifier
     }
     
-    func makeRequest(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error> {
+    func makeRequest(resource: Resource) -> Response {
         
         let request = resource.toRequest(self.baseURL)
         
-        return session.rac_dataWithRequest(request)
-            .mapError { .Server($0.localizedDescription) }
-            .flatMap(.Latest, transform: responseModifier)
+        let networkRequest = self.session
+            .rac_dataWithRequest(request)
+            .mapError {
+                print($0)
+               return .Server($0.localizedDescription)
+            }
+            .flatMap(.Latest, transform: self.responseModifier)
+        
+        let isReachable: Bool -> Response = { isReachable in
+            guard isReachable else { return SignalProducer(error: .NoConnectivity) }
+            return networkRequest
+        }
+        
+        return reachability.isConnected()
+            .mapError { _ in Error.NoConnectivity }
+            .flatMap(.Latest, transform: isReachable)
     }
     
     deinit {

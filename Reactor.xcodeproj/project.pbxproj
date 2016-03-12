@@ -10,6 +10,11 @@
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C75CE1D81C946490006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */; };
+		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
+		C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */; };
+		C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C75CE1DF1C949F20006F6458 /* success_request_cassette.json */; };
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
@@ -38,6 +43,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */,
 				C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */,
 				C7470FE51C9353990088B090 /* Result.framework in CopyFiles */,
 			);
@@ -47,6 +53,10 @@
 
 /* Begin PBXFileReference section */
 		C75CE1D71C946490006F6458 /* ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveCocoa.swift; sourceTree = "<group>"; };
+		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
+		C75CE1DF1C949F20006F6458 /* success_request_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_request_cassette.json; sourceTree = "<group>"; };
+		C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableReachability.swift; sourceTree = "<group>"; };
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
@@ -75,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */,
 				C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +96,7 @@
 		C7470FDD1C9350E80088B090 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C75CE1DB1C949E3C006F6458 /* Vinyl.framework */,
 				C7470FDE1C9350F40088B090 /* iOS */,
 			);
 			name = Frameworks;
@@ -107,6 +119,22 @@
 			path = Functions;
 			sourceTree = "<group>";
 		};
+		C75CE1DE1C949ED8006F6458 /* Cassettes */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
+			);
+			path = Cassettes;
+			sourceTree = "<group>";
+		};
+		C75CE1E11C94A0E0006F6458 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */,
+			);
+			path = Stubs;
+			sourceTree = "<group>";
+		};
 		C76B5F571C934F8700023BD1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +148,10 @@
 		C76B5F5B1C934FEF00023BD1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C75CE1E11C94A0E0006F6458 /* Stubs */,
+				C75CE1DE1C949ED8006F6458 /* Cassettes */,
 				C76B5F5D1C93500300023BD1 /* ResourceTests.swift */,
+				C75CE1D91C949BA3006F6458 /* NetworkTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -287,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +342,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */,
+				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,
 				C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

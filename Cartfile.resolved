@@ -1,2 +1,3 @@
 github "antitypical/Result" "1.0.2"
+github "Velhotes/Vinyl" "80b3a81808b3564186ca77596f583383e75c3803"
 github "ReactiveCocoa/ReactiveCocoa" "v4.0.1"

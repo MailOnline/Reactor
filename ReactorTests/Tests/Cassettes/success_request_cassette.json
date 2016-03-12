@@ -1,0 +1,19 @@
+{
+    "interactions": [{
+                     "response": {
+                     "body": {
+                     "key": "value"
+                     },
+                     "status": 200,
+                     "url": "http:\/\/api.com/test",
+                     "headers": {
+                     "Content-Type": "application\/json; charset=utf-8"
+                     }
+                     },
+                     "request": {
+                     "method": "GET",
+                     "url": "http:\/\/api.com/test"
+                     }
+                     }],
+    "name": "success_request_cassette"
+}
