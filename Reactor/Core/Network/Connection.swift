@@ -6,13 +6,7 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-import Foundation
 import ReactiveCocoa
-
-public protocol Reachable {
-    
-    func isConnected() -> SignalProducer<Bool, Error>
-}
 
 public protocol Connection {
     
@@ -29,15 +23,9 @@ extension Connection {
     var session: NSURLSession { return NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration()) }
     var baseURL: NSURL { return NSURL(string: "")! }
     
-    func cancelAllConnections() {
+    public func cancelAllConnections() {
         
         self.session.invalidateAndCancel()
-    }
-    
-    func makeConnection(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error> {
-        
-        let request = resource.toRequest(self.baseURL)
-        return self.session.rac_dataWithRequest(request).mapError { .Server($0.localizedDescription) }
     }
 }
 

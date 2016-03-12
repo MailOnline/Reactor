@@ -19,8 +19,8 @@ class ResourceTests: XCTestCase {
     }
     
     func testEqualityForNonNilBody() {
-        let resource1 = Resource(path: "/path/1", method: .GET)
-        let resource2 = Resource(path: "/path/1", method: .GET)
+        let resource1 = Resource(path: "/path/1", method: .GET, body: NSData())
+        let resource2 = Resource(path: "/path/1", method: .GET, body: NSData())
         
         XCTAssertEqual(resource1, resource2)
     }
