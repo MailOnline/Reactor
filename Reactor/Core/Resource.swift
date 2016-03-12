@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias Header = [String: String]
+public typealias Headers = [String: String]
 public typealias Query = [String: String]
 
 // Stolen from chriseidhof/github-issues 😅
@@ -16,11 +16,11 @@ public struct Resource: Equatable, CustomStringConvertible {
     
     public let path: String
     public let method: Method
-    public let headers: Header
+    public let headers: Headers
     public let body: NSData?
     public let query: Query
     
-    public init(path: String, method: Method, body: NSData? = nil, headers: Header = [:], query: Query = [:]) {
+    public init(path: String, method: Method, body: NSData? = nil, headers: Headers = [:], query: Query = [:]) {
         self.path = path
         self.method = method
         self.body = body
@@ -48,15 +48,15 @@ public func == (lhs: Resource, rhs: Resource) -> Bool {
 }
 
 public enum Method: String {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
+    case OPTIONS
+    case GET
+    case HEAD
+    case POST
+    case PUT
+    case PATCH
+    case DELETE
+    case TRACE
+    case CONNECT
 }
 
 extension Resource {
