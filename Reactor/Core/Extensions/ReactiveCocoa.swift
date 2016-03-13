@@ -8,13 +8,6 @@
 
 import ReactiveCocoa
 
-extension SignalType {
-    
-    public func ignoreNext() -> Signal<Void, Self.Error> {
-        return self.map { _ in }
-    }
-}
-
 extension SignalProducerType {
     
     static var identity: (Value -> SignalProducer<Value, Error>) { return { SignalProducer(value: $0) } }
