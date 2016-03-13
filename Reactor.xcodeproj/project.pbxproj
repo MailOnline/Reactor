@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C7470FE51C9353990088B090 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
 		C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
-		C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1DD1C949E44006F6458 /* Vinyl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
 		C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */; };
 		C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C75CE1DF1C949F20006F6458 /* success_request_cassette.json */; };
 		C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1EB1C94C39F006F6458 /* ReactiveCocoa.swift */; };
@@ -24,6 +24,8 @@
 		C7A509081C93B88E006EE048 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509071C93B88E006EE048 /* Network.swift */; };
 		C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5090B1C93BB54006EE048 /* Reachability.swift */; };
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
+		C7DFA00A1C94F9E90068FFE6 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
+		C7DFA00B1C94F9E90068FFE6 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,16 +39,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C7470FE31C9353910088B090 /* CopyFiles */ = {
+		C7470FE31C9353910088B090 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
-				C75CE1DD1C949E44006F6458 /* Vinyl.framework in CopyFiles */,
-				C7470FE41C9353990088B090 /* ReactiveCocoa.framework in CopyFiles */,
-				C7470FE51C9353990088B090 /* Result.framework in CopyFiles */,
+				C75CE1DD1C949E44006F6458 /* Vinyl.framework in Copy Files */,
+				C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */,
+				C7470FE51C9353990088B090 /* Result.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -85,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7DFA00A1C94F9E90068FFE6 /* ReactiveCocoa.framework in Frameworks */,
+				C7DFA00B1C94F9E90068FFE6 /* Result.framework in Frameworks */,
 				C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */,
 				C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */,
 			);
@@ -258,7 +263,7 @@
 				C7BE699C1C93419E00EA9462 /* Sources */,
 				C7BE699D1C93419E00EA9462 /* Frameworks */,
 				C7BE699E1C93419E00EA9462 /* Resources */,
-				C7470FE31C9353910088B090 /* CopyFiles */,
+				C7470FE31C9353910088B090 /* Copy Files */,
 			);
 			buildRules = (
 			);
