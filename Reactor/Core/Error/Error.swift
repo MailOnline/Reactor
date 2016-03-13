@@ -10,6 +10,7 @@ public enum Error: ErrorType {
     
     case Server(String)
     case NoConnectivity
+    case Parser
 }
 
 extension Error: Equatable {}

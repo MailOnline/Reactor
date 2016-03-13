@@ -26,6 +26,8 @@
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
 		C7DFA00A1C94F9E90068FFE6 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C7DFA00B1C94F9E90068FFE6 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
+		C7DFA00E1C9501050068FFE6 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA00D1C9501050068FFE6 /* Mappable.swift */; };
+		C7DFA0101C95016A0068FFE6 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA00F1C95016A0068FFE6 /* Parser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		C7BE69A01C93419E00EA9462 /* ReactorTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactorTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A71C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7BE69B11C93427400EA9462 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7DFA00D1C9501050068FFE6 /* Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		C7DFA00F1C95016A0068FFE6 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +147,7 @@
 		C76B5F571C934F8700023BD1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C7DFA00C1C9500FC0068FFE6 /* Parser */,
 				C75CE1E81C94C392006F6458 /* Extensions */,
 				C7A509041C93B70A006EE048 /* Error */,
 				C7A508FD1C93B6F3006EE048 /* Network */,
@@ -223,6 +228,15 @@
 				C7BE69B11C93427400EA9462 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C7DFA00C1C9500FC0068FFE6 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				C7DFA00D1C9501050068FFE6 /* Mappable.swift */,
+				C7DFA00F1C95016A0068FFE6 /* Parser.swift */,
+			);
+			path = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,8 +349,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
+				C7DFA00E1C9501050068FFE6 /* Mappable.swift in Sources */,
 				C7A509061C93B70F006EE048 /* Error.swift in Sources */,
 				C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */,
+				C7DFA0101C95016A0068FFE6 /* Parser.swift in Sources */,
 				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
 				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
 				C7A509011C93B6F3006EE048 /* Resource.swift in Sources */,
