@@ -1,0 +1,10 @@
+framework module Vinyl {
+  umbrella header "Vinyl.h"
+
+  export *
+  module * { export * }
+}
+
+module Vinyl.Swift {
+    header "Vinyl-Swift.h"
+}
