@@ -90,7 +90,7 @@ func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
     return convertAndCleanArray
 }
 
-private func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
+func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
     
     guard let objects = anyObject[key] as? [AnyObject] else { return [] }
     return arrayFromJSON(objects)
