@@ -20,7 +20,7 @@ class ParserTests: XCTestCase {
         
         let jsonData = dataFromFile("articles")
         
-        let parserProducer: NSData -> SignalProducer<[Article], Error > = { parse($0) }
+        let parserProducer: NSData -> SignalProducer<[Article], Error > = parse
         parserProducer(jsonData).flatMapLatest { encode($0) }.flatMapLatest(parserProducer).startWithNext { articles in
             
             XCTAssertEqual(articles.count, 3)
@@ -35,7 +35,7 @@ class ParserTests: XCTestCase {
         
         let jsonData = dataFromFile("author")
         
-        let parserProducer: NSData -> SignalProducer<Author, Error > = { parse($0) }
+        let parserProducer: NSData -> SignalProducer<Author, Error > = parse
         parserProducer(jsonData).flatMapLatest { encode($0) }.flatMapLatest(parserProducer).startWithNext { author in
             
             XCTAssertEqual(author.name, "John")

@@ -34,6 +34,7 @@
 		C7DFA01B1C96087F0068FFE6 /* articles.json in Resources */ = {isa = PBXBuildFile; fileRef = C7DFA01A1C96087F0068FFE6 /* articles.json */; };
 		C7DFA01D1C9609540068FFE6 /* author.json in Resources */ = {isa = PBXBuildFile; fileRef = C7DFA01C1C9609540068FFE6 /* author.json */; };
 		C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */ = {isa = PBXBuildFile; fileRef = C7DFA01E1C9609D90068FFE6 /* bad_json.json */; };
+		C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0201C9647520068FFE6 /* ParsingHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		C7DFA01A1C96087F0068FFE6 /* articles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = articles.json; sourceTree = "<group>"; };
 		C7DFA01C1C9609540068FFE6 /* author.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = author.json; sourceTree = "<group>"; };
 		C7DFA01E1C9609D90068FFE6 /* bad_json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bad_json.json; sourceTree = "<group>"; };
+		C7DFA0201C9647520068FFE6 /* ParsingHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +253,7 @@
 			children = (
 				C7DFA00D1C9501050068FFE6 /* Mappable.swift */,
 				C7DFA00F1C95016A0068FFE6 /* Parser.swift */,
+				C7DFA0201C9647520068FFE6 /* ParsingHelpers.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */,
 				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
 				C7DFA00E1C9501050068FFE6 /* Mappable.swift in Sources */,
 				C7A509061C93B70F006EE048 /* Error.swift in Sources */,

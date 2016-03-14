@@ -77,21 +77,3 @@ func decodeData(data: NSData) -> Result<AnyObject, Error> {
     }
 }
 
-func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
-    
-    var convertAndCleanArray: [T] = []
-    
-    for object in objects {
-        
-        guard case .Success(let model) = T.mapToModel(object) else { continue }
-        convertAndCleanArray.append(model)
-    }
-    
-    return convertAndCleanArray
-}
-
-func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
-    
-    guard let objects = anyObject[key] as? [AnyObject] else { return [] }
-    return arrayFromJSON(objects)
-}
