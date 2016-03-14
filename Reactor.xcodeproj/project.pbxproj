@@ -43,6 +43,8 @@
 		C7DFA0321C96CF340068FFE6 /* InDiskPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0311C96CF340068FFE6 /* InDiskPersistence.swift */; };
 		C7DFA0341C96D07F0068FFE6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0331C96D07F0068FFE6 /* Cache.swift */; };
 		C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */; };
+		C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */; };
+		C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,8 @@
 		C7DFA0311C96CF340068FFE6 /* InDiskPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InDiskPersistence.swift; sourceTree = "<group>"; };
 		C7DFA0331C96D07F0068FFE6 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
+		C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceTest.swift; sourceTree = "<group>"; };
+		C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,7 @@
 				C75CE1D91C949BA3006F6458 /* NetworkTests.swift */,
 				C7DFA0141C9605910068FFE6 /* ParserTests.swift */,
 				C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */,
+				C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -281,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DFA0171C9606280068FFE6 /* JSONHelper.swift */,
+				C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -456,7 +462,9 @@
 				C7DFA0151C9605910068FFE6 /* ParserTests.swift in Sources */,
 				C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */,
 				C7DFA0181C9606280068FFE6 /* JSONHelper.swift in Sources */,
+				C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */,
 				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,
+				C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */,
 				C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
