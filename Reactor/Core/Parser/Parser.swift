@@ -76,4 +76,3 @@ func decodeData(data: NSData) -> Result<AnyObject, Error> {
         return Result(error: .Parser)
     }
 }
-
