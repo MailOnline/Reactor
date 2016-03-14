@@ -8,7 +8,6 @@
 
 import ReactiveCocoa
 
-typealias Response = SignalProducer<(NSData, NSURLResponse), Error>
 typealias ResponseModifier = (NSData, NSURLResponse) -> Response
 
 final class Network: Connection {

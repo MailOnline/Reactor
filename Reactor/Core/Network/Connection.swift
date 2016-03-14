@@ -8,13 +8,15 @@
 
 import ReactiveCocoa
 
+public typealias Response = SignalProducer<(NSData, NSURLResponse), Error>
+
 public protocol Connection {
     
     var reachability: Reachable { get }
     var session: NSURLSession { get }
     var baseURL: NSURL { get }
     
-    func makeRequest(resource: Resource) -> SignalProducer<(NSData, NSURLResponse), Error>
+    func makeRequest(resource: Resource) -> Response
     func cancelAllConnections()
 }
 
@@ -26,6 +28,24 @@ extension Connection {
     public func cancelAllConnections() {
         
         self.session.invalidateAndCancel()
+    }
+    
+    func makeRequest(resource: Resource) -> Response {
+        
+        let request = resource.toRequest(self.baseURL)
+        
+        let networkRequest = self.session
+            .rac_dataWithRequest(request)
+            .mapError { error in Error.Server(error.localizedDescription) }
+        
+        let isReachable: Bool -> Response = { isReachable in
+            guard isReachable else { return SignalProducer(error: .NoConnectivity) }
+            return networkRequest
+        }
+        
+        return reachability.isConnected()
+            .mapError { _ in Error.NoConnectivity }
+            .flatMapLatest(isReachable)
     }
 }
 
