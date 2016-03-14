@@ -15,7 +15,7 @@ public protocol InDiskElementsPersistence {
     func load() -> SignalProducer<[Model], Error>
     func save(model: [Model]) ->  SignalProducer<[Model], Error>
     
-    func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError>
+    func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError>
 }
 
 public protocol InDiskElementPersistence {
@@ -24,7 +24,7 @@ public protocol InDiskElementPersistence {
     func load() -> SignalProducer<Model, Error>
     func save(model: Model) ->  SignalProducer<Model, Error>
     
-    func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError>
+    func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError>
 }
 
 public typealias InDiskPersistence = protocol<InDiskElementPersistence, InDiskElementsPersistence>
@@ -68,9 +68,9 @@ public final class InDiskPersistenceHandler<T where T: Mappable>: InDiskPersiste
             .map { _ in models }
     }
     
-    public func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError> {
+    public func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError> {
         
-        let didExpire = flip(curry(didCacheExpired))(minutes)
+        let didExpire = flip(curry(didCacheExpired))(seconds)
         return fileCreationDate(persistenceFilePath)
             .flatMapLatest{ SignalProducer(value: $0) }
             .flatMapLatest(didExpire)

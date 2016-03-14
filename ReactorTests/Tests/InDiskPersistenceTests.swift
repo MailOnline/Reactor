@@ -68,13 +68,11 @@ class InDiskPersistenceTests: XCTestCase {
         let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
-        
-        let oneSecondInMinutes: NSTimeInterval = 1/60
-        
+                
         inDiskPersistence.save(article1)
             .delay(1.5, onScheduler: QueueScheduler(name: "test"))
             .flatMapLatest { _ in
-                inDiskPersistence.hasPersistenceExpired(expirationInMinutes: oneSecondInMinutes)
+                inDiskPersistence.hasPersistenceExpired(expirationInSeconds: 1)
                     .mapError {_ in .Persistence("File not found")
                 }
             }
