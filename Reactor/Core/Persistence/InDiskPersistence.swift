@@ -9,12 +9,12 @@
 import Result
 import ReactiveCocoa
 
-public final class InDiskPersistenceHandler<T where T: Mappable> { 
+public final class InDiskPersistenceHandler<T where T: Mappable> {
     
     private let persistenceFilePath: String
     private let expirationTime: NSTimeInterval
     
-    public init(persistenceFilePath: String, expirationTime: NSTimeInterval = 2) {
+    public init(persistenceFilePath: String, expirationTime: NSTimeInterval = 5 * 60) {
         
         self.persistenceFilePath = persistenceFilePath
         self.expirationTime = expirationTime
@@ -48,9 +48,9 @@ public final class InDiskPersistenceHandler<T where T: Mappable> {
             .map { _ in models }
     }
     
-    public func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError> {
+    public func hasPersistenceExpired() -> SignalProducer<Bool, NoError> {
         
-        let didExpire = flip(curry(didCacheExpired))(seconds)
+        let didExpire = flip(curry(didCacheExpired))(expirationTime)
         return fileCreationDate(persistenceFilePath)
             .flatMapLatest{ SignalProducer(value: $0) }
             .flatMapLatest(didExpire)

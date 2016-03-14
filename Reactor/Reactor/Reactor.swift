@@ -8,27 +8,24 @@
 
 import ReactiveCocoa
 
-struct Information<T: Mappable> {
+struct ReactorConfiguration<T: Mappable> {
     
     let inDiskPersistentHandler: InDiskPersistenceHandler<T>
-    let experitationInMinutes: NSTimeInterval
-    
     let connection: Connection
     let parser: NSData -> SignalProducer<[T], Error> = parse
 }
 
 struct Reactor<T: Mappable> {
     
-    private let information: Information<T>
+    private let information: ReactorConfiguration<T>
     
-    init(information: Information<T>) {
+    init(information: ReactorConfiguration<T>) {
         
         self.information = information
     }
     
     func fetch(resource: Resource) -> SignalProducer<[T], Error> {
         
-        let experitationTime = information.experitationInMinutes
         let inDiskPersistentHandler = information.inDiskPersistentHandler
         
         let experitationHandler: Bool -> SignalProducer <[T], Error> = { hasExpired in
@@ -41,7 +38,7 @@ struct Reactor<T: Mappable> {
             }
         }
         
-        return inDiskPersistentHandler.hasPersistenceExpired(expirationInSeconds: experitationTime)
+        return inDiskPersistentHandler.hasPersistenceExpired()
             .flatMapError { _ in SignalProducer(error: Error.Persistence("")) }
             .flatMapLatest(experitationHandler)
     }
