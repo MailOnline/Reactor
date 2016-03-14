@@ -45,6 +45,8 @@
 		C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */; };
 		C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */; };
 		C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */; };
+		C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */; };
+		C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,8 @@
 		C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceTest.swift; sourceTree = "<group>"; };
 		C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
+		C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InMemoryPersistenceTests.swift; sourceTree = "<group>"; };
+		C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InDiskPersistenceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,8 @@
 				C7DFA0141C9605910068FFE6 /* ParserTests.swift */,
 				C7DFA0351C96DCDF0068FFE6 /* CacheTests.swift */,
 				C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */,
+				C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */,
+				C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -458,11 +464,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DFA0131C95FF750068FFE6 /* Article.swift in Sources */,
+				C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */,
 				C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */,
 				C7DFA0151C9605910068FFE6 /* ParserTests.swift in Sources */,
 				C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */,
 				C7DFA0181C9606280068FFE6 /* JSONHelper.swift in Sources */,
 				C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */,
+				C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */,
 				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,
 				C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */,
 				C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */,
