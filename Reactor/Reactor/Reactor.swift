@@ -8,18 +8,16 @@
 
 import ReactiveCocoa
 
-struct Information<T: InDiskElementsPersistence where T.Model: Mappable> {
+struct Information<T: Mappable> {
     
-    let inDiskPersistentHandler: T
+    let inDiskPersistentHandler: InDiskPersistenceHandler<T>
     let experitationInMinutes: NSTimeInterval
     
     let connection: Connection
-    let parser: NSData -> SignalProducer<[T.Model], Error> = parse
+    let parser: NSData -> SignalProducer<[T], Error> = parse
 }
 
-struct Reactor<T: InDiskElementsPersistence where T.Model: Mappable> {
-    
-    typealias Model = T.Model
+struct Reactor<T: Mappable> {
     
     private let information: Information<T>
     
@@ -28,12 +26,12 @@ struct Reactor<T: InDiskElementsPersistence where T.Model: Mappable> {
         self.information = information
     }
     
-    func fetch(resource: Resource) -> SignalProducer<[Model], Error> {
+    func fetch(resource: Resource) -> SignalProducer<[T], Error> {
         
         let experitationTime = information.experitationInMinutes
         let inDiskPersistentHandler = information.inDiskPersistentHandler
         
-        let experitationHandler: Bool -> SignalProducer <[Model], Error> = { hasExpired in
+        let experitationHandler: Bool -> SignalProducer <[T], Error> = { hasExpired in
             
             if hasExpired {
                 return self.fetchFromNetwork(resource)
@@ -48,7 +46,7 @@ struct Reactor<T: InDiskElementsPersistence where T.Model: Mappable> {
             .flatMapLatest(experitationHandler)
     }
     
-    func fetchFromNetwork(resource: Resource) -> SignalProducer<[Model], Error> {
+    func fetchFromNetwork(resource: Resource) -> SignalProducer<[T], Error> {
         
         let connection = information.connection
         let parser = information.parser

@@ -9,27 +9,7 @@
 import Result
 import ReactiveCocoa
 
-public protocol InDiskElementsPersistence {
-    typealias Model: Mappable
-    
-    func load() -> SignalProducer<[Model], Error>
-    func save(model: [Model]) ->  SignalProducer<[Model], Error>
-    
-    func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError>
-}
-
-public protocol InDiskElementPersistence {
-    typealias Model: Mappable
-    
-    func load() -> SignalProducer<Model, Error>
-    func save(model: Model) ->  SignalProducer<Model, Error>
-    
-    func hasPersistenceExpired(expirationInSeconds seconds: NSTimeInterval) -> SignalProducer<Bool, NoError>
-}
-
-public typealias InDiskPersistence = protocol<InDiskElementPersistence, InDiskElementsPersistence>
-
-public final class InDiskPersistenceHandler<T where T: Mappable>: InDiskPersistence {
+public final class InDiskPersistenceHandler<T where T: Mappable> { 
     
     private let persistenceFilePath: String
     private let expirationTime: NSTimeInterval
