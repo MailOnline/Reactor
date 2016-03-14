@@ -10,6 +10,7 @@ public enum Error: ErrorType {
     
     case Server(String)
     case NoConnectivity
+    case Persistence(String)
     case Parser
 }
 
@@ -18,9 +19,10 @@ extension Error: Equatable {}
 public func == (lhs: Error, rhs: Error) -> Bool {
     
     switch(lhs, rhs) {
-    case (.Server(let lhsErrorDescription),.Server(let rhsErrorDescription)): return lhsErrorDescription == rhsErrorDescription
+    case (.Server, .Server): return true
     case (.NoConnectivity, .NoConnectivity): return true
     case (.Parser, .Parser): return true
+    case (.Persistence, .Persistence): return true
     default: return false
     }
 }

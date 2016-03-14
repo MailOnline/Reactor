@@ -35,6 +35,19 @@ struct Article {
     let numberOfLikes: Int
 }
 
+extension Article: Hashable {
+    
+    var hashValue: Int {
+        return title.hashValue
+    }
+}
+
+extension Article: Equatable {}
+
+func == (lhs: Article, rhs: Article) -> Bool {
+    return lhs.title == rhs.title && lhs.body == rhs.body && lhs.numberOfLikes == rhs.numberOfLikes
+}
+
 extension Author: Mappable {
     
     static func mapToModel(object: AnyObject) -> Result<Author, MappedError> {
@@ -54,7 +67,6 @@ extension Author: Mappable {
         return ["name": self.name]
     }
 }
-
 
 extension Article: Mappable {
     
