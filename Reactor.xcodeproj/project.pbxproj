@@ -23,6 +23,9 @@
 		C7A509061C93B70F006EE048 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509051C93B70F006EE048 /* Error.swift */; };
 		C7A509081C93B88E006EE048 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509071C93B88E006EE048 /* Network.swift */; };
 		C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5090B1C93BB54006EE048 /* Reachability.swift */; };
+		C7B76E311C972E93005596E8 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E301C972E93005596E8 /* ReactorTests.swift */; };
+		C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C7B76E321C9735E8005596E8 /* articles_cassette.json */; };
+		C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */; };
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
 		C7DFA00A1C94F9E90068FFE6 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C7DFA00B1C94F9E90068FFE6 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
@@ -89,6 +92,9 @@
 		C7A509051C93B70F006EE048 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C7A509071C93B88E006EE048 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		C7A5090B1C93BB54006EE048 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		C7B76E301C972E93005596E8 /* ReactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
+		C7B76E321C9735E8005596E8 /* articles_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = articles_cassette.json; sourceTree = "<group>"; };
+		C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLayerIsCalled.swift; sourceTree = "<group>"; };
 		C7BE69961C93419E00EA9462 /* Reactor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Reactor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A01C93419E00EA9462 /* ReactorTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactorTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A71C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -162,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
+				C7B76E321C9735E8005596E8 /* articles_cassette.json */,
 			);
 			path = Cassettes;
 			sourceTree = "<group>";
@@ -171,6 +178,7 @@
 			children = (
 				C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */,
 				C7DFA0111C95FF2E0068FFE6 /* Article.swift */,
+				C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -210,6 +218,7 @@
 				C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */,
 				C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */,
 				C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */,
+				C7B76E301C972E93005596E8 /* ReactorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -435,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DFA01D1C9609540068FFE6 /* author.json in Resources */,
+				C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */,
 				C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */,
 				C7DFA01B1C96087F0068FFE6 /* articles.json in Resources */,
 				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,
@@ -471,12 +481,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7B76E311C972E93005596E8 /* ReactorTests.swift in Sources */,
 				C7DFA0131C95FF750068FFE6 /* Article.swift in Sources */,
 				C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */,
 				C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */,
 				C7DFA0151C9605910068FFE6 /* ParserTests.swift in Sources */,
 				C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */,
 				C7DFA0181C9606280068FFE6 /* JSONHelper.swift in Sources */,
+				C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */,
 				C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */,
 				C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */,
 				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,

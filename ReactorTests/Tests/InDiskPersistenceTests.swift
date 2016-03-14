@@ -59,20 +59,19 @@ class InDiskPersistenceTests: XCTestCase {
         }
     }
     
-    
     func testFileExpiration() {
         
         let expectation = self.expectationWithDescription("Expected file to be expired")
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
-        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName, expirationTime: 1)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
                 
         inDiskPersistence.save(article1)
             .delay(1.5, onScheduler: QueueScheduler(name: "test"))
             .flatMapLatest { _ in
-                inDiskPersistence.hasPersistenceExpired(expirationInSeconds: 1)
+                inDiskPersistence.hasPersistenceExpired()
                     .mapError {_ in .Persistence("File not found")
                 }
             }
