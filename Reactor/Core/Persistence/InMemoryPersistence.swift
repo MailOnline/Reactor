@@ -9,7 +9,25 @@
 import Result
 import ReactiveCocoa
 
-public final class InMemoryPersistenceHandler<T where T: Hashable> {
+public protocol InMemoryElementsPersistence {
+    
+    typealias Model: Hashable
+
+    func load(hash: Int) -> SignalProducer<Model, Error>
+    func save(model: Model) ->  SignalProducer<Model, Error>
+}
+
+public protocol InMemoryElementPersistence {
+    
+    typealias Model: Hashable
+    
+    func load() -> SignalProducer<[Model], Error>
+    func save(models: [Model]) ->  SignalProducer<[Model], Error>
+}
+
+public typealias InMemoryPersistence = protocol <InMemoryElementPersistence, InMemoryElementsPersistence>
+
+public final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPersistence {
     
     private let cache: Cache<T>
     
