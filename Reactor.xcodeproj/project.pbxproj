@@ -47,6 +47,7 @@
 		C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */; };
 		C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */; };
 		C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */; };
+		C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0431C9703C40068FFE6 /* Reactor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InMemoryPersistenceTests.swift; sourceTree = "<group>"; };
 		C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InDiskPersistenceTests.swift; sourceTree = "<group>"; };
+		C7DFA0431C9703C40068FFE6 /* Reactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reactor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 		C7BE69981C93419E00EA9462 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				C7DFA0421C9703B20068FFE6 /* Reactor */,
 				C76B5F571C934F8700023BD1 /* Core */,
 				C7BE69B01C93427400EA9462 /* Supporting Files */,
 			);
@@ -326,6 +329,14 @@
 				C7DFA02B1C96CE060068FFE6 /* flip.swift */,
 			);
 			path = Functions;
+			sourceTree = "<group>";
+		};
+		C7DFA0421C9703B20068FFE6 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,6 +465,7 @@
 				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
 				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
 				C7A509011C93B6F3006EE048 /* Resource.swift in Sources */,
+				C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */,
 				C7DFA0261C96CD310068FFE6 /* ModelsPersistence.swift in Sources */,
 				C7DFA02C1C96CE060068FFE6 /* flip.swift in Sources */,
 			);
