@@ -9,7 +9,7 @@
 import Result
 import ReactiveCocoa
 
-public protocol InMemoryElementsPersistence {
+protocol InMemoryElementsPersistence {
     
     typealias Model: Hashable
 
@@ -17,7 +17,7 @@ public protocol InMemoryElementsPersistence {
     func save(model: Model) ->  SignalProducer<Model, Error>
 }
 
-public protocol InMemoryElementPersistence {
+protocol InMemoryElementPersistence {
     
     typealias Model: Hashable
     
@@ -25,18 +25,18 @@ public protocol InMemoryElementPersistence {
     func save(models: [Model]) ->  SignalProducer<[Model], Error>
 }
 
-public typealias InMemoryPersistence = protocol <InMemoryElementPersistence, InMemoryElementsPersistence>
+typealias InMemoryPersistence = protocol <InMemoryElementPersistence, InMemoryElementsPersistence>
 
-public final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPersistence {
+final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPersistence {
     
     private let cache: Cache<T>
     
-    public init(cache: Cache<T>) {
+    init(cache: Cache<T>) {
         
         self.cache = cache
     }
     
-    public func load(hash: Int) -> SignalProducer<T, Error> {
+    func load(hash: Int) -> SignalProducer<T, Error> {
         
         return SignalProducer {[weak self] observer, disposable in
             
@@ -51,12 +51,12 @@ public final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPers
         }
     }
     
-    public func load() -> SignalProducer<[T], Error> {
+    func load() -> SignalProducer<[T], Error> {
         
         return SignalProducer(value: cache.all())
     }
     
-    public func save(object: T) -> SignalProducer<T, Error> {
+    func save(object: T) -> SignalProducer<T, Error> {
         
         return SignalProducer {[weak self] observer, disposable in
             
@@ -67,7 +67,7 @@ public final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPers
         }
     }
     
-    public func save(objects: [T]) -> SignalProducer<[T], Error> {
+    func save(objects: [T]) -> SignalProducer<[T], Error> {
         
         return SignalProducer {[weak self] observer, disposable in
             
