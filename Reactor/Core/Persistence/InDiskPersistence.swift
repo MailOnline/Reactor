@@ -11,11 +11,14 @@ import ReactiveCocoa
 
 extension InDiskPersistenceHandler where T: Mappable {
     
+    /// Used to load a single `Mappable` element from persistence
     public func load() -> SignalProducer<T, Error> {
         return readFileData(persistenceFilePath)
             .flatMapLatest(parse)
     }
     
+    /// Used to save to persistence a single `Mappable` element into persistence
+    /// The model is returned back when saved.
     public func save(model: T) -> SignalProducer<T, Error> {
         
         let writeData = curry(writeToFile)(persistenceFilePath)
@@ -28,11 +31,14 @@ extension InDiskPersistenceHandler where T: Mappable {
 
 extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: Mappable {
     
+    /// Used to load a Sequence of `Mappable` elements from persistence
     public func load() -> SignalProducer<T, Error> {
         return readFileData(persistenceFilePath)
             .flatMapLatest(parse)
     }
     
+    /// Used to save to persistence a Sequence of `Mappable` elements into persistence
+    /// The models are returned back when saved.
     public func save(models: T) ->  SignalProducer<T, Error> {
         
         let writeData = curry(writeToFile)(persistenceFilePath)
@@ -43,6 +49,7 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
     }
 }
 
+/// Used to persist a `T` in disk. The `T` or the `Sequence.Generator.Element` must be `Mappable`, in order for it work
 public final class InDiskPersistenceHandler<T> {
     
     private let persistenceFilePath: String
@@ -54,6 +61,8 @@ public final class InDiskPersistenceHandler<T> {
         self.expirationTime = expirationTime
     }
     
+    /// Check if a file has experied. The expiration time is based on the 
+    /// TimeInterval passed when the InDiskPersistenceHandler is created
     public func hasPersistenceExpired() -> SignalProducer<Bool, NoError> {
         
         let didExpire = flip(curry(didCacheExpired))(expirationTime)

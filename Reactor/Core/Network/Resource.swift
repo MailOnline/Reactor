@@ -11,7 +11,8 @@ import Foundation
 public typealias Headers = [String: String]
 public typealias Query = [String: String]
 
-// Stolen from chriseidhof/github-issues 😅
+/// Stolen from chriseidhof/github-issues 😅
+/// Used to represent a request. The baseURL should be provided somewhere else
 public struct Resource: Equatable, CustomStringConvertible {
     
     public let path: String
@@ -61,6 +62,7 @@ public enum Method: String {
 
 extension Resource {
     
+    /// Used to transform a Resource into a NSURLRequest
     public func toRequest(baseURL: NSURL) -> NSURLRequest {
         
         let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false)
@@ -78,6 +80,7 @@ extension Resource {
         return request
     }
     
+    /// Creates a new Resource by adding the new header.
     public func addHeader(value: String, key: String) -> Resource {
         
         var headers = self.headers

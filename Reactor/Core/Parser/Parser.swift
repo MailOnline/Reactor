@@ -9,7 +9,7 @@
 import ReactiveCocoa
 import Result
 
-public func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer { o, d in
         let decodedData: Result<AnyObject, Error> = decodeData(data)
@@ -17,14 +17,14 @@ public func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error>
         guard
             case .Success(let decoded) = decodedData,
             case .Success(let item) = T.mapToModel(decoded)
-            else { o.sendFailed(.Parser); return }
+            else { o.sendFailed(.Parser("")); return }
         
         o.sendNext(item)
         o.sendCompleted()
     }
 }
 
-public func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer { o, d in
                 
@@ -34,19 +34,19 @@ public func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: 
             case .Success(let decoded) = decodedData,
             let array = decoded as? [AnyObject],
             let items: [T.Generator.Element] = arrayFromJSON(array)
-            else { o.sendFailed(.Parser); return }
+            else { o.sendFailed(.Parser("")); return }
         
         o.sendNext(items as! T)
         o.sendCompleted()
     }
 }
 
-public func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
+func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
     
     return encode(item.mapToJSON())
 }
 
-public func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) -> SignalProducer<NSData, Error> {
+func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) -> SignalProducer<NSData, Error> {
     
     return encode(items.map {$0.mapToJSON()})
 }
@@ -61,18 +61,18 @@ private func encode(object: AnyObject) -> SignalProducer<NSData, Error> {
             o.sendCompleted()
         }
         catch {
-            o.sendFailed(.Parser)
+            o.sendFailed(.Parser("Couldn't encode object \(object)"))
         }
     }
 }
 
-public func decodeData(data: NSData) -> Result<AnyObject, Error> {
+func decodeData(data: NSData) -> Result<AnyObject, Error> {
     
     do {
         let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
         return Result(value: parsedData)
     }
     catch {
-        return Result(error: .Parser)
+        return Result(error: .Parser("Couldn't decode data \(data)"))
     }
 }

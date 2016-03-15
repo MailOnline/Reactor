@@ -6,12 +6,12 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-public func curry<T, U>(function: T -> U) -> T -> U {
+func curry<T, U>(function: T -> U) -> T -> U {
     
     return { t in function(t) }
 }
 
-public func curry<T, U, V>(function: (T, U) -> V) -> T -> U -> V {
+func curry<T, U, V>(function: (T, U) -> V) -> T -> U -> V {
     
     return { t in { u in function(t, u) } }
 }

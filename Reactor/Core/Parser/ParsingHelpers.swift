@@ -8,7 +8,7 @@
 
 import Foundation
 
-public func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
+func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
     
     var convertAndCleanArray: [T] = []
     
@@ -21,7 +21,7 @@ public func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
     return convertAndCleanArray
 }
 
-public func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
+func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
     
     guard let objects = anyObject[key] as? [AnyObject] else { return [] }
     return arrayFromJSON(objects)

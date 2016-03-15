@@ -8,6 +8,10 @@
 
 import ReactiveCocoa
 
+/// The `Reactor` is nothing more than an assembler of flows.
+/// A typical iOS app will have a network call, a persistence and next time the same call is made
+/// it will check the persistence first. The reacto only facilitates this process by assembling the flows
+/// passed in a `ReactorFlow`
 public struct Reactor<T> {
     
     private let flow: ReactorFlow<T>
@@ -17,12 +21,14 @@ public struct Reactor<T> {
         self.flow = flow
     }
     
+    /// It will check the persistence first, if it fails it will internally call `fetchFromNetwork`
     public func fetch(resource: Resource) -> SignalProducer<T, Error> {
         
         return flow.loadFromPersistenceFlow()
             .flatMapError { _ in self.fetchFromNetwork (resource) }
     }
-    
+
+    // It will fetch from the network, if successful it will persist the data.
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
         return flow.networkFlow(resource)
@@ -32,6 +38,7 @@ public struct Reactor<T> {
 
 public extension Reactor where T: Mappable {
     
+    // Convinience initializer to create a flow around a single `T` that is `Mappable`
     public init (persistencePath: String, baseURL: NSURL) {
         flow = createFlow(persistencePath, baseURL: baseURL)
     }
@@ -39,6 +46,7 @@ public extension Reactor where T: Mappable {
 
 public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
+    // Convinience initializer to create a flow around a Sequence of `T` that are `Mappable`
     public init (persistencePath: String, baseURL: NSURL) {
         flow = createFlow(persistencePath, baseURL: baseURL)
     }
