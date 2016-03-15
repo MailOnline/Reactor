@@ -53,7 +53,7 @@ class ParserTests: XCTestCase {
         let parserProducer: SignalProducer<[Article], Error > = parse(jsonData)
         parserProducer.startWithFailed { error in
             
-            XCTAssertEqual(error, Error.Parser)
+            XCTAssertEqual(error, Error.Parser(""))
             expectation.fulfill()
         }
     }
@@ -68,7 +68,7 @@ class ParserTests: XCTestCase {
         let parserProducer: SignalProducer<Author, Error > = parse(jsonData)
         parserProducer.startWithFailed { error in
             
-            XCTAssertEqual(error, Error.Parser)
+            XCTAssertEqual(error, Error.Parser(""))
             expectation.fulfill()
         }
     }

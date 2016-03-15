@@ -43,11 +43,12 @@ class InMemoryPersistenceTests: XCTestCase {
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
         let article2 = Article(title: "Hello2", body: "Body2", authors: [], numberOfLikes: 2)
 
-        inMemoryPersistence.save([article1, article2])
+        let articles = [article1, article2]
+        inMemoryPersistence.save(articles)
             .flatMapLatest { _ in inMemoryPersistence.load() }
-            .startWithNext { articles in
+            .startWithNext { articlesStored in
                 
-                XCTAssertEqual(articles, [article1, article2])
+                XCTAssertEqual(articles.count, articlesStored.count)
                 expectation.fulfill()
         }
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
@@ -23,6 +24,9 @@
 		C7A509061C93B70F006EE048 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509051C93B70F006EE048 /* Error.swift */; };
 		C7A509081C93B88E006EE048 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509071C93B88E006EE048 /* Network.swift */; };
 		C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5090B1C93BB54006EE048 /* Reachability.swift */; };
+		C7B76E311C972E93005596E8 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E301C972E93005596E8 /* ReactorTests.swift */; };
+		C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C7B76E321C9735E8005596E8 /* articles_cassette.json */; };
+		C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */; };
 		C7BE69A11C93419E00EA9462 /* Reactor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BE69961C93419E00EA9462 /* Reactor.framework */; };
 		C7DFA00A1C94F9E90068FFE6 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C7DFA00B1C94F9E90068FFE6 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
@@ -35,7 +39,6 @@
 		C7DFA01D1C9609540068FFE6 /* author.json in Resources */ = {isa = PBXBuildFile; fileRef = C7DFA01C1C9609540068FFE6 /* author.json */; };
 		C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */ = {isa = PBXBuildFile; fileRef = C7DFA01E1C9609D90068FFE6 /* bad_json.json */; };
 		C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0201C9647520068FFE6 /* ParsingHelpers.swift */; };
-		C7DFA0261C96CD310068FFE6 /* ModelsPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0241C96CD310068FFE6 /* ModelsPersistence.swift */; };
 		C7DFA0271C96CD310068FFE6 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0251C96CD310068FFE6 /* Persistence.swift */; };
 		C7DFA02A1C96CD920068FFE6 /* curry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0291C96CD920068FFE6 /* curry.swift */; };
 		C7DFA02C1C96CE060068FFE6 /* flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA02B1C96CE060068FFE6 /* flip.swift */; };
@@ -47,6 +50,7 @@
 		C7DFA03B1C96E4A00068FFE6 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */; };
 		C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */; };
 		C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */; };
+		C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0431C9703C40068FFE6 /* Reactor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
 		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
 		C75CE1DF1C949F20006F6458 /* success_request_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_request_cassette.json; sourceTree = "<group>"; };
@@ -89,6 +94,9 @@
 		C7A509051C93B70F006EE048 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C7A509071C93B88E006EE048 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		C7A5090B1C93BB54006EE048 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		C7B76E301C972E93005596E8 /* ReactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
+		C7B76E321C9735E8005596E8 /* articles_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = articles_cassette.json; sourceTree = "<group>"; };
+		C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLayerIsCalled.swift; sourceTree = "<group>"; };
 		C7BE69961C93419E00EA9462 /* Reactor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Reactor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A01C93419E00EA9462 /* ReactorTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactorTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE69A71C93419E00EA9462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,7 +110,6 @@
 		C7DFA01C1C9609540068FFE6 /* author.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = author.json; sourceTree = "<group>"; };
 		C7DFA01E1C9609D90068FFE6 /* bad_json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bad_json.json; sourceTree = "<group>"; };
 		C7DFA0201C9647520068FFE6 /* ParsingHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingHelpers.swift; sourceTree = "<group>"; };
-		C7DFA0241C96CD310068FFE6 /* ModelsPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelsPersistence.swift; sourceTree = "<group>"; };
 		C7DFA0251C96CD310068FFE6 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		C7DFA0291C96CD920068FFE6 /* curry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = curry.swift; sourceTree = "<group>"; };
 		C7DFA02B1C96CE060068FFE6 /* flip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = flip.swift; sourceTree = "<group>"; };
@@ -114,6 +121,7 @@
 		C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InMemoryPersistenceTests.swift; sourceTree = "<group>"; };
 		C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InDiskPersistenceTests.swift; sourceTree = "<group>"; };
+		C7DFA0431C9703C40068FFE6 /* Reactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reactor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
+				C7B76E321C9735E8005596E8 /* articles_cassette.json */,
 			);
 			path = Cassettes;
 			sourceTree = "<group>";
@@ -171,6 +180,7 @@
 			children = (
 				C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */,
 				C7DFA0111C95FF2E0068FFE6 /* Article.swift */,
+				C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -210,6 +220,7 @@
 				C7DFA0371C96E4400068FFE6 /* PersistenceTest.swift */,
 				C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */,
 				C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */,
+				C7B76E301C972E93005596E8 /* ReactorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -255,6 +266,7 @@
 		C7BE69981C93419E00EA9462 /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				C7DFA0421C9703B20068FFE6 /* Reactor */,
 				C76B5F571C934F8700023BD1 /* Core */,
 				C7BE69B01C93427400EA9462 /* Supporting Files */,
 			);
@@ -311,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				C7DFA0331C96D07F0068FFE6 /* Cache.swift */,
-				C7DFA0241C96CD310068FFE6 /* ModelsPersistence.swift */,
 				C7DFA02F1C96CEB40068FFE6 /* InMemoryPersistence.swift */,
 				C7DFA0311C96CF340068FFE6 /* InDiskPersistence.swift */,
 				C7DFA0251C96CD310068FFE6 /* Persistence.swift */,
@@ -326,6 +337,15 @@
 				C7DFA02B1C96CE060068FFE6 /* flip.swift */,
 			);
 			path = Functions;
+			sourceTree = "<group>";
+		};
+		C7DFA0421C9703B20068FFE6 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
+				C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DFA01D1C9609540068FFE6 /* author.json in Resources */,
+				C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */,
 				C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */,
 				C7DFA01B1C96087F0068FFE6 /* articles.json in Resources */,
 				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,
@@ -450,11 +471,12 @@
 				C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */,
 				C7DFA0101C95016A0068FFE6 /* Parser.swift in Sources */,
 				C7DFA0321C96CF340068FFE6 /* InDiskPersistence.swift in Sources */,
+				C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */,
 				C7DFA02A1C96CD920068FFE6 /* curry.swift in Sources */,
 				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
 				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
 				C7A509011C93B6F3006EE048 /* Resource.swift in Sources */,
-				C7DFA0261C96CD310068FFE6 /* ModelsPersistence.swift in Sources */,
+				C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */,
 				C7DFA02C1C96CE060068FFE6 /* flip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,12 +485,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7B76E311C972E93005596E8 /* ReactorTests.swift in Sources */,
 				C7DFA0131C95FF750068FFE6 /* Article.swift in Sources */,
 				C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */,
 				C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */,
 				C7DFA0151C9605910068FFE6 /* ParserTests.swift in Sources */,
 				C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */,
 				C7DFA0181C9606280068FFE6 /* JSONHelper.swift in Sources */,
+				C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */,
 				C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */,
 				C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */,
 				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,

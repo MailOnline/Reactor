@@ -9,27 +9,48 @@
 import Result
 import ReactiveCocoa
 
-public protocol InDiskElementsPersistence {
-    typealias Model: Mappable
+extension InDiskPersistenceHandler where T: Mappable {
     
-    func load() -> SignalProducer<[Model], Error>
-    func save(model: [Model]) ->  SignalProducer<[Model], Error>
+    /// Used to load a single `Mappable` element from persistence
+    public func load() -> SignalProducer<T, Error> {
+        return readFileData(persistenceFilePath)
+            .flatMapLatest(parse)
+    }
     
-    func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError>
+    /// Used to save to persistence a single `Mappable` element into persistence
+    /// The model is returned back when saved.
+    public func save(model: T) -> SignalProducer<T, Error> {
+        
+        let writeData = curry(writeToFile)(persistenceFilePath)
+        
+        return encode(model)
+            .flatMapLatest(writeData)
+            .map { _ in model }
+    }
 }
 
-public protocol InDiskElementPersistence {
-    typealias Model: Mappable
+extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: Mappable {
     
-    func load() -> SignalProducer<Model, Error>
-    func save(model: Model) ->  SignalProducer<Model, Error>
+    /// Used to load a Sequence of `Mappable` elements from persistence
+    public func load() -> SignalProducer<T, Error> {
+        return readFileData(persistenceFilePath)
+            .flatMapLatest(parse)
+    }
     
-    func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError>
+    /// Used to save to persistence a Sequence of `Mappable` elements into persistence
+    /// The models are returned back when saved.
+    public func save(models: T) ->  SignalProducer<T, Error> {
+        
+        let writeData = curry(writeToFile)(persistenceFilePath)
+        
+        return encode(models)
+            .flatMapLatest(writeData)
+            .map { _ in models }
+    }
 }
 
-public typealias InDiskPersistence = protocol<InDiskElementPersistence, InDiskElementsPersistence>
-
-public final class InDiskPersistenceHandler<T where T: Mappable>: InDiskPersistence {
+/// Used to persist a `T` in disk. The `T` or the `Sequence.Generator.Element` must be `Mappable`, in order for it work
+public final class InDiskPersistenceHandler<T> {
     
     private let persistenceFilePath: String
     private let expirationTime: NSTimeInterval
@@ -40,37 +61,11 @@ public final class InDiskPersistenceHandler<T where T: Mappable>: InDiskPersiste
         self.expirationTime = expirationTime
     }
     
-    public func load() -> SignalProducer<T, Error> {
-        return readFileData(persistenceFilePath)
-            .flatMapLatest(parse)
-    }
-    
-    public func load() -> SignalProducer<[T], Error> {
-        return readFileData(persistenceFilePath)
-            .flatMapLatest(parse)
-    }
-    
-    public func save(model: T) -> SignalProducer<T, Error> {
+    /// Check if a file has experied. The expiration time is based on the 
+    /// TimeInterval passed when the InDiskPersistenceHandler is created
+    public func hasPersistenceExpired() -> SignalProducer<Bool, NoError> {
         
-        let writeData = curry(writeToFile)(persistenceFilePath)
-        
-        return encode(model)
-            .flatMapLatest(writeData)
-            .map { _ in model }
-    }
-    
-    public func save(models: [T]) ->  SignalProducer<[T], Error> {
-        
-        let writeData = curry(writeToFile)(persistenceFilePath)
-        
-        return encode(models)
-            .flatMapLatest(writeData)
-            .map { _ in models }
-    }
-    
-    public func hasPersistenceExpired(expirationInMinutes minutes: NSTimeInterval) -> SignalProducer<Bool, NoError> {
-        
-        let didExpire = flip(curry(didCacheExpired))(minutes)
+        let didExpire = flip(curry(didCacheExpired))(expirationTime)
         return fileCreationDate(persistenceFilePath)
             .flatMapLatest{ SignalProducer(value: $0) }
             .flatMapLatest(didExpire)

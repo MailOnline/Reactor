@@ -17,26 +17,26 @@ func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
         guard
             case .Success(let decoded) = decodedData,
             case .Success(let item) = T.mapToModel(decoded)
-            else { o.sendFailed(.Parser); return }
+            else { o.sendFailed(.Parser("")); return }
         
         o.sendNext(item)
         o.sendCompleted()
     }
 }
 
-func parse<T where T: Mappable>(data: NSData) -> SignalProducer<[T], Error> {
+func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer { o, d in
-        
+                
         let decodedData: Result<AnyObject, Error> = decodeData(data)
         
         guard
             case .Success(let decoded) = decodedData,
             let array = decoded as? [AnyObject],
-            let items: [T] = arrayFromJSON(array)
-            else { o.sendFailed(.Parser); return }
+            let items: [T.Generator.Element] = arrayFromJSON(array)
+            else { o.sendFailed(.Parser("")); return }
         
-        o.sendNext(items)
+        o.sendNext(items as! T)
         o.sendCompleted()
     }
 }
@@ -46,7 +46,7 @@ func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
     return encode(item.mapToJSON())
 }
 
-func encode<T where T: Mappable>(items: [T]) -> SignalProducer<NSData, Error> {
+func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) -> SignalProducer<NSData, Error> {
     
     return encode(items.map {$0.mapToJSON()})
 }
@@ -61,7 +61,7 @@ private func encode(object: AnyObject) -> SignalProducer<NSData, Error> {
             o.sendCompleted()
         }
         catch {
-            o.sendFailed(.Parser)
+            o.sendFailed(.Parser("Couldn't encode object \(object)"))
         }
     }
 }
@@ -73,6 +73,6 @@ func decodeData(data: NSData) -> Result<AnyObject, Error> {
         return Result(value: parsedData)
     }
     catch {
-        return Result(error: .Parser)
+        return Result(error: .Parser("Couldn't decode data \(data)"))
     }
 }

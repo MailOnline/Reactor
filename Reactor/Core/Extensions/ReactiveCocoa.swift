@@ -10,15 +10,19 @@ import ReactiveCocoa
 
 extension SignalProducerType {
     
-    static var identity: (Value -> SignalProducer<Value, Error>) { return { SignalProducer(value: $0) } }
+    /// Used to yield the same input. This is useful in scenarios where there is a possibility of having a transformation (via a flatMap)
+    /// but by default, nothing will happen. It makes it much more elegant, than checking for a nil transformation and apply it conditionally
+    public static var identity: (Value -> SignalProducer<Value, Error>) { return { SignalProducer(value: $0) } }
 
+    /// More explicit call to `on(next: next)`.
     @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    func injectSideEffect(next: Self.Value -> ()) -> SignalProducer<Self.Value, Self.Error> {
+    public func injectSideEffect(next: Self.Value -> ()) -> SignalProducer<Self.Value, Self.Error> {
         return self.on(next: next)
     }
     
+    /// Convinience method to `flatMap(.Latest , transform: transform)`
     @warn_unused_result(message="Did you forget to call `start` on the producer?")
-    func flatMapLatest<U>(transform: Self.Value -> ReactiveCocoa.SignalProducer<U, Self.Error>) -> ReactiveCocoa.SignalProducer<U, Self.Error> {
+    public func flatMapLatest<U>(transform: Self.Value -> ReactiveCocoa.SignalProducer<U, Self.Error>) -> ReactiveCocoa.SignalProducer<U, Self.Error> {
         return self.flatMap(.Latest , transform: transform)
     }
 }

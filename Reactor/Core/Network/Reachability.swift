@@ -10,14 +10,18 @@ import ReactiveCocoa
 import Result
 import SystemConfiguration
 
+/// Represents an entity that is able to check the connectivity.
 public protocol Reachable {
     
+    /// If it is connected
     func isConnected() -> SignalProducer<Bool, NoError>
 }
 
+/// A class able to check connectivity. Its implementation can be found here:
+/// https://stackoverflow.com/questions/25623272/how-to-use-scnetworkreachability-in-swift/25623647#25623647
+/// If it doesn't fit your needs, you can always use your implementation, by making it `Reachable` compliant.
 public class Reachability: Reachable {
     
-    // https://stackoverflow.com/questions/25623272/how-to-use-scnetworkreachability-in-swift/25623647#25623647
     public func isConnected() -> SignalProducer<Bool, NoError> {
         
         var zeroAddress = sockaddr_in()

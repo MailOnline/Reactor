@@ -8,14 +8,14 @@
 
 import Foundation
 
-public final class Cache<T where T: Hashable> {
+final class Cache<T where T: Hashable> {
     
     private var cache = [Int: T]()
     private let lock = dispatch_queue_create("cache.queue", DISPATCH_QUEUE_SERIAL)
     
-    public var count: Int { return cache.count }
+    var count: Int { return cache.count }
     
-    public subscript(key: Int) -> T? {
+    subscript(key: Int) -> T? {
         
         get {
             var value: T?
@@ -32,13 +32,13 @@ public final class Cache<T where T: Hashable> {
         }
     }
     
-    public func removeAll() {
+    func removeAll() {
         dispatch_sync(lock) {
             self.cache.removeAll()
         }
     }
     
-    public func all() -> [T] {
+    func all() -> [T] {
         
         var all: [T] = []
         

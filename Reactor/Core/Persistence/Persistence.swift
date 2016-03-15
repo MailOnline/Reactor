@@ -73,18 +73,18 @@ let documentsRootPath: String = {
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
     }()
 
-func dateLaterThan(date: NSDate, minutes: NSTimeInterval) -> Bool {
-    let minutesInSeconds = minutes * 60
-    if abs(date.timeIntervalSinceNow) > minutesInSeconds {
+func dateLaterThan(date: NSDate, seconds: NSTimeInterval) -> Bool {
+
+    if abs(date.timeIntervalSinceNow) > seconds {
         return true
     }
     
     return false
 }
 
-func didCacheExpired(date: NSDate, laterThan minutes: NSTimeInterval) -> SignalProducer<Bool, Error> {
+func didCacheExpired(date: NSDate, laterThan seconds: NSTimeInterval) -> SignalProducer<Bool, Error> {
     return SignalProducer {o, d in
-        let laterThan = dateLaterThan(date, minutes: minutes)
+        let laterThan = dateLaterThan(date, seconds: seconds)
         
         o.sendNext(laterThan)
         o.sendCompleted()

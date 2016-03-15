@@ -8,15 +8,36 @@
 
 import ReactiveCocoa
 
-typealias Response = SignalProducer<(NSData, NSURLResponse), Error>
-typealias ResponseModifier = (NSData, NSURLResponse) -> Response
+public typealias ResponseModifier = (NSData, NSURLResponse) -> Response
 
-final class Network: Connection {
+/// Concrete implementation of the Connection protocol.
+/// Offers a `responseModifiers`, that allows the consumer to inject custom logic.
+/// For example a status code 300 could be considered an error. This could be achieved by:
+///
+/// ```
+/// responseModifier = { (data, response) in
+///
+///   let httpResponse = response as! NSHTTPURLResponse
+///   let statusCode = httpResponse.statusCode
+///
+///   if statusCode == 300  {
+///        return SignalProducer(error: .Server("Bad status code"))
+///    }
+///    else {
+///       return SignalProducer(value: (data, response))
+///    }
+/// }
+/// ```
+/// By default the `responseModifier` is a `SignalProducer.identity` ( T -> SignalProducer<T, Error> )
+///
+/// For more information check the Connection protocol
+///
+public final class Network: Connection {
     
-    let session: NSURLSession
-    let baseURL: NSURL
-    let reachability: Reachable
-    let responseModifier: ResponseModifier
+    public let session: NSURLSession
+    public let baseURL: NSURL
+    public let reachability: Reachable
+    public let responseModifier: ResponseModifier
     
     init(session: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration()), baseURL: NSURL, reachability: Reachable = Reachability(), responseModifier: ResponseModifier = SignalProducer.identity) {
         
@@ -26,7 +47,7 @@ final class Network: Connection {
         self.responseModifier = responseModifier
     }
     
-    func makeRequest(resource: Resource) -> Response {
+   public func makeRequest(resource: Resource) -> Response {
         
         let request = resource.toRequest(self.baseURL)
         
