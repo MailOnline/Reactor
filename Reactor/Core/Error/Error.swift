@@ -11,7 +11,7 @@ public enum Error: ErrorType {
     case Server(String)
     case NoConnectivity
     case Persistence(String)
-    case Parser
+    case Parser(String)
 }
 
 extension Error: Equatable {}
