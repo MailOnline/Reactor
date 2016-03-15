@@ -8,51 +8,49 @@
 
 import ReactiveCocoa
 
-struct ReactorConfiguration<T: InDiskElementsPersistence where T.Model: Mappable> {
+struct ReactorFlow<T> {
     
-    let inDiskPersistentHandler: T
-    let connection: Connection
-    let parser: NSData -> SignalProducer<[T.Model], Error> = parse
+    let networkRequest: Resource -> SignalProducer<T, Error>
+    let loadFromPersistence: Void -> SignalProducer<T, Error>
+    let saveToPersistence: T -> SignalProducer<T, Error>
 }
 
-struct Reactor<T: InDiskElementsPersistence where T.Model: Mappable> {
+struct Reactor<T> {
     
-    typealias Model = T.Model
+    private let flow: ReactorFlow<T>
     
-    private let information: ReactorConfiguration<T>
-    
-    init(information: ReactorConfiguration<T>) {
+    init(flow: ReactorFlow<T>) {
         
-        self.information = information
+        self.flow = flow
     }
     
-    func fetch(resource: Resource) -> SignalProducer<[Model], Error> {
+    func fetch(resource: Resource) -> SignalProducer<T, Error> {
         
-        let inDiskPersistentHandler = information.inDiskPersistentHandler
+        let loadFromPersistence = flow.loadFromPersistence()
         
-        let experitationHandler: Bool -> SignalProducer <[Model], Error> = { hasExpired in
-            
-            if hasExpired {
-                return self.fetchFromNetwork(resource)
-            }
-            else {
-                return inDiskPersistentHandler.load()
-            }
-        }
-        
-        return inDiskPersistentHandler.hasPersistenceExpired()
-            .flatMapError { _ in SignalProducer(error: Error.Persistence("")) }
-            .flatMapLatest(experitationHandler)
+        return loadFromPersistence.flatMapError { _ in self.fetchFromNetwork (resource) }
     }
     
-    func fetchFromNetwork(resource: Resource) -> SignalProducer<[Model], Error> {
+    func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
-        let inDiskPersistentHandler = information.inDiskPersistentHandler.save
-        let connection = information.connection
-        let parser = information.parser
+        let saveToPersistence = flow.saveToPersistence
+        let networkRequest = flow.networkRequest
         
-        return connection.makeRequest(resource).map { $0.0 }
-            .flatMapLatest(parser)
-            .flatMapLatest(inDiskPersistentHandler)
+        return networkRequest(resource)
+            .flatMapLatest(saveToPersistence)
+    }
+}
+
+extension Reactor where T: Mappable {
+    
+    init (persistencePath: String, baseURL: NSURL) {
+        self.flow = createFlow(persistencePath, baseURL: baseURL)
+    }
+}
+
+extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
+    
+    init (persistencePath: String, baseURL: NSURL) {
+        self.flow = createFlow(persistencePath, baseURL: baseURL)
     }
 }

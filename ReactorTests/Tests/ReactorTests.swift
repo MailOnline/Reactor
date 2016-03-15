@@ -31,12 +31,12 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
-        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
         let loadArticles: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
-        
-        let configuration = ReactorConfiguration(inDiskPersistentHandler: inDiskPersistence, connection: network)
-        
-        let reactor = Reactor(information: configuration)
+
+        let flow = createMockedFlow(network)
+
+        let reactor = Reactor(flow: flow)
         
         reactor.fetch(resource).flatMapLatest { _ in loadArticles() }.startWithNext { articles in
         
@@ -52,13 +52,13 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = NetworkLayerIsCalled(connectionCalled: { fatalError("Shouldn't be called")})
-        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
+        let flow = createMockedFlow(network)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
         let article2 = Article(title: "Hello2", body: "Body2", authors: [], numberOfLikes: 2)
         
-        let configuration = ReactorConfiguration(inDiskPersistentHandler: inDiskPersistence, connection: network)
-        let reactor = Reactor(information: configuration)
+        let reactor = Reactor(flow: flow)
 
         inDiskPersistence.save([article1, article2]).startWithNext {_ in
         
@@ -68,5 +68,19 @@ class ReactorTests: XCTestCase {
                 expectation.fulfill()
             }
         }
+    }
+    
+    private func createMockedFlow(connection: Connection) -> ReactorFlow<[Article]> {
+    
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
+        let loadArticles: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
+        let saveArticles: [Article] -> SignalProducer<[Article], Error> = inDiskPersistence.save
+        
+        let networkRequest: Resource -> SignalProducer<[Article], Error> = { resource in
+            connection.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
+        }
+        
+        let flow = ReactorFlow(networkRequest: networkRequest, loadFromPersistence: loadArticles, saveToPersistence: saveArticles)
+        return flow
     }
 }
