@@ -5,3 +5,5 @@ env:
   - PLATFORM="iOS9"
 script:
   - make $PLATFORM
+notifications:
+  slack: mailonline:CvgBKsRkoSBcuafeSy46hUKB
