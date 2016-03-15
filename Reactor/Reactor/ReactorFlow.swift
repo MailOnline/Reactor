@@ -1,5 +1,5 @@
 //
-//  FlowBuilder.swift
+//  ReactorFlow.swift
 //  Reactor
 //
 //  Created by Rui Peres on 15/03/2016.

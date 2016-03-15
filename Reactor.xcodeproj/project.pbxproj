@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C72BC4EF1C981EDD002CCB11 /* FlowBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* FlowBuilder.swift */; };
+		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
@@ -80,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C72BC4EE1C981EDD002CCB11 /* FlowBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowBuilder.swift; sourceTree = "<group>"; };
+		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
 		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
 		C75CE1DF1C949F20006F6458 /* success_request_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_request_cassette.json; sourceTree = "<group>"; };
@@ -343,7 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
-				C72BC4EE1C981EDD002CCB11 /* FlowBuilder.swift */,
+				C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -471,7 +471,7 @@
 				C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */,
 				C7DFA0101C95016A0068FFE6 /* Parser.swift in Sources */,
 				C7DFA0321C96CF340068FFE6 /* InDiskPersistence.swift in Sources */,
-				C72BC4EF1C981EDD002CCB11 /* FlowBuilder.swift in Sources */,
+				C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */,
 				C7DFA02A1C96CD920068FFE6 /* curry.swift in Sources */,
 				C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */,
 				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
