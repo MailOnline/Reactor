@@ -1,5 +1,5 @@
 //
-//  ConfigurationBuilder.swift
+//  FlowBuilder.swift
 //  Reactor
 //
 //  Created by Rui Peres on 15/03/2016.
@@ -19,7 +19,7 @@ func createFlow<T where T: Mappable>(persistencePath: String, baseURL: NSURL) ->
     let loadFromPersistence: Void -> SignalProducer<T, Error> = persistenceHandler.load
     let saveToPersistence: T -> SignalProducer<T, Error> = persistenceHandler.save
     
-    let flow: ReactorFlow<T> = ReactorFlow(networkRequest: networkRequest, loadFromPersistence: loadFromPersistence, saveToPersistence: saveToPersistence)
+    let flow: ReactorFlow<T> = ReactorFlow(networkFlow: networkRequest, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
     
     return flow
 }
@@ -34,7 +34,7 @@ func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persiste
     let loadFromPersistence: Void -> SignalProducer<T, Error> = persistenceHandler.load
     let saveToPersistence: T -> SignalProducer<T, Error> = persistenceHandler.save
     
-    let flow: ReactorFlow<T> = ReactorFlow(networkRequest: networkRequest, loadFromPersistence: loadFromPersistence, saveToPersistence: saveToPersistence)
+    let flow: ReactorFlow<T> = ReactorFlow(networkFlow: networkRequest, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
     
     return flow
 }

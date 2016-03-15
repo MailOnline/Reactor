@@ -80,7 +80,7 @@ class ReactorTests: XCTestCase {
             connection.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        let flow = ReactorFlow(networkRequest: networkRequest, loadFromPersistence: loadArticles, saveToPersistence: saveArticles)
+        let flow = ReactorFlow(networkFlow: networkRequest, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
         return flow
     }
 }

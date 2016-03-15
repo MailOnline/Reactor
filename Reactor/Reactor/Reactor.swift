@@ -10,9 +10,9 @@ import ReactiveCocoa
 
 struct ReactorFlow<T> {
     
-    let networkRequest: Resource -> SignalProducer<T, Error>
-    let loadFromPersistence: Void -> SignalProducer<T, Error>
-    let saveToPersistence: T -> SignalProducer<T, Error>
+    let networkFlow: Resource -> SignalProducer<T, Error>
+    let loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
+    let saveToPersistenceFlow: T -> SignalProducer<T, Error>
 }
 
 struct Reactor<T> {
@@ -26,31 +26,27 @@ struct Reactor<T> {
     
     func fetch(resource: Resource) -> SignalProducer<T, Error> {
         
-        let loadFromPersistence = flow.loadFromPersistence()
-        
-        return loadFromPersistence.flatMapError { _ in self.fetchFromNetwork (resource) }
+        return flow.loadFromPersistenceFlow()
+            .flatMapError { _ in self.fetchFromNetwork (resource) }
     }
     
     func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
-        let saveToPersistence = flow.saveToPersistence
-        let networkRequest = flow.networkRequest
-        
-        return networkRequest(resource)
-            .flatMapLatest(saveToPersistence)
+        return flow.networkFlow(resource)
+            .flatMapLatest(flow.saveToPersistenceFlow)
     }
 }
 
 extension Reactor where T: Mappable {
     
     init (persistencePath: String, baseURL: NSURL) {
-        self.flow = createFlow(persistencePath, baseURL: baseURL)
+        flow = createFlow(persistencePath, baseURL: baseURL)
     }
 }
 
 extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
     init (persistencePath: String, baseURL: NSURL) {
-        self.flow = createFlow(persistencePath, baseURL: baseURL)
+        flow = createFlow(persistencePath, baseURL: baseURL)
     }
 }
