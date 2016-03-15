@@ -9,6 +9,24 @@
 import Result
 import ReactiveCocoa
 
+public struct ReactorFlow<T> {
+    
+    typealias NetworkFlow = Resource -> SignalProducer<T, Error>
+    typealias LoadFromPersistenceFlow = Void -> SignalProducer<T, Error>
+    typealias SaveToPersistenceFlow = T -> SignalProducer<T, Error>
+    
+    public let networkFlow: Resource -> SignalProducer<T, Error>
+    public let loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
+    public let saveToPersistenceFlow: T -> SignalProducer<T, Error>
+    
+   init(networkFlow: NetworkFlow, loadFromPersistenceFlow: LoadFromPersistenceFlow, saveToPersistenceFlow: SaveToPersistenceFlow) {
+        
+        self.networkFlow = networkFlow
+        self.loadFromPersistenceFlow = loadFromPersistenceFlow
+        self.saveToPersistenceFlow = saveToPersistenceFlow
+    }
+}
+
 func createFlow<T where T: Mappable>(persistencePath: String, baseURL: NSURL) -> ReactorFlow<T> {
     
     let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)

@@ -8,14 +8,14 @@
 
 import ReactiveCocoa
 
-typealias ResponseModifier = (NSData, NSURLResponse) -> Response
+public typealias ResponseModifier = (NSData, NSURLResponse) -> Response
 
-final class Network: Connection {
+public final class Network: Connection {
     
-    let session: NSURLSession
-    let baseURL: NSURL
-    let reachability: Reachable
-    let responseModifier: ResponseModifier
+    public let session: NSURLSession
+    public let baseURL: NSURL
+    public let reachability: Reachable
+    public let responseModifier: ResponseModifier
     
     init(session: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration()), baseURL: NSURL, reachability: Reachable = Reachability(), responseModifier: ResponseModifier = SignalProducer.identity) {
         
@@ -25,7 +25,7 @@ final class Network: Connection {
         self.responseModifier = responseModifier
     }
     
-    func makeRequest(resource: Resource) -> Response {
+   public func makeRequest(resource: Resource) -> Response {
         
         let request = resource.toRequest(self.baseURL)
         

@@ -9,7 +9,7 @@
 import ReactiveCocoa
 import Result
 
-func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+public func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer { o, d in
         let decodedData: Result<AnyObject, Error> = decodeData(data)
@@ -24,7 +24,7 @@ func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     }
 }
 
-func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+public func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer { o, d in
                 
@@ -41,12 +41,12 @@ func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData)
     }
 }
 
-func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
+public func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
     
     return encode(item.mapToJSON())
 }
 
-func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) -> SignalProducer<NSData, Error> {
+public func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) -> SignalProducer<NSData, Error> {
     
     return encode(items.map {$0.mapToJSON()})
 }
@@ -66,7 +66,7 @@ private func encode(object: AnyObject) -> SignalProducer<NSData, Error> {
     }
 }
 
-func decodeData(data: NSData) -> Result<AnyObject, Error> {
+public func decodeData(data: NSData) -> Result<AnyObject, Error> {
     
     do {
         let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
