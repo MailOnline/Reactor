@@ -11,9 +11,9 @@ Reactor's goal is to provide, out of the box, a Model layer with its different c
 * Parsing
 * Persistence
 
-Reactor's then define common flows (represented by the `ReactorFlow<T>`), that are typically used in applications. For example:
+Reactor's then defines common flows (represented by the `ReactorFlow<T>`), that are typically used in applications. For example:
 
- 1. Check if there is Data in the persistence layer and it's valid.
+ 1. Does persisted data exists and it's valid?
   1. **Yes**: Use it ✅
   2. **No**: Fetch data from network
     1. Do we have internet?
