@@ -121,3 +121,8 @@ In the future will make this explicit via a `ReactorConfiguration`. As for the `
     return NSNull()
   }
 ```
+
+## License
+Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
+
+Copyright (c) 2015 MailOnline
