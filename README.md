@@ -81,7 +81,7 @@ The first function `static func mapToModel` is what allows an object to be creat
 The second step would be:
 
 ```swift
-let baseURL = NSURL(string: "https://myApi.com"!)
+let baseURL = NSURL(string: "https://myApi.com")!
 let reactor = Reactor<Author>(persistencePath: path, baseURL:baseURL)
 ```
 
@@ -105,4 +105,19 @@ The final piece is the `Resource`, which is nothing more than struct that encaps
 * HTTP headers
 * HTTP method
 
+#### Without Persistence
  
+If it doesn't make sense to persist data, you pass the `persistencePath` an an empty string (`""`) or:
+
+```swift
+let baseURL = NSURL(string: "https://myApi.com")!
+let reactor = Reactor<Author>(baseURL:baseURL)
+```
+
+In the future will make this explicit via a `ReactorConfiguration`. As for the `mapToJSON` function, you can simply return a:
+
+```swift
+  func mapToJSON() -> AnyObject {
+    return NSNull()
+  }
+```
