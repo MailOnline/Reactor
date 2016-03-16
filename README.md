@@ -86,7 +86,7 @@ let baseURL = NSURL(string: "https://myApi.com"!)
 let reactor = Reactor<Author>(persistencePath: path, baseURL:baseURL)
 ```
 
-Now that you the `reactor` ready, we expose two methods:
+Now that you have the `reactor` ready, it exposes two functions:
 
 ```swift
 func fetch(resource: Resource) -> SignalProducer<T, Error>
@@ -95,7 +95,7 @@ func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error>
 
 We find that these are the two most common scenarios:
 
-1. When you get inside a new screen, you try to get some data. In this case, Reactor checks first the persistence and if it fails it will try the network.
+1. When you get inside a new screen, you try to get some data. In this case, Reactor checks first the persistence and if it fails it will fallback to the network.
 2. You want new data, so Reactor will try the network.
 
 The final piece is the `Resource`, which is nothing more than struct that encapsulates how the request will be made:
