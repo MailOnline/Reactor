@@ -20,7 +20,7 @@ extension SignalProducerType {
         return self.on(next: next)
     }
     
-    /// Convinience method to `flatMap(.Latest , transform: transform)`
+    /// Convenience method to `flatMap(.Latest , transform: transform)`
     @warn_unused_result(message="Did you forget to call `start` on the producer?")
     public func flatMapLatest<U>(transform: Self.Value -> ReactiveCocoa.SignalProducer<U, Self.Error>) -> ReactiveCocoa.SignalProducer<U, Self.Error> {
         return self.flatMap(.Latest , transform: transform)
