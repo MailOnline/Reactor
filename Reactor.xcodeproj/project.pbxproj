@@ -19,6 +19,7 @@
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
+		C774E56D1C99C8A500CABD0A /* author_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C774E56B1C99C7D700CABD0A /* author_cassette.json */; };
 		C7A509001C93B6F3006EE048 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A508FE1C93B6F3006EE048 /* Connection.swift */; };
 		C7A509011C93B6F3006EE048 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A508FF1C93B6F3006EE048 /* Resource.swift */; };
 		C7A509061C93B70F006EE048 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509051C93B70F006EE048 /* Error.swift */; };
@@ -89,6 +90,7 @@
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
+		C774E56B1C99C7D700CABD0A /* author_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = author_cassette.json; sourceTree = "<group>"; };
 		C7A508FE1C93B6F3006EE048 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		C7A508FF1C93B6F3006EE048 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		C7A509051C93B70F006EE048 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			children = (
 				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
 				C7B76E321C9735E8005596E8 /* articles_cassette.json */,
+				C774E56B1C99C7D700CABD0A /* author_cassette.json */,
 			);
 			path = Cassettes;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			files = (
 				C7DFA01D1C9609540068FFE6 /* author.json in Resources */,
 				C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */,
+				C774E56D1C99C8A500CABD0A /* author_cassette.json in Resources */,
 				C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */,
 				C7DFA01B1C96087F0068FFE6 /* articles.json in Resources */,
 				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,

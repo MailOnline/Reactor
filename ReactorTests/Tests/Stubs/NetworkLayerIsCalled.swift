@@ -20,7 +20,7 @@ class NetworkLayerIsCalled : Connection  {
         self.connectionCalled = connectionCalled
     }
     
-    func makeConnection(resource : Resource) -> SignalProducer<(NSData, NSURLResponse), Error> {
+    func makeRequest(resource: Resource) -> Response {
         connectionCalled()
         return SignalProducer.empty
     }
