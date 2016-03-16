@@ -53,27 +53,25 @@ struct compliant with the `Mappable` protocol:
 
 ```swift
 struct Author {
-    let name: String
+  let name: String
 }
-```
 
-Complying with the `Mappable` protocol is quite straighforward:
+extension Author: Mappable { 
+ static func mapToModel(object: AnyObject) -> Result<Author, MappedError> {
 
-```swift
-static func mapToModel(object: AnyObject) -> Result<Author, MappedError> {
+  guard
+   let dictionary = object as? [String: AnyObject],
+   let name = dictionary["name"] as? String
+   else { return Result(error: MappedError.Custom("Invalid dictionary @ \(Author.self)\n \(object)"))}
 
- guard
-  let dictionary = object as? [String: AnyObject],
-  let name = dictionary["name"] as? String
-  else { return Result(error: MappedError.Custom("Invalid dictionary @ \(Author.self)\n \(object)"))}
+   let author = Author(name: name)
 
-  let author = Author(name: name)
-
-  return Result(value: author)
-}
+   return Result(value: author)
+ }
  
-func mapToJSON() -> AnyObject {
-  return ["name": self.name]
+ func mapToJSON() -> AnyObject {
+   return ["name": self.name]
+ }
 }
 ```
 
