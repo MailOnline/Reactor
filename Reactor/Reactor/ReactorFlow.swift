@@ -24,7 +24,7 @@ public struct ReactorFlow<T> {
     public var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
     public var saveToPersistenceFlow: T -> SignalProducer<T, Error>
     
-    init(networkFlow: NetworkFlow, loadFromPersistenceFlow: LoadFromPersistenceFlow = {SignalProducer(error: .Persistence("Persistence bailout"))}, saveToPersistenceFlow: SaveToPersistenceFlow = {_ in  SignalProducer.empty}) {
+    init(networkFlow: NetworkFlow, loadFromPersistenceFlow: LoadFromPersistenceFlow = {SignalProducer(error: .Persistence("Persistence bailout"))}, saveToPersistenceFlow: SaveToPersistenceFlow = SignalProducer.identity) {
         
         self.networkFlow = networkFlow
         self.loadFromPersistenceFlow = loadFromPersistenceFlow
@@ -33,33 +33,39 @@ public struct ReactorFlow<T> {
 }
 
 /// Used as a factory to create a `ReactorFlow` around a single `T` that is `Mappable`
-public func createFlow<T where T: Mappable>(persistencePath: String, baseURL: NSURL) -> ReactorFlow<T> {
+public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL) -> ReactorFlow<T> {
     
-    let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
     let network = Network(baseURL: baseURL)
     let parser: NSData -> SignalProducer<T, Error> = parse
-    
-    let networkRequest: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
-    let loadFromPersistence: Void -> SignalProducer<T, Error> = persistenceHandler.load
-    let saveToPersistence: T -> SignalProducer<T, Error> = persistenceHandler.save
-    
-    let flow: ReactorFlow<T> = ReactorFlow(networkFlow: networkRequest, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
-    
-    return flow
+    let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
+
+    if persistencePath == "" {
+       return ReactorFlow(networkFlow: networkFlow)
+    }
+    else {
+        let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
+        let loadFromPersistence = persistenceHandler.load
+        let saveToPersistence =  persistenceHandler.save
+
+        return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
+    }
 }
 
 /// Used as a factory to create a `ReactorFlow` around a Sequence of `T` that are `Mappable`
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String, baseURL: NSURL) -> ReactorFlow<T> {
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL) -> ReactorFlow<T> {
     
-    let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
     let network = Network(baseURL: baseURL)
     let parser: NSData -> SignalProducer<T, Error> = parse
+    let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
-    let networkRequest: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
-    let loadFromPersistence: Void -> SignalProducer<T, Error> = persistenceHandler.load
-    let saveToPersistence: T -> SignalProducer<T, Error> = persistenceHandler.save
-    
-    let flow: ReactorFlow<T> = ReactorFlow(networkFlow: networkRequest, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
-    
-    return flow
+    if persistencePath == "" {
+        return ReactorFlow(networkFlow: networkFlow)
+    }
+    else {
+        let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
+        let loadFromPersistence = persistenceHandler.load
+        let saveToPersistence =  persistenceHandler.save
+        
+        return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
+    }
 }
