@@ -39,6 +39,7 @@ This particular flow is provided out of the box by Reactor. In the future we wil
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
 * You already got a parser and your own network library (Alamofire for example). 🔥
+* After checking the [Advance usage](https://github.com/MailOnline/Reactor/tree/rp/README#advance-usage), Reactor doesn't provide what you need. 😭😭
 
 ## How to use
 
