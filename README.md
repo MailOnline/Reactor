@@ -98,7 +98,7 @@ func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error>
 
 We find that these are the two most common scenarios:
 
-1. When you get to a new screen, you try to get some data. In this case, Reactor checks the persistence layer first and if it fails it will fallback to the network.
+1. When you get to a new screen, you try to get some data. In this case, Reactor checks the persistence store first and if it fails it will fallback to the network.
 2. You want new data, so Reactor will try the network.
 
 The final piece is the `Resource`, which is nothing more than a struct that encapsulates how the request will be made:
@@ -136,7 +136,7 @@ var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
 var saveToPersistenceFlow: T -> SignalProducer<T, Error>
 ```
 
-All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you migth be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. A way to accomplish this, is by creating a default flow and then extending it:
+All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you might be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. A way to accomplish this, is by creating a default flow and then extending it:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
