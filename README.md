@@ -12,14 +12,14 @@ Reactor provides a [Model layer](https://github.com/MailOnline/Reactor/tree/mast
 * [Parser](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Parser)
 * [Persistence](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Persistence)
 
-Reactor's then uses common flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
+Reactor then uses common flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
 
- 1. Does persisted data exists and it's valid?
+ 1. Does persisted data exist and is it valid?
   1. **Yes**: Use it ✅
-  2. **No**: Fetch data from network
-    1. Do we have internet?
+  2. **No**: Fetch data from the network
+    1. Do we have an internet connection?
       1. **Yes**: make the Request.
-        1. Parse the data and persist it (send any error that might happen) ✅
+        1. Parse the data and persist it (send any error that might occur) ✅
         2. Request failed: send an error ❌
        2. **No**: send an error ❌
 
@@ -30,14 +30,14 @@ This particular flow is provided by Reactor. In the future we will provide other
 * You are are starting a new project. 🌳
 * You are in the process of defining your model layer. 🛠
 * You are creating a prototype or demo and you need something working quickly. 🚀
-* You don't feel confortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
+* You don't feel comfortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
 * You already have your Model layer in place, but you think Reactor could formalize your flows. ✨ 
 
 ## Why shouldn't you use Reactor? ❌
 
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
-* You already got a parser and your own network library (Alamofire for example). 🔥
+* You already have a parser and your own network library (Alamofire for example). 🔥
 
 ## How to use
 
@@ -49,7 +49,7 @@ github "MailOnline/Reactor"
 
 #### Basic setup
 
-For Reactor to work, you need to make sure your Model objects comply with the `Mappable` protocol. This protocol allows you to encode and decode an object. This is necessary for parsing the object (coming from the network) and storing it in disk.
+For Reactor to work, you need to make sure your Model objects comply with the `Mappable` protocol. This protocol allows you to encode and decode an object. This is necessary for parsing the object (coming from the network) and storing it on disk.
 
 Let's use the `Author` struct as an example ([this can be found in the Unit tests](https://github.com/MailOnline/Reactor/blob/master/ReactorTests/Tests/Stubs/Article.swift)). The first step is to make the `Author`
 struct compliant with the `Mappable` protocol: 
@@ -98,10 +98,10 @@ func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error>
 
 We find that these are the two most common scenarios:
 
-1. When you get inside a new screen, you try to get some data. In this case, Reactor checks first the persistence and if it fails it will fallback to the network.
+1. When you get to a new screen, you try to get some data. In this case, Reactor checks the persistence store first and if it fails it will fallback to the network.
 2. You want new data, so Reactor will try the network.
 
-The final piece is the `Resource`, which is nothing more than struct that encapsulates how the request will be made:
+The final piece is the `Resource`, which is nothing more than a struct that encapsulates how the request will be made:
 
 * path
 * query
@@ -118,7 +118,7 @@ let baseURL = NSURL(string: "https://myApi.com")!
 let reactor = Reactor<Author>(baseURL:baseURL)
 ```
 
-In the future will make this explicit via a `ReactorConfiguration`. As for the `mapToJSON` function, you can simply return a:
+In the future will make this explicit via a `ReactorConfiguration`. As for the `mapToJSON` function, you can simply return an `NSNull`:
 
 ```swift
 func mapToJSON() -> AnyObject {
@@ -126,7 +126,7 @@ func mapToJSON() -> AnyObject {
 }
 ```
 
-#### Advance Usage
+#### Advanced Usage
 
 In order to make most of Reactor, keep the following in mind (these are `ReactorFlow<T>`'s properties):
 
@@ -136,7 +136,7 @@ var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
 var saveToPersistenceFlow: T -> SignalProducer<T, Error>
 ```
 
-All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you migth be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. A way to accomplish this, is by creating a default flow and then extending it:
+All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you might be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. A way to accomplish this, is by creating a default flow and then extending it:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
@@ -146,7 +146,7 @@ let extendedPersistence = reactor.loadFromPersistenceFlow().on(failure: { error 
 reactor.loadFromPersistenceFlow =  { extendedPersistence }
 ```
 
-You can further decompose the flow, since all the core pieces are exposed in the public api. More concretly:
+You can further decompose the flow, since all the core pieces are exposed in the public API. More specifically:
 
 * [`Network`](https://github.com/MailOnline/Reactor/blob/master/Reactor/Core/Network/Network.swift) and the [`Connection`](https://github.com/MailOnline/Reactor/blob/master/Reactor/Core/Network/Connection.swift) protocol
 * [`Parser`](https://github.com/MailOnline/Reactor/blob/master/Reactor/Core/Parser/Parser.swift)
@@ -156,11 +156,11 @@ The default flow provided by Reactor ([Intro](https://github.com/MailOnline/Reac
 
 The `Reactor<T>`'s `fetch` function axiom:
 
-* the `loadFromPersistenceFlow` will always be called first. If it fails the `fetchFromNetwork` is called.
+* the `loadFromPersistenceFlow` will always be called first. If it fails, `fetchFromNetwork` is called.
 
 The `Reactor<T>`'s `fetchFromNetwork` function axiom:
 
-* the `networkFlow` will always be called first, if it successeds it will be followed by `saveToPersistenceFlow`.
+* the `networkFlow` will always be called first, if it succeeds it will be followed by `saveToPersistenceFlow`.
 
 ## License
 Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
