@@ -26,7 +26,7 @@ Reactor's then uses common flows (represented by the `ReactorFlow<T>`), that are
 
 This particular flow is provided out of the box by Reactor. In the future we will provide others. 
 
-## Why should you use Reactor? ✅
+## Use Reactor if... ✅
 
 * You are are starting a new project. 🌳
 * You are in the process of defining your model layer. 🛠
@@ -34,7 +34,7 @@ This particular flow is provided out of the box by Reactor. In the future we wil
 * You don't feel confortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
 * You already have your Model layer in place, but you think Reactor could formalize your flows. ✨ 
 
-## Why shouldn't you use Reactor? ❌
+## Reactor is probably not the best choice if... ❌
 
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
