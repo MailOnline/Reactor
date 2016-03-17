@@ -39,7 +39,7 @@ This particular flow is provided out of the box by Reactor. In the future we wil
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
 * You already got a parser and your own network library (Alamofire for example). 🔥
-* After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭
+* After checking the [Advance flow](#advance-flow), Reactor doesn't provide what you need. 😭😭
 
 ## How to use
 
@@ -49,7 +49,7 @@ This particular flow is provided out of the box by Reactor. In the future we wil
 github "MailOnline/Reactor"
 ```
 
-#### Basic setup
+#### Basic Flow
 
 For Reactor to work, you need to make sure your Model objects comply with the `Mappable` protocol. This protocol allows you to encode and decode an object. This is necessary for parsing the object (coming from the network) and storing it in disk.
 
@@ -91,7 +91,7 @@ let baseURL = NSURL(string: "https://myApi.com")!
 let reactor = Reactor<Author>(persistencePath: path, baseURL:baseURL)
 ```
 
-Now that you have the `reactor` ready, it exposes two functions:
+A `Reactor<T>` exposes two functions:
 
 ```swift
 func fetch(resource: Resource) -> SignalProducer<T, Error>
@@ -101,9 +101,9 @@ func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error>
 We find that these are the two most common scenarios:
 
 1. When you get inside a new screen, you try to get some data. In this case, Reactor checks first the persistence and if it fails it will fallback to the network.
-2. You want new data, so Reactor will try the network.
+2. You want fresh data, so Reactor will use the network.
 
-The final piece is the `Resource`, which is nothing more than struct that encapsulates how the request will be made:
+The final piece is the `Resource`, which is nothing more than a struct that encapsulates how the request will be made:
 
 * path
 * query
@@ -111,7 +111,7 @@ The final piece is the `Resource`, which is nothing more than struct that encaps
 * HTTP headers
 * HTTP method
 
-#### Without Persistence
+#### No Persistence flow
  
 If it doesn't make sense to persist data, you pass the `persistencePath` an an empty string (`""`) or:
 
@@ -128,7 +128,7 @@ func mapToJSON() -> AnyObject {
 }
 ```
 
-#### Advance Usage
+#### Advance flow
 
 In order to make most of Reactor, keep the following in mind (these are `ReactorFlow<T>`'s properties):
 
