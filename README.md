@@ -130,7 +130,7 @@ func mapToJSON() -> AnyObject {
 
 #### Advance flow
 
-In order to make most of Reactor, keep the following in mind (these are `ReactorFlow<T>`'s properties):
+In order to make most of Reactor, always take into account `ReactorFlow<T>`'s properties:
 
 ```swift
 var networkFlow: Resource -> SignalProducer<T, Error>
