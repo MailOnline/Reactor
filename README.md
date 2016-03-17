@@ -113,7 +113,7 @@ The final piece is the `Resource`, which is nothing more than a struct that enca
 
 #### No Persistence flow
  
-If it doesn't make sense to persist data, you pass the `persistencePath` an an empty string (`""`) or:
+If it doesn't make sense to persist data, you pass the `persistencePath` as an empty string (`""`) or:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
