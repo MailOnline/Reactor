@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7294ACE1C9F557C00ECF68C /* ThreadUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */; };
 		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -81,6 +82,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadUtility.swift; sourceTree = "<group>"; };
 		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
 		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			children = (
 				C7DFA0171C9606280068FFE6 /* JSONHelper.swift */,
 				C7DFA0391C96E4880068FFE6 /* PersistenceHelper.swift */,
+				C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				C7DFA0361C96DCDF0068FFE6 /* CacheTests.swift in Sources */,
 				C7DFA0181C9606280068FFE6 /* JSONHelper.swift in Sources */,
 				C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */,
+				C7294ACE1C9F557C00ECF68C /* ThreadUtility.swift in Sources */,
 				C7DFA0381C96E4400068FFE6 /* PersistenceTest.swift in Sources */,
 				C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */,
 				C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */,

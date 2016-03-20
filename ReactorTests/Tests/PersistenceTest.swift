@@ -24,7 +24,11 @@ class PersistenceTest: XCTestCase {
         let expectation = self.expectationWithDescription("Expected data to be persisted with success")
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
-        let writingSignal = writeToFile(testFileName, data: dataFromFile("articles")).on( completed: { expectation.fulfill() })
+        let writingSignal = writeToFile(testFileName, data: dataFromFile("articles"))
+            .on(
+            completed: {
+                expectation.fulfill()
+            })
         
         writingSignal.start()
     }
@@ -35,7 +39,8 @@ class PersistenceTest: XCTestCase {
         
         let data = dataFromFile("articles")
         
-        let readingSignal = readFileData(testFileName).on(
+        let readingSignal = readFileData(testFileName)
+            .on(
             completed: {
                 expectation.fulfill()},
             next: { x in

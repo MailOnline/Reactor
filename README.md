@@ -11,6 +11,7 @@ Reactor provides a [Model layer](https://github.com/MailOnline/Reactor/tree/mast
 * [Network](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Network)
 * [Parser](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Parser)
 * [Persistence](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Persistence)
+* [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) as its only dependency.
 
 Reactor's then uses common flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
 
@@ -23,9 +24,9 @@ Reactor's then uses common flows (represented by the `ReactorFlow<T>`), that are
         2. Request failed: send an error ❌
        2. **No**: send an error ❌
 
-This particular flow is provided by Reactor. In the future we will provide others. 
+This particular flow is provided out of the box by Reactor. In the future we will provide others. 
 
-## Why should you use Reactor? ✅
+## Use Reactor if... ✅
 
 * You are are starting a new project. 🌳
 * You are in the process of defining your model layer. 🛠
@@ -33,11 +34,12 @@ This particular flow is provided by Reactor. In the future we will provide other
 * You don't feel confortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
 * You already have your Model layer in place, but you think Reactor could formalize your flows. ✨ 
 
-## Why shouldn't you use Reactor? ❌
+## Not suited if... ❌
 
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
 * You already got a parser and your own network library (Alamofire for example). 🔥
+* After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭
 
 ## How to use
 
@@ -80,7 +82,7 @@ extension Author: Mappable {
 ```
 **Note:** The above implementation, is just an example, you are free to use whatever means you prefer.
 
-The first function `mapToModel` is what allows an object to be created from a `Dictionary`. The second function `mapToJSON` is the reverse process.
+The first function `mapToModel` is what allows a model object to be created (JSON ➡️ Model). The second function `mapToJSON` is the inverse (Model ➡️ JSON).
 
 The second step would be:
 
@@ -136,7 +138,9 @@ var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
 var saveToPersistenceFlow: T -> SignalProducer<T, Error>
 ```
 
-All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you migth be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. A way to accomplish this, is by creating a default flow and then extending it:
+All three properties are mutable (`var`) on purpose, so you can extend specific behaviours. For example, you migth be interested in knowing why `loadFromPersistenceFlow` is failing and log it. With the default flow, this is not possible to do, because if `loadFromPersistenceFlow` fails, the network flow will kick in and the error is lost. 
+
+A way to accomplish this, is by creating a default flow and then extending it:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
