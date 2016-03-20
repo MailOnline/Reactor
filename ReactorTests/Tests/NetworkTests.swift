@@ -32,6 +32,7 @@ class NetworkTests: XCTestCase {
             
             let httpResponse = response as! NSHTTPURLResponse
             
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(httpResponse.statusCode, 200)
             XCTAssertEqual(data.length, 15)
         }
@@ -57,6 +58,7 @@ class NetworkTests: XCTestCase {
         
         let assertExpectations: Error -> Void  = { error in
 
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(error, Error.NoConnectivity)
             expectation.fulfill()
         }
@@ -83,6 +85,7 @@ class NetworkTests: XCTestCase {
         
         let assertExpectations: Error -> Void  = { networkError in
             
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(networkError, Error.Server(error.localizedDescription))
             expectation.fulfill()
         }
@@ -121,6 +124,7 @@ class NetworkTests: XCTestCase {
         
         let assertExpectations: Error -> Void  = { networkError in
             
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(networkError, Error.Server("Bad status code"))
             expectation.fulfill()
         }

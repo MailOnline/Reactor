@@ -25,6 +25,7 @@ public struct Reactor<T> {
     public func fetch(resource: Resource) -> SignalProducer<T, Error> {
         
         return flow.loadFromPersistenceFlow()
+            .startOn(QueueScheduler(name: "Reactor"))
             .flatMapError { _ in self.fetchFromNetwork (resource) }
     }
 
@@ -32,6 +33,7 @@ public struct Reactor<T> {
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
         return flow.networkFlow(resource)
+            .startOn(QueueScheduler(name: "Reactor"))
             .flatMapLatest(flow.saveToPersistenceFlow)
     }
 }

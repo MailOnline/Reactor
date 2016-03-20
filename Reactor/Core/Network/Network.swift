@@ -64,6 +64,7 @@ public final class Network: Connection {
         return reachability.isConnected()
             .mapError { _ in Error.NoConnectivity }
             .flatMapLatest(isReachable)
+            .startOn(QueueScheduler(name: "Network"))
     }
     
     deinit {

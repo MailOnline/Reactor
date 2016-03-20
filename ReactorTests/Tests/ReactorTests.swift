@@ -39,6 +39,7 @@ class ReactorTests: XCTestCase {
         
         reactor.fetch(resource).flatMapLatest { _ in loadArticles() }.startWithNext { articles in
             
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(articles.count, 3)
             expectation.fulfill()
         }
@@ -63,6 +64,7 @@ class ReactorTests: XCTestCase {
             
             reactor.fetch(resource).startWithNext { articles in
                 
+                XCTAssertFalse(isMainThread())
                 XCTAssertEqual(articles, [article1, article2])
                 expectation.fulfill()
             }
@@ -75,7 +77,11 @@ class ReactorTests: XCTestCase {
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
         let resource = Resource(path: "/test/", method: .GET)
-        let network = NetworkLayerIsCalled(connectionCalled: { expectation.fulfill() })
+        let network = NetworkLayerIsCalled(connectionCalled: {
+            
+            XCTAssertFalse(isMainThread())
+            expectation.fulfill()
+        })
         
         let networkFlow: Resource -> SignalProducer<[Article], Error> = { resource in
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
@@ -108,6 +114,7 @@ class ReactorTests: XCTestCase {
         
         reactor.fetch(resource).flatMapLatest { _ in loadArticles()}.startWithFailed { error in
             
+            XCTAssertFalse(isMainThread())
             XCTAssertEqual(error, Error.Persistence(""))
             expectation.fulfill()
         }
