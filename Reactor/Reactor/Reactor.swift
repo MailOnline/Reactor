@@ -42,7 +42,7 @@ public struct Reactor<T> {
 
 public extension Reactor where T: Mappable {
     
-    // Convenience initializer to create a flow around a single `T` that is `Mappable`
+    // Convenience initializer to create a `ReactorFlow` for a single `T: Mappable`
     public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
         flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
         self.configuration = configuration
@@ -51,7 +51,7 @@ public extension Reactor where T: Mappable {
 
 public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
-    // Convenience initializer to create a flow around a Sequence of `T` that are `Mappable`
+    // Convenience initializer to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
     public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
         flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
         self.configuration = configuration

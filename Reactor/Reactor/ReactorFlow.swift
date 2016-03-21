@@ -34,7 +34,7 @@ public struct ReactorFlow<T> {
     }
 }
 
-/// Used as a factory to create a `ReactorFlow` around a single `T` that is `Mappable`
+/// Used as a factory to create a `ReactorFlow` for a single `T: Mappable`
 public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
@@ -55,7 +55,7 @@ public func createFlow<T where T: Mappable>(persistencePath: String = "", baseUR
     }
 }
 
-/// Used as a factory to create a `ReactorFlow` around a Sequence of `T` that are `Mappable`
+/// Used as a factory to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
