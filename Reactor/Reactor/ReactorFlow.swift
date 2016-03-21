@@ -16,13 +16,13 @@ import ReactiveCocoa
 /// At very least a `NetworkFlow` must be provided, at initialization.
 public struct ReactorFlow<T> {
     
-    typealias NetworkFlow = Resource -> SignalProducer<T, Error>
-    typealias LoadFromPersistenceFlow = Void -> SignalProducer<T, Error>
-    typealias SaveToPersistenceFlow = T -> SignalProducer<T, Error>
+    public typealias NetworkFlow = Resource -> SignalProducer<T, Error>
+    public typealias LoadFromPersistenceFlow = Void -> SignalProducer<T, Error>
+    public typealias SaveToPersistenceFlow = T -> SignalProducer<T, Error>
     
-    public var networkFlow: Resource -> SignalProducer<T, Error>
-    public var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
-    public var saveToPersistenceFlow: T -> SignalProducer<T, Error>
+    public var networkFlow: NetworkFlow
+    public var loadFromPersistenceFlow: LoadFromPersistenceFlow
+    public var saveToPersistenceFlow: SaveToPersistenceFlow
     
     /// If `loadFromPersistenceFlow` is not passed, the `Reactor` will bailout and hit the network
     /// If `saveToPersistenceFlow` is not passed, the `Reactor` will persist anything
