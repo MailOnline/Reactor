@@ -35,39 +35,41 @@ public struct ReactorFlow<T> {
 }
 
 /// Used as a factory to create a `ReactorFlow` around a single `T` that is `Mappable`
-public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL) -> ReactorFlow<T> {
+public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
     let network = Network(baseURL: baseURL)
     let parser: NSData -> SignalProducer<T, Error> = parse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
 
-    if persistencePath == "" {
-       return ReactorFlow(networkFlow: networkFlow)
-    }
-    else {
-        let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
-        let loadFromPersistence = persistenceHandler.load
-        let saveToPersistence =  persistenceHandler.save
-
-        return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
-    }
-}
-
-/// Used as a factory to create a `ReactorFlow` around a Sequence of `T` that are `Mappable`
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL) -> ReactorFlow<T> {
-    
-    let network = Network(baseURL: baseURL)
-    let parser: NSData -> SignalProducer<T, Error> = parse
-    let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
-    
-    if persistencePath == "" {
-        return ReactorFlow(networkFlow: networkFlow)
-    }
-    else {
+    if configuration.usingPersistence {
+        
         let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
         let loadFromPersistence = persistenceHandler.load
         let saveToPersistence =  persistenceHandler.save
         
         return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
+    }
+    else {
+        return ReactorFlow(networkFlow: networkFlow)
+    }
+}
+
+/// Used as a factory to create a `ReactorFlow` around a Sequence of `T` that are `Mappable`
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
+    
+    let network = Network(baseURL: baseURL)
+    let parser: NSData -> SignalProducer<T, Error> = parse
+    let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
+    
+    if configuration.usingPersistence {
+        
+        let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
+        let loadFromPersistence = persistenceHandler.load
+        let saveToPersistence =  persistenceHandler.save
+        
+        return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
+    }
+    else {
+        return ReactorFlow(networkFlow: networkFlow)
     }
 }

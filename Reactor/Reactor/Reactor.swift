@@ -15,10 +15,12 @@ import ReactiveCocoa
 public struct Reactor<T> {
     
     private let flow: ReactorFlow<T>
+    private let configuration: ReactorConfiguration
     
-    init(flow: ReactorFlow<T>) {
+    init(flow: ReactorFlow<T>, configuration: ReactorConfiguration = ReactorConfiguration()) {
         
         self.flow = flow
+        self.configuration = configuration
     }
     
     /// It will check the persistence first, if it fails it will internally call `fetchFromNetwork`
@@ -41,15 +43,17 @@ public struct Reactor<T> {
 public extension Reactor where T: Mappable {
     
     // Convenience initializer to create a flow around a single `T` that is `Mappable`
-    public init (persistencePath: String = "", baseURL: NSURL) {
-        flow = createFlow(persistencePath, baseURL: baseURL)
+    public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
+        flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
+        self.configuration = configuration
     }
 }
 
 public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
     // Convenience initializer to create a flow around a Sequence of `T` that are `Mappable`
-    public init (persistencePath: String = "", baseURL: NSURL) {
-        flow = createFlow(persistencePath, baseURL: baseURL)
+    public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
+        flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
+        self.configuration = configuration
     }
 }

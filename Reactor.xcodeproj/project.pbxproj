@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C7294ACE1C9F557C00ECF68C /* ThreadUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */; };
+		C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */; };
 		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -83,6 +84,7 @@
 
 /* Begin PBXFileReference section */
 		C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadUtility.swift; sourceTree = "<group>"; };
+		C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorConfiguration.swift; sourceTree = "<group>"; };
 		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
 		C75CE1D91C949BA3006F6458 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		C75CE1DB1C949E3C006F6458 /* Vinyl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vinyl.framework; path = Carthage/Build/iOS/Vinyl.framework; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 			children = (
 				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
 				C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */,
+				C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				C7DFA0271C96CD310068FFE6 /* Persistence.swift in Sources */,
 				C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */,
 				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
+				C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */,
 				C7DFA0301C96CEB40068FFE6 /* InMemoryPersistence.swift in Sources */,
 				C7DFA0341C96D07F0068FFE6 /* Cache.swift in Sources */,
 				C7DFA00E1C9501050068FFE6 /* Mappable.swift in Sources */,
