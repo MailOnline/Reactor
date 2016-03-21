@@ -37,13 +37,7 @@ public struct ReactorFlow<T> {
 /// Used as a factory to create a `ReactorFlow` around a single `T` that is `Mappable`
 public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
-    let network: Network
-    if configuration.shouldCheckReachability {
-        network = Network(baseURL: baseURL)
-    }
-    else {
-        network = Network(baseURL: baseURL, reachability: AlwaysReachable())
-    }
+    let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     
     let parser: NSData -> SignalProducer<T, Error> = parse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
@@ -64,14 +58,8 @@ public func createFlow<T where T: Mappable>(persistencePath: String = "", baseUR
 /// Used as a factory to create a `ReactorFlow` around a Sequence of `T` that are `Mappable`
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
-    let network: Network
-    if configuration.shouldCheckReachability {
-        network = Network(baseURL: baseURL)
-    }
-    else {
-        network = Network(baseURL: baseURL, reachability: AlwaysReachable())
-    }
-    
+    let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
+
     let parser: NSData -> SignalProducer<T, Error> = parse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
@@ -85,5 +73,15 @@ public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(p
     }
     else {
         return ReactorFlow(networkFlow: networkFlow)
+    }
+}
+
+private func createNetwork(baseURL: NSURL, shouldCheckReachability: Bool) -> Network {
+    
+    if shouldCheckReachability {
+       return Network(baseURL: baseURL)
+    }
+    else {
+       return Network(baseURL: baseURL, reachability: AlwaysReachable())
     }
 }
