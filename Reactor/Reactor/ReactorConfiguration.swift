@@ -7,6 +7,7 @@
 //
 
 public struct ReactorConfiguration {
-    
+
     public var usingPersistence: Bool = true
+    public var shouldCheckReachability: Bool = true
 }

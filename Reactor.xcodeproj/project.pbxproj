@@ -18,6 +18,7 @@
 		C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */; };
 		C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C75CE1DF1C949F20006F6458 /* success_request_cassette.json */; };
 		C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1EB1C94C39F006F6458 /* ReactiveCocoa.swift */; };
+		C76078301CA0818C0006B3AC /* AlwaysReachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C760782F1CA0818C0006B3AC /* AlwaysReachable.swift */; };
 		C76B5F551C934F6900023BD1 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; };
 		C76B5F561C934F6900023BD1 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; };
 		C76B5F5E1C93500300023BD1 /* ResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B5F5D1C93500300023BD1 /* ResourceTests.swift */; };
@@ -91,6 +92,7 @@
 		C75CE1DF1C949F20006F6458 /* success_request_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_request_cassette.json; sourceTree = "<group>"; };
 		C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableReachability.swift; sourceTree = "<group>"; };
 		C75CE1EB1C94C39F006F6458 /* ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveCocoa.swift; sourceTree = "<group>"; };
+		C760782F1CA0818C0006B3AC /* AlwaysReachable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlwaysReachable.swift; sourceTree = "<group>"; };
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				C7A508FE1C93B6F3006EE048 /* Connection.swift */,
 				C7A5090B1C93BB54006EE048 /* Reachability.swift */,
+				C760782F1CA0818C0006B3AC /* AlwaysReachable.swift */,
 				C7A509071C93B88E006EE048 /* Network.swift */,
 				C7A508FF1C93B6F3006EE048 /* Resource.swift */,
 			);
@@ -472,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DFA0271C96CD310068FFE6 /* Persistence.swift in Sources */,
+				C76078301CA0818C0006B3AC /* AlwaysReachable.swift in Sources */,
 				C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */,
 				C7A509001C93B6F3006EE048 /* Connection.swift in Sources */,
 				C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */,
