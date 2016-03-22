@@ -11,7 +11,7 @@ import ReactiveCocoa
 
 protocol InMemoryElementsPersistence {
     
-    typealias Model: Hashable
+    associatedtype Model: Hashable
 
     func load(hash: Int) -> SignalProducer<Model, Error>
     func save(model: Model) ->  SignalProducer<Model, Error>
@@ -19,7 +19,7 @@ protocol InMemoryElementsPersistence {
 
 protocol InMemoryElementPersistence {
     
-    typealias Model: Hashable
+    associatedtype Model: Hashable
     
     func load() -> SignalProducer<[Model], Error>
     func save(models: [Model]) ->  SignalProducer<[Model], Error>
