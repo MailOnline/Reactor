@@ -10,11 +10,11 @@
 		C7294ACE1C9F557C00ECF68C /* ThreadUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */; };
 		C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */; };
 		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
-		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C7470FE41C9353990088B090 /* ReactiveCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C7470FE51C9353990088B090 /* Result.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C76B5F541C934F6900023BD1 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C75CE1DA1C949BA3006F6458 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1D91C949BA3006F6458 /* NetworkTests.swift */; };
 		C75CE1DC1C949E3C006F6458 /* Vinyl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
-		C75CE1DD1C949E44006F6458 /* Vinyl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; };
+		C75CE1DD1C949E44006F6458 /* Vinyl.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = C75CE1DB1C949E3C006F6458 /* Vinyl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C75CE1E41C94A129006F6458 /* MutableReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1E21C94A0E9006F6458 /* MutableReachability.swift */; };
 		C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C75CE1DF1C949F20006F6458 /* success_request_cassette.json */; };
 		C75CE1EC1C94C39F006F6458 /* ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1EB1C94C39F006F6458 /* ReactiveCocoa.swift */; };
@@ -417,7 +417,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Mail Online";
 				TargetAttributes = {
 					C7BE69951C93419E00EA9462 = {
