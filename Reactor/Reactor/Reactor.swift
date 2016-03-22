@@ -10,7 +10,7 @@ import ReactiveCocoa
 
 /// The `Reactor` is nothing more than an assembler of flows.
 /// A typical iOS app will have a network call, a persistence and next time the same call is made
-/// it will check the persistence first. The reacto only facilitates this process by assembling the flows
+/// it will check the persistence first. The Reactor's job is to facilitate this process by assembling the flows
 /// passed in a `ReactorFlow`
 public struct Reactor<T> {
     
@@ -34,9 +34,18 @@ public struct Reactor<T> {
     // It will fetch from the network, if successful it will persist the data.
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
+        let saveToPersistence = flip(curry(modifySaveToPersistenceFlow))(flow.saveToPersistenceFlow)
+        
         return flow.networkFlow(resource)
             .startOn(QueueScheduler(name: "Reactor"))
-            .flatMapLatest(flow.saveToPersistenceFlow)
+            .flatMapLatest(saveToPersistence)
+    }
+    
+    private func modifySaveToPersistenceFlow(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
+        
+        guard configuration.shouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
+        
+        return saveToPersistenceFlow(result).flatMapError { _ in SignalProducer(value: result) }
     }
 }
 
