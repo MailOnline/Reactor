@@ -13,7 +13,7 @@ Reactor provides a [Model layer](https://github.com/MailOnline/Reactor/tree/mast
 * [Persistence](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Persistence)
 * [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) as its only dependency.
 
-Reactor then uses common flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
+Reactor then uses flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
 
  1. Does persisted data exist and is it valid?
   1. **Yes**: Use it ✅
@@ -37,7 +37,7 @@ This particular flow is provided out of the box by Reactor. In the future we wil
 ## Not suited if... ❌
 
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
-* You already have a Model layer and you feel it wouldn't really benifit you in any way. 😞
+* You already have a Model layer and you feel it wouldn't really benefit you in any way. 😞
 * You already have a parser and your own network library (Alamofire for example). 🔥
 * After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭
 
