@@ -1,4 +1,4 @@
-github "ReactiveCocoa/ReactiveCocoa" ~> 4.0.1
+github "ReactiveCocoa/ReactiveCocoa" ~> 4.1.0
 
 # Testing
-github "Velhotes/Vinyl" "80b3a81808b3564186ca77596f583383e75c3803"
+github "Velhotes/Vinyl" ~> 0.9.1
