@@ -29,7 +29,7 @@ public struct Reactor<T> {
             .flatMapError { _ in self.fetchFromNetwork (resource) }
     }
 
-    // It will fetch from the network, if successful it will persist the data.
+    /// It will fetch from the network, if successful it will persist the data.
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
         return flow.networkFlow(resource)
@@ -40,7 +40,7 @@ public struct Reactor<T> {
 
 public extension Reactor where T: Mappable {
     
-    // Convenience initializer to create a flow around a single `T` that is `Mappable`
+    /// Convenience initializer to create a flow around a single `T` that is `Mappable`
     public init (persistencePath: String = "", baseURL: NSURL) {
         flow = createFlow(persistencePath, baseURL: baseURL)
     }
@@ -48,7 +48,7 @@ public extension Reactor where T: Mappable {
 
 public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
-    // Convenience initializer to create a flow around a Sequence of `T` that are `Mappable`
+    /// Convenience initializer to create a flow around a Sequence of `T` that are `Mappable`
     public init (persistencePath: String = "", baseURL: NSURL) {
         flow = createFlow(persistencePath, baseURL: baseURL)
     }
