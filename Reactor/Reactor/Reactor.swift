@@ -34,18 +34,28 @@ public struct Reactor<T> {
     // It will fetch from the network, if successful it will persist the data.
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
-        let saveToPersistence = flip(curry(modifySaveToPersistenceFlow))(flow.saveToPersistenceFlow)
+        let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(flow.saveToPersistenceFlow)
         
-        return flow.networkFlow(resource)
+        let networkFlow = flow.networkFlow(resource)
             .startOn(QueueScheduler(name: "Reactor"))
-            .flatMapLatest(saveToPersistence)
+        
+        return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: saveToPersistence)
     }
     
-    private func modifySaveToPersistenceFlow(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
+    private func shouldFailSaveToPersistenceModifier(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
         
         guard configuration.flowShouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
         
         return saveToPersistenceFlow(result).flatMapError { _ in SignalProducer(value: result) }
+    }
+    
+    private func shouldWaitForSaveToPersistence(flow: SignalProducer<T, Error>, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
+        
+        guard configuration.shouldWaitForSaveToPersistence == false else { return flow.flatMapLatest(saveToPersistenceFlow) }
+        
+        let saveToPersistence: T -> Void = { saveToPersistenceFlow($0).start() }
+        
+        return flow.injectSideEffect(saveToPersistence)
     }
 }
 

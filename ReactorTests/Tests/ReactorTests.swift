@@ -139,8 +139,40 @@ class ReactorTests: XCTestCase {
         }
         
         var configuration = ReactorConfiguration()
-        configuration.shouldFailWhenSaveToPersistenceFails = false
+        configuration.flowShouldFailWhenSaveToPersistenceFails = false
         
+        let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
+        let reactor = Reactor(flow: flow, configuration: configuration)
+        
+        reactor.fetchFromNetwork(resource).startWithNext { author in
+            
+            XCTAssertFalse(isMainThread())
+            expectation.fulfill()
+        }
+    }
+    
+    func testShouldNotFailWhenSaveToPersistenceFailsButItsASideEffect() {
+        
+        let expectation = self.expectationWithDescription("Expected to not fail, even if saveToPersistenceFlowfails")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        turntable.loadCassette("author_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        let inDiskPersistence = InDiskPersistenceHandler<Author>(persistenceFilePath: testFileName)
+        
+        let loadArticles: Void -> SignalProducer<Author, Error> = inDiskPersistence.load
+        let saveArticles: Author -> SignalProducer<Author, Error> = { _ in SignalProducer(error: .Persistence("Save failed")) }
+        
+        let networkFlow: Resource -> SignalProducer<Author, Error> = { resource in
+            network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
+        }
+        
+        var configuration = ReactorConfiguration()
+        configuration.flowShouldFailWhenSaveToPersistenceFails = true
+        configuration.shouldWaitForSaveToPersistence = false
+
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
         let reactor = Reactor(flow: flow, configuration: configuration)
         
