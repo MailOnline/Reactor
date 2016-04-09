@@ -43,7 +43,7 @@ public struct Reactor<T> {
     
     private func modifySaveToPersistenceFlow(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
         
-        guard configuration.shouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
+        guard configuration.flowShouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
         
         return saveToPersistenceFlow(result).flatMapError { _ in SignalProducer(value: result) }
     }

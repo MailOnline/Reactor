@@ -14,5 +14,5 @@ public struct ReactorConfiguration {
     /// If reachability should be used
     public var shouldCheckReachability: Bool = true
     /// If the entire flow should fail, when `saveToPersistenceFlow` fails  
-    public var shouldFailWhenSaveToPersistenceFails: Bool = true
+    public var flowShouldFailWhenSaveToPersistenceFails: Bool = true
 }
