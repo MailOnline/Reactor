@@ -9,20 +9,21 @@
 /// Configuration object to customize the Reactor's behaviour
 public struct ReactorConfiguration {
 
-    /// If persistence should be used
+    /// If persistence should be used.
+    /// `true` by default.
     public var usingPersistence: Bool = true
-    /// If reachability should be used
+    /// If reachability should be used.
     /// `true` by default.
     public var shouldCheckReachability: Bool = true
-    /// If the entire flow should fail, when `saveToPersistenceFlow` fails  
+    /// If the entire flow should fail, when `saveToPersistenceFlow` fails.
     /// `true` by default.
     public var flowShouldFailWhenSaveToPersistenceFails: Bool = true
     /// If the `saveToPersistenceFlow`, should be part of the flow.
-    /// By default `true`. Should be `false` when the flow shouldn't
+    /// Should be `false` when the flow shouldn't
     /// wait for `saveToPersistenceFlow` to finish (for example it takes 
     /// a long time).
     /// Note: if you set it as `false` and it fails, the failure will be 
-    /// lost, because it's not part of the flow, but instead injected.
+    /// lost, because it's not part of the flow, but injected instead .
     /// `true` by default.
     public var shouldWaitForSaveToPersistence: Bool = true
     /// If the parser should be strick or prune the bad objects.
