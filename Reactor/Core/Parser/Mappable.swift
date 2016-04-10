@@ -11,6 +11,12 @@ import Result
 /// This should be used when there is an error at the parsing level for better debugging
 public enum MappedError: ErrorType {
     case Custom(String)
+    
+    var description: String {
+        switch self {
+        case .Custom(let description): return description
+        }
+    }
 }
 
 /// Used to represent an object that can be converted 

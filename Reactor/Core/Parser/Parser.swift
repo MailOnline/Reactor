@@ -11,33 +11,32 @@ import Result
 
 func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
-    return SignalProducer { o, d in
+    return SignalProducer.attempt {
+        
         let decodedData: Result<AnyObject, Error> = decodeData(data)
-        
-        guard
-            case .Success(let decoded) = decodedData,
-            case .Success(let item) = T.mapToModel(decoded)
-            else { o.sendFailed(.Parser("")); return }
-        
-        o.sendNext(item)
-        o.sendCompleted()
+        return decodedData.flatMap { T.mapToModel($0).mapError { .Parser($0.description) } }
     }
 }
 
-func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+func prunedParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
-    return SignalProducer { o, d in
-                
+    return parse(data, toArray: prunedArrayFromJSON)
+}
+
+func strictParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+    
+    return parse(data, toArray: strictArrayFromJSON)
+}
+
+func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData, toArray: [AnyObject] -> Result<[T.Generator.Element], Error>) -> SignalProducer<T, Error> {
+    
+    return SignalProducer.attempt {
+        
         let decodedData: Result<AnyObject, Error> = decodeData(data)
         
-        guard
-            case .Success(let decoded) = decodedData,
-            let array = decoded as? [AnyObject],
-            let items: [T.Generator.Element] = arrayFromJSON(array)
-            else { o.sendFailed(.Parser("")); return }
-        
-        o.sendNext(items as! T)
-        o.sendCompleted()
+        // the `.map { $0.value as! T}` is horrible, but it's the only way for the compiler to accept it.
+        // I am 100% sure it will always pass. 😅
+       return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.flatMap(toArray).map { $0 as! T }
     }
 }
 
@@ -53,26 +52,12 @@ func encode<T where T: SequenceType, T.Generator.Element: Mappable>(items: T) ->
 
 private func encode(object: AnyObject) -> SignalProducer<NSData, Error> {
     
-    return SignalProducer { o, d in
-        do
-        {
-            let data: NSData = try NSJSONSerialization.dataWithJSONObject(object, options: NSJSONWritingOptions.PrettyPrinted)
-            o.sendNext(data)
-            o.sendCompleted()
-        }
-        catch {
-            o.sendFailed(.Parser("Couldn't encode object \(object)"))
-        }
-    }
+    let result: Result<NSData, NSError> = Result { try NSJSONSerialization.dataWithJSONObject(object, options: NSJSONWritingOptions.PrettyPrinted) }
+    return SignalProducer(result: result.mapError { .Parser($0.description) })
 }
 
 func decodeData(data: NSData) -> Result<AnyObject, Error> {
     
-    do {
-        let parsedData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
-        return Result(value: parsedData)
-    }
-    catch {
-        return Result(error: .Parser("Couldn't decode data \(data)"))
-    }
+    let result = Result<AnyObject, NSError> { try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) }
+    return result.mapError { .Parser($0.description) }
 }

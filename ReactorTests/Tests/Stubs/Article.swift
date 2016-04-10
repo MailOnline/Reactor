@@ -76,7 +76,8 @@ extension Article: Mappable {
             let dictionary = object as? [String: AnyObject],
             let title = dictionary["title"] as? String,
             let body = dictionary["body"] as? String,
-            let authors: [Author] = arrayFromJSON(dictionary, key: "authors"),
+            let authorsResult: Result<[Author], Error> = prunedArrayFromJSON(dictionary, key: "authors"),
+            case .Success(let authors) = authorsResult,
             let numberOfLikes = dictionary["numberOfLikes"] as? Int
             else { return Result(error: MappedError.Custom("Invalid dictionary @ \(Article.self)\n \(object)"))}
         
