@@ -28,6 +28,10 @@ Reactor then uses flows (represented by the `ReactorFlow<T>`), that are typicall
 
 This particular flow is provided out of the box by Reactor. In the future we will provide others. 
 
+##### What's a flow? 🙄
+
+A flow is nothing more than a stream of events, in our case, that is composed by different pieces ( network, parsing and persistence ). 
+
 ## Use Reactor if... ✅
 
 * You are are starting a new project. 🌳
