@@ -12,8 +12,10 @@ public struct ReactorConfiguration {
     /// If persistence should be used
     public var usingPersistence: Bool = true
     /// If reachability should be used
+    /// `true` by default.
     public var shouldCheckReachability: Bool = true
     /// If the entire flow should fail, when `saveToPersistenceFlow` fails  
+    /// `true` by default.
     public var flowShouldFailWhenSaveToPersistenceFails: Bool = true
     /// If the `saveToPersistenceFlow`, should be part of the flow.
     /// By default `true`. Should be `false` when the flow shouldn't
@@ -21,11 +23,15 @@ public struct ReactorConfiguration {
     /// a long time).
     /// Note: if you set it as `false` and it fails, the failure will be 
     /// lost, because it's not part of the flow, but instead injected.
+    /// `true` by default.
     public var shouldWaitForSaveToPersistence: Bool = true
     /// If the parser should be strick or prune the bad objects.
     /// Prunning will simply remove objects are were not parsable, instead
     /// of erroring the flow. Strick on the other hand as soon as it finds
-    /// a bad objects will error the entire flow
-    /// By default it prune.
+    /// a bad objects will error the entire flow.
+    /// Note: if you receive an entire batch of bad objects, it will default to 
+    /// an empty array. Witch leads to not knowing if the server has no results or
+    /// all objects are badly formed.
+    /// `true` by default.
     public var shouldPrune: Bool = true
 }
