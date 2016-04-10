@@ -33,8 +33,11 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
     
     /// Used to load a Sequence of `Mappable` elements from persistence
     public func load() -> SignalProducer<T, Error> {
+        
+        let parser: NSData -> SignalProducer<T, Error> = flip(curry(parse))(prunedArrayFromJSON)
+
         return readFileData(persistenceFilePath)
-            .flatMapLatest(parse)
+            .flatMapLatest(parser)
     }
     
     /// Used to save to persistence a Sequence of `Mappable` elements into persistence

@@ -59,8 +59,9 @@ public func createFlow<T where T: Mappable>(persistencePath: String = "", baseUR
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
-
-    let parser: NSData -> SignalProducer<T, Error> = parse
+    
+    let parser: NSData -> SignalProducer<T, Error> = configuration.shouldPrune ? prunedParse : strictParse
+    
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
     if configuration.usingPersistence {

@@ -12,7 +12,6 @@ import ReactiveCocoa
 
 class ParserTests: XCTestCase {
     
-
     func testArticlesDecodingEncoding() {
         
         let expectation = self.expectationWithDescription("Expected to decode/encode multiple Articles // [T]")
@@ -20,7 +19,8 @@ class ParserTests: XCTestCase {
         
         let jsonData = dataFromFile("articles")
         
-        let parserProducer: NSData -> SignalProducer<[Article], Error > = parse
+        let parserProducer: NSData -> SignalProducer<[Article], Error > = prunedParse
+        
         parserProducer(jsonData).flatMapLatest { encode($0) }.flatMapLatest(parserProducer).startWithNext { articles in
             
             XCTAssertEqual(articles.count, 3)
@@ -42,7 +42,7 @@ class ParserTests: XCTestCase {
             expectation.fulfill()
         }
     }
-    
+
     func testMultipleBadJSON() {
         
         let expectation = self.expectationWithDescription("Expected to fail parsing // [T]")
@@ -50,14 +50,29 @@ class ParserTests: XCTestCase {
         
         let jsonData = dataFromFile("bad_json")
         
-        let parserProducer: SignalProducer<[Article], Error > = parse(jsonData)
+        let parserProducer: SignalProducer<[Article], Error > = prunedParse(jsonData)
         parserProducer.startWithFailed { error in
             
             XCTAssertEqual(error, Error.Parser(""))
             expectation.fulfill()
         }
     }
-    
+
+    func testBrokenArticlesJSON() {
+        
+        let expectation = self.expectationWithDescription("Expected to fail parsing // [T]")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        let jsonData = dataFromFile("broken_articles")
+        
+        let parserProducer: SignalProducer<[Article], Error > = strictParse(jsonData)
+        parserProducer.startWithFailed { error in
+            
+            XCTAssertEqual(error, Error.Parser(""))
+            expectation.fulfill()
+        }
+    }
+
     func testSingleBadJSON() {
         
         let expectation = self.expectationWithDescription("Expected to fail parsing // T")

@@ -28,6 +28,7 @@
 		C7A509061C93B70F006EE048 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509051C93B70F006EE048 /* Error.swift */; };
 		C7A509081C93B88E006EE048 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A509071C93B88E006EE048 /* Network.swift */; };
 		C7A5090C1C93BB54006EE048 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5090B1C93BB54006EE048 /* Reachability.swift */; };
+		C7AA7D6B1CB9D99400B76B40 /* broken_articles_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C7AA7D6A1CB9D99400B76B40 /* broken_articles_cassette.json */; };
 		C7B76E311C972E93005596E8 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E301C972E93005596E8 /* ReactorTests.swift */; };
 		C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */ = {isa = PBXBuildFile; fileRef = C7B76E321C9735E8005596E8 /* articles_cassette.json */; };
 		C7B76E361C9737A7005596E8 /* NetworkLayerIsCalled.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */; };
@@ -55,6 +56,7 @@
 		C7DFA03E1C96E92E0068FFE6 /* InMemoryPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03C1C96E8270068FFE6 /* InMemoryPersistenceTests.swift */; };
 		C7DFA0411C96F9810068FFE6 /* InDiskPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA03F1C96F97D0068FFE6 /* InDiskPersistenceTests.swift */; };
 		C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DFA0431C9703C40068FFE6 /* Reactor.swift */; };
+		C7EF57221CB9D1F4000E6737 /* broken_articles.json in Resources */ = {isa = PBXBuildFile; fileRef = C76D19121CB9C86100579AFF /* broken_articles.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,12 +98,14 @@
 		C76B5F531C934F6900023BD1 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C76B5F541C934F6900023BD1 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		C76B5F5D1C93500300023BD1 /* ResourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTests.swift; sourceTree = "<group>"; };
+		C76D19121CB9C86100579AFF /* broken_articles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = broken_articles.json; sourceTree = "<group>"; };
 		C774E56B1C99C7D700CABD0A /* author_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = author_cassette.json; sourceTree = "<group>"; };
 		C7A508FE1C93B6F3006EE048 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		C7A508FF1C93B6F3006EE048 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		C7A509051C93B70F006EE048 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C7A509071C93B88E006EE048 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		C7A5090B1C93BB54006EE048 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		C7AA7D6A1CB9D99400B76B40 /* broken_articles_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = broken_articles_cassette.json; sourceTree = "<group>"; };
 		C7B76E301C972E93005596E8 /* ReactorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
 		C7B76E321C9735E8005596E8 /* articles_cassette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = articles_cassette.json; sourceTree = "<group>"; };
 		C7B76E351C9737A7005596E8 /* NetworkLayerIsCalled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLayerIsCalled.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 			children = (
 				C75CE1DF1C949F20006F6458 /* success_request_cassette.json */,
 				C7B76E321C9735E8005596E8 /* articles_cassette.json */,
+				C7AA7D6A1CB9D99400B76B40 /* broken_articles_cassette.json */,
 				C774E56B1C99C7D700CABD0A /* author_cassette.json */,
 			);
 			path = Cassettes;
@@ -326,6 +331,7 @@
 				C7DFA01E1C9609D90068FFE6 /* bad_json.json */,
 				C7DFA01C1C9609540068FFE6 /* author.json */,
 				C7DFA01A1C96087F0068FFE6 /* articles.json */,
+				C76D19121CB9C86100579AFF /* broken_articles.json */,
 			);
 			path = "Testing JSON";
 			sourceTree = "<group>";
@@ -459,11 +465,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DFA01D1C9609540068FFE6 /* author.json in Resources */,
+				C7EF57221CB9D1F4000E6737 /* broken_articles.json in Resources */,
 				C7B76E341C97363E005596E8 /* articles_cassette.json in Resources */,
 				C774E56D1C99C8A500CABD0A /* author_cassette.json in Resources */,
 				C7DFA01F1C9609D90068FFE6 /* bad_json.json in Resources */,
 				C7DFA01B1C96087F0068FFE6 /* articles.json in Resources */,
 				C75CE1E51C94A49F006F6458 /* success_request_cassette.json in Resources */,
+				C7AA7D6B1CB9D99400B76B40 /* broken_articles_cassette.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

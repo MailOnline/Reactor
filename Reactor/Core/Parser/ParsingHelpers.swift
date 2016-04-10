@@ -6,9 +6,24 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-import Foundation
+import Result
 
-func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
+func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
+    
+    var convertAndCleanArray: [T] = []
+    
+    for object in objects {
+        
+        let mappedModel = T.mapToModel(object)
+        
+        guard case .Success(let model) = mappedModel else { return mappedModel.map { _ in [] }.mapError { .Parser($0.description) } }
+        convertAndCleanArray.append(model)
+    }
+    
+    return Result(value: convertAndCleanArray)
+}
+
+func prunedArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
     
     var convertAndCleanArray: [T] = []
     
@@ -18,11 +33,14 @@ func arrayFromJSON<T: Mappable>(objects: [AnyObject]) -> [T] {
         convertAndCleanArray.append(model)
     }
     
-    return convertAndCleanArray
+    return Result(value: convertAndCleanArray)
 }
 
-func arrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> [T] {
+func prunedArrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> Result<[T], Error> {
     
-    guard let objects = anyObject[key] as? [AnyObject] else { return [] }
-    return arrayFromJSON(objects)
+    guard
+        let dictionary = anyObject as? [String: AnyObject],
+        let objects = dictionary[key] as? [AnyObject] else { return Result(value: []) }
+    
+    return prunedArrayFromJSON(objects)
 }

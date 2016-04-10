@@ -84,7 +84,7 @@ class ReactorTests: XCTestCase {
         })
         
         let networkFlow: Resource -> SignalProducer<[Article], Error> = { resource in
-            network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
+            network.makeRequest(resource).map { $0.0} .flatMapLatest(prunedParse)
         }
         
         let flow = ReactorFlow(networkFlow: networkFlow)
@@ -183,14 +183,38 @@ class ReactorTests: XCTestCase {
         }
     }
     
-    private func createMockedFlow(connection: Connection) -> ReactorFlow<[Article]> {
+    func testShouldNotPassWhenItIsStrickAndThereAreBadObjects() {
+        
+        let expectation = self.expectationWithDescription("Expected to fail, if no saveToPersistenceFlow is provided")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        turntable.loadCassette("broken_articles_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+
+        var configuration = ReactorConfiguration()
+        configuration.shouldPrune = false
+        
+        let flow = createMockedFlow(network, parser: strictParse)
+        let reactor = Reactor(flow: flow, configuration: configuration)
+        
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+            
+            XCTAssertFalse(isMainThread())
+            XCTAssertEqual(error, Error.Parser(""))
+            expectation.fulfill()
+        }
+    }
+    
+    private func createMockedFlow(connection: Connection, parser: NSData -> SignalProducer<[Article], Error> = prunedParse) -> ReactorFlow<[Article]> {
         
         let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
         let loadArticles: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
         let saveArticles: [Article] -> SignalProducer<[Article], Error> = inDiskPersistence.save
         
         let networkFlow: Resource -> SignalProducer<[Article], Error> = { resource in
-            connection.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
+            connection.makeRequest(resource).map { $0.0} .flatMapLatest(parser)
         }
         
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)

@@ -22,4 +22,10 @@ public struct ReactorConfiguration {
     /// Note: if you set it as `false` and it fails, the failure will be 
     /// lost, because it's not part of the flow, but instead injected.
     public var shouldWaitForSaveToPersistence: Bool = true
+    /// If the parser should be strick or prune the bad objects.
+    /// Prunning will simply remove objects are were not parsable, instead
+    /// of erroring the flow. Strick on the other hand as soon as it finds
+    /// a bad objects will error the entire flow
+    /// By default it prune.
+    public var shouldPrune: Bool = true
 }

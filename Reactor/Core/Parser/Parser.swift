@@ -18,17 +18,25 @@ func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     }
 }
 
-func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+func prunedParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+    
+    return parse(data, toArray: prunedArrayFromJSON)
+}
 
-    let toArray: [AnyObject] -> [T.Generator.Element] = arrayFromJSON
+func strictParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+    
+    return parse(data, toArray: strictArrayFromJSON)
+}
+
+func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData, toArray: [AnyObject] -> Result<[T.Generator.Element], Error>) -> SignalProducer<T, Error> {
     
     return SignalProducer.attempt {
         
         let decodedData: Result<AnyObject, Error> = decodeData(data)
         
-        // the `.map { $0 as! T}` is horrible, but it's the only way for it to accept it. 
+        // the `.map { $0.value as! T}` is horrible, but it's the only way for it to accept it.
         // I am 100% sure it will always pass. :/
-        return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.map(toArray).map { $0 as! T}
+       return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.flatMap(toArray).map { $0 as! T }
     }
 }
 
