@@ -111,11 +111,13 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @class NSURLResponse;
 @class NSError;
 @class NSURLSessionDataTask;
+@class NSURLSessionUploadTask;
 
 SWIFT_CLASS("_TtC5Vinyl9Turntable")
 @interface Turntable : NSURLSession
 - (NSURLSessionDataTask * _Nonnull)dataTaskWithURL:(NSURL * _Nonnull)url completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSURLResponse * _Nullable, NSError * _Nullable))completionHandler;
 - (NSURLSessionDataTask * _Nonnull)dataTaskWithRequest:(NSURLRequest * _Nonnull)request completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSURLResponse * _Nullable, NSError * _Nullable))completionHandler;
+- (NSURLSessionUploadTask * _Nonnull)uploadTaskWithRequest:(NSURLRequest * _Nonnull)request fromData:(NSData * _Nullable)bodyData completionHandler:(void (^ _Nonnull)(NSData * _Nullable, NSURLResponse * _Nullable, NSError * _Nullable))completionHandler;
 - (void)invalidateAndCancel;
 @end
 
@@ -133,6 +135,14 @@ SWIFT_CLASS("_TtC5Vinyl9Turntable")
 
 SWIFT_CLASS("_TtC5Vinyl14URLSessionTask")
 @interface URLSessionTask : NSURLSessionDataTask
+- (void)resume;
+- (void)suspend;
+- (void)cancel;
+@end
+
+
+SWIFT_CLASS("_TtC5Vinyl20URLSessionUploadTask")
+@interface URLSessionUploadTask : NSURLSessionUploadTask
 - (void)resume;
 - (void)suspend;
 - (void)cancel;

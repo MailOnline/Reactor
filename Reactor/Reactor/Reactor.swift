@@ -31,7 +31,7 @@ public struct Reactor<T> {
             .flatMapError { _ in self.fetchFromNetwork (resource) }
     }
 
-    // It will fetch from the network, if successful it will persist the data.
+    /// It will fetch from the network, if successful it will persist the data.
     public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
         
         let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(flow.saveToPersistenceFlow)
