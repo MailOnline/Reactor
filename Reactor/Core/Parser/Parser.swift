@@ -34,8 +34,8 @@ func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData,
         
         let decodedData: Result<AnyObject, Error> = decodeData(data)
         
-        // the `.map { $0.value as! T}` is horrible, but it's the only way for it to accept it.
-        // I am 100% sure it will always pass. :/
+        // the `.map { $0.value as! T}` is horrible, but it's the only way for the compiler to accept it.
+        // I am 100% sure it will always pass. 😅
        return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.flatMap(toArray).map { $0 as! T }
     }
 }
