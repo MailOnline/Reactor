@@ -35,7 +35,7 @@ public struct ReactorFlow<T> {
 }
 
 /// Used as a factory to create a `ReactorFlow` for a single `T: Mappable`
-public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
+public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: FlowConfiguration) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = parse
@@ -55,7 +55,7 @@ public func createFlow<T where T: Mappable>(persistencePath: String = "", baseUR
 }
 
 /// Used as a factory to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration) -> ReactorFlow<T> {
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: FlowConfiguration) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = configuration.shouldPrune ? prunedParse : strictParse

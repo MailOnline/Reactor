@@ -15,9 +15,9 @@ import ReactiveCocoa
 public struct Reactor<T> {
     
     private let flow: ReactorFlow<T>
-    private let configuration: ReactorConfiguration
+    private let configuration: CoreConfiguration
     
-    init(flow: ReactorFlow<T>, configuration: ReactorConfiguration = ReactorConfiguration()) {
+    init(flow: ReactorFlow<T>, configuration: CoreConfiguration = ReactorConfiguration()) {
         
         self.flow = flow
         self.configuration = configuration
@@ -44,7 +44,7 @@ public struct Reactor<T> {
     
     private func shouldFailSaveToPersistenceModifier(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
         
-        guard configuration.flowShouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
+        guard configuration.shouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
         
         return saveToPersistenceFlow(result).flatMapError { _ in SignalProducer(value: result) }
     }

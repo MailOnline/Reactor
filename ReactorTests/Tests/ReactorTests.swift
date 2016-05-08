@@ -139,7 +139,7 @@ class ReactorTests: XCTestCase {
         }
         
         var configuration = ReactorConfiguration()
-        configuration.flowShouldFailWhenSaveToPersistenceFails = false
+        configuration.shouldFailWhenSaveToPersistenceFails = false
         
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
         let reactor = Reactor(flow: flow, configuration: configuration)
@@ -170,7 +170,7 @@ class ReactorTests: XCTestCase {
         }
         
         var configuration = ReactorConfiguration()
-        configuration.flowShouldFailWhenSaveToPersistenceFails = true
+        configuration.shouldFailWhenSaveToPersistenceFails = true
         configuration.shouldWaitForSaveToPersistence = false
 
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
