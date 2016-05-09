@@ -13,7 +13,13 @@ final class Cache<T where T: Hashable> {
     private var cache = [Int: T]()
     private let lock = dispatch_queue_create("cache.queue", DISPATCH_QUEUE_SERIAL)
     
-    var count: Int { return cache.count }
+    var count: Int {
+        var count: Int = 0
+        dispatch_sync(lock) {
+            count = self.cache.count
+        }
+        return count
+    }
     
     subscript(key: Int) -> T? {
         
