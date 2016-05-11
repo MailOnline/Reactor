@@ -11,7 +11,7 @@ import ReactiveCocoa
 
 /// Used to represent the ReactorFlow. A typical flow consists of loading from persistence, 
 /// making a network request and finally saving it to persistence. All three flows are
-/// public on purpose so they can be manually replaced or extended.
+/// public on purpose, so they can be manually replaced or extended.
 ///
 /// At very least a `NetworkFlow` must be provided, at initialization.
 public struct ReactorFlow<T> {
