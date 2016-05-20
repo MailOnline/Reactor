@@ -9,7 +9,7 @@
 import Result
 import ReactiveCocoa
 
-/// Used to represent the ReactorFlow. A typical flow consists of loading from persistence, 
+/// Used to represent the ReactorFlow. A typical flow consists of loading from persistence,
 /// making a network request and finally saving it to persistence. All three flows are
 /// public on purpose, so they can be manually replaced or extended.
 ///
@@ -35,51 +35,51 @@ public struct ReactorFlow<T> {
 }
 
 /// Used as a factory to create a `ReactorFlow` for a single `T: Mappable`
-public func createFlow<T where T: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: FlowConfiguration) -> ReactorFlow<T> {
+public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = parse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
-
-    if configuration.usingPersistence {
+    
+    switch configuration.usingPersistence {
+    case .False:
+        return ReactorFlow(networkFlow: networkFlow)
         
+    case .True(let persistencePath):
         let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
         let loadFromPersistence = persistenceHandler.load
         let saveToPersistence =  persistenceHandler.save
         
         return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
     }
-    else {
-        return ReactorFlow(networkFlow: networkFlow)
-    }
 }
 
 /// Used as a factory to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(persistencePath: String = "", baseURL: NSURL, configuration: FlowConfiguration) -> ReactorFlow<T> {
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = configuration.shouldPrune ? prunedParse : strictParse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
-    if configuration.usingPersistence {
+    switch configuration.usingPersistence {
+    case .False:
+        return ReactorFlow(networkFlow: networkFlow)
         
+    case .True(let persistencePath):
         let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
         let loadFromPersistence = persistenceHandler.load
         let saveToPersistence =  persistenceHandler.save
         
         return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
-    }
-    else {
-        return ReactorFlow(networkFlow: networkFlow)
     }
 }
 
 private func createNetwork(baseURL: NSURL, shouldCheckReachability: Bool) -> Network {
     
     if shouldCheckReachability {
-       return Network(baseURL: baseURL)
+        return Network(baseURL: baseURL)
     }
     else {
-       return Network(baseURL: baseURL, reachability: AlwaysReachable())
+        return Network(baseURL: baseURL, reachability: AlwaysReachable())
     }
 }

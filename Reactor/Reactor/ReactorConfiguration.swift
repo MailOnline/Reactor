@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-public protocol CoreConfiguration {
+public protocol CoreConfigurable {
     /// If the entire flow should fail, when `saveToPersistenceFlow` fails.
     /// `true` by default.
     var shouldFailWhenSaveToPersistenceFails: Bool { get }
@@ -20,18 +20,19 @@ public protocol CoreConfiguration {
     var shouldWaitForSaveToPersistence: Bool { get }
 }
 
-extension CoreConfiguration {
+extension CoreConfiguration: CoreConfigurable {}
+
+/// Configuration object to customize the Reactor's behaviour
+public struct CoreConfiguration {
     
-    public var shouldFailWhenSaveToPersistenceFails: Bool { return true }
-    public var shouldWaitForSaveToPersistence: Bool { return true }
+    public var shouldFailWhenSaveToPersistenceFails: Bool = true
+    public var shouldWaitForSaveToPersistence: Bool = true
 }
 
-extension ReactorConfiguration: CoreConfiguration {}
-
-public protocol FlowConfiguration {
+public protocol FlowConfigurable {
     /// If persistence should be used.
-    /// `true` by default.
-    var usingPersistence: Bool { get }
+    /// If it should a path needs to be provided. 
+    var usingPersistence: ShouldUsePersistence { get }
     /// If reachability should be used.
     /// `true` by default.
     var shouldCheckReachability: Bool { get }
@@ -46,21 +47,22 @@ public protocol FlowConfiguration {
     var shouldPrune: Bool { get }
 }
 
-extension ReactorConfiguration: FlowConfiguration {}
-
-extension FlowConfiguration {
-    
-    public var usingPersistence: Bool { return true }
-    public var shouldCheckReachability: Bool { return true }
-    public var shouldPrune: Bool { return true }
+public typealias PathToPersistence = String
+public enum ShouldUsePersistence {
+    case True(PathToPersistence)
+    case False
 }
 
-/// Configuration object to customize the Reactor's behaviour
-public struct ReactorConfiguration {
+extension FlowConfiguration: FlowConfigurable {}
 
-    public var shouldFailWhenSaveToPersistenceFails: Bool = true
-    public var shouldWaitForSaveToPersistence: Bool = true
-    public var usingPersistence: Bool = true
+/// Configuration object to customize the Reactor's behaviour
+public struct FlowConfiguration {
+
+    public var usingPersistence: ShouldUsePersistence
     public var shouldCheckReachability: Bool = true
     public var shouldPrune: Bool = true
+    
+    public init(usingPersistence: ShouldUsePersistence) {
+        self.usingPersistence = usingPersistence
+    }
 }

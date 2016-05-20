@@ -15,9 +15,9 @@ import ReactiveCocoa
 public struct Reactor<T> {
     
     private let flow: ReactorFlow<T>
-    private let configuration: CoreConfiguration
+    private let configuration: CoreConfigurable
     
-    init(flow: ReactorFlow<T>, configuration: CoreConfiguration = ReactorConfiguration()) {
+    init(flow: ReactorFlow<T>, configuration: CoreConfigurable = CoreConfiguration()) {
         
         self.flow = flow
         self.configuration = configuration
@@ -62,8 +62,8 @@ public struct Reactor<T> {
 public extension Reactor where T: Mappable {
     
     // Convenience initializer to create a `ReactorFlow` for a single `T: Mappable`
-    public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
-        flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
+    public init (baseURL: NSURL, configuration: protocol<CoreConfigurable, FlowConfigurable>) {
+        self.flow = createFlow(baseURL, configuration: configuration)
         self.configuration = configuration
     }
 }
@@ -71,8 +71,8 @@ public extension Reactor where T: Mappable {
 public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
     
     // Convenience initializer to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
-    public init (persistencePath: String = "", baseURL: NSURL, configuration: ReactorConfiguration = ReactorConfiguration()) {
-        flow = createFlow(persistencePath, baseURL: baseURL, configuration: configuration)
+    public init (baseURL: NSURL, configuration: protocol<CoreConfigurable, FlowConfigurable>) {
+        self.flow = createFlow(baseURL, configuration: configuration)
         self.configuration = configuration
     }
 }
