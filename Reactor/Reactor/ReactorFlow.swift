@@ -35,17 +35,17 @@ public struct ReactorFlow<T> {
 }
 
 /// Used as a factory to create a `ReactorFlow` for a single `T: Mappable`
-public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T> {
+public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable = FlowConfiguration(usingPersistence: .No)) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = parse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
     switch configuration.usingPersistence {
-    case .False:
+    case .No:
         return ReactorFlow(networkFlow: networkFlow)
         
-    case .True(let persistencePath):
+    case .Yes(let persistencePath):
         let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
         let loadFromPersistence = persistenceHandler.load
         let saveToPersistence =  persistenceHandler.save
@@ -55,17 +55,17 @@ public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowC
 }
 
 /// Used as a factory to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T> {
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable = FlowConfiguration(usingPersistence: .No)) -> ReactorFlow<T> {
     
     let network: Network = createNetwork(baseURL, shouldCheckReachability: configuration.shouldCheckReachability)
     let parser: NSData -> SignalProducer<T, Error> = configuration.shouldPrune ? prunedParse : strictParse
     let networkFlow: Resource -> SignalProducer<T, Error> = { resource in network.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
     switch configuration.usingPersistence {
-    case .False:
+    case .No:
         return ReactorFlow(networkFlow: networkFlow)
         
-    case .True(let persistencePath):
+    case .Yes(let persistencePath):
         let persistenceHandler = InDiskPersistenceHandler<T>(persistenceFilePath: persistencePath)
         let loadFromPersistence = persistenceHandler.load
         let saveToPersistence =  persistenceHandler.save

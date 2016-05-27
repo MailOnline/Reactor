@@ -49,8 +49,8 @@ public protocol FlowConfigurable {
 
 public typealias PathToPersistence = String
 public enum ShouldUsePersistence {
-    case True(PathToPersistence)
-    case False
+    case Yes(withPath: PathToPersistence)
+    case No
 }
 
 extension FlowConfiguration: FlowConfigurable {}

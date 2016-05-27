@@ -138,7 +138,7 @@ class ReactorTests: XCTestCase {
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        var configuration = ReactorConfiguration()
+        var configuration = CoreConfiguration()
         configuration.shouldFailWhenSaveToPersistenceFails = false
         
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
@@ -169,7 +169,7 @@ class ReactorTests: XCTestCase {
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        var configuration = ReactorConfiguration()
+        var configuration = CoreConfiguration()
         configuration.shouldFailWhenSaveToPersistenceFails = true
         configuration.shouldWaitForSaveToPersistence = false
 
@@ -193,11 +193,11 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
 
-        var configuration = ReactorConfiguration()
+        var configuration = FlowConfiguration(usingPersistence: .No)
         configuration.shouldPrune = false
         
         let flow = createMockedFlow(network, parser: strictParse)
-        let reactor = Reactor(flow: flow, configuration: configuration)
+        let reactor = Reactor(flow: flow)
         
         reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
             
