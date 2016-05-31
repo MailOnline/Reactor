@@ -26,8 +26,6 @@ If we look carefully the only thing that changes is the `T`. Reactor provides th
 * [Persistence](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Persistence)
 * [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) as its only dependency.
 
-#### Pros and Cons
-
 ##### Pros... ✅
 
 * One of the biggest Pros of Reactor, is how intrinsically forces you to decouple your different components. If your persistence is coupled with your network, Reactor is not for you. 🌳
@@ -36,7 +34,7 @@ If we look carefully the only thing that changes is the `T`. Reactor provides th
 
 ##### Cons... ❌
 
-* If you have an unusual flow, that doesn't really fit the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro), you will just fight Reactor, in that case it's better to just not use it. ⛔️
+* If you have an unusual flow, that doesn't really fit the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro). ⛔️
 * After checking the [Advance usage](#advance-usage), Reactor doesn't give you enough flexibility. 😭😭 If this is the case, please open an issue, so we see what we can do! 👍
 
 ## How to use
