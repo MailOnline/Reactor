@@ -176,8 +176,7 @@ The `FlowConfiguration` protocol is used in the following methods:
 ```swift
 public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
 public func createFlow<T where T: Mappable>(connection: Connection, configuration: FlowConfigurable) -> ReactorFlow<T>
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
-public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(connection: Connection, configuration: FlowConfigurable) -> ReactorFlow<T>
 ```
 
 These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches (please check [Using 3rd Party Dependencies](https://github.com/MailOnline/Reactor#using-3rd-party-dependencies) section). 
