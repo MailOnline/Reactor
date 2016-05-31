@@ -74,12 +74,7 @@ let documentsRootPath: String = {
     }()
 
 func dateLaterThan(date: NSDate, seconds: NSTimeInterval) -> Bool {
-
-    if abs(date.timeIntervalSinceNow) > seconds {
-        return true
-    }
-    
-    return false
+    return abs(date.timeIntervalSinceNow) > seconds
 }
 
 func didCacheExpired(date: NSDate, laterThan seconds: NSTimeInterval) -> SignalProducer<Bool, Error> {
@@ -90,13 +85,3 @@ func didCacheExpired(date: NSDate, laterThan seconds: NSTimeInterval) -> SignalP
         o.sendCompleted()
     }
 }
-
-public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs === rhs || lhs.compare(rhs) == .OrderedSame
-}
-
-public func <(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
-}
-
-extension NSDate: Comparable { }
