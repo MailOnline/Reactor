@@ -8,31 +8,29 @@
 
 #### Intro
 
-Reactor provides a [Model layer](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core) with minimum configuration. It makes use of the following elements to achieve that:
+Most applications out there follow the same pattern:
+
+ 1. Is `T` persisted and has not expired?
+  1. **Yes**: Use it ✅
+  2. **No**: Fetch `T` from the network
+    1. Do we have an internet connection?
+      1. **Yes**: make the Request.
+        1. Create `T` from the network response's data and persist it (send any error that might occur) ✅
+        2. Request failed: send an error ❌
+       2. **No**: send an error ❌
+
+If we look carefuly the only thing that changes, from application to application, is the `T`. Reactor provides the whole infrastructure around `T` with minimum configuration, but with flexibility in mind. In order to achieve that, it uses:
 
 * [Network](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Network)
 * [Parser](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Parser)
 * [Persistence](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Persistence)
 * [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) as its only dependency.
 
-Reactor then uses flows (represented by the `ReactorFlow<T>`), that are typically seen in applications. For example:
+#### Pros and Cons
 
- 1. Does persisted data exist and is it valid?
-  1. **Yes**: Use it ✅
-  2. **No**: Fetch data from the network
-    1. Do we have an internet connection?
-      1. **Yes**: make the Request.
-        1. Parse the data and persist it (send any error that might occur) ✅
-        2. Request failed: send an error ❌
-       2. **No**: send an error ❌
+One of the biggest Pros of Reactor, is how intrinsically forces you to decouple your different components. If you have your persistencense code coupled with your network, Reactor is not for you.
 
-This particular flow is provided out of the box by Reactor. In the future we will provide others. 
-
-##### What's a flow? 🙄
-
-A flow is nothing more than a stream of events, in our case, that is composed by different pieces ( network, parsing and persistence ). 
-
-## Use Reactor if... ✅
+##### Pros... ✅
 
 * You are are starting a new project. 🌳
 * You are in the process of defining your model layer. 🛠
@@ -40,11 +38,11 @@ A flow is nothing more than a stream of events, in our case, that is composed by
 * You don't feel comfortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
 * You already have your Model layer in place, but you think Reactor could formalize your flows. ✨ 
 
-## Not suited if... ❌
+##### Cons... ❌
 
-* You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
+* You have an unusual flow, that doesn't really fit the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro). ⛔️
 * You already have a Model layer and you feel it wouldn't really benefit you in any way. 😞
-* After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭
+* After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭 If this is the case, please open an issue, so we see what we can do! 👍
 
 ## How to use
 
@@ -275,8 +273,6 @@ Other 3rd party dependencies will follow the same approach:
 1. Wrap the dependency with ReactiveCocoa
 2. Make it compatible with flow signature.
 3. Create the `ReactorFlow` as it suits you. 
-
-Another benefit of this approach, is that it enforces a clear separation and decoupling of your code. If you have persistence coupled with your network, it will be quite difficult to use Reactor. 
 
 ## License
 Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
