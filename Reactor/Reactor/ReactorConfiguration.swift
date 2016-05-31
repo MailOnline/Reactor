@@ -30,16 +30,16 @@ public struct CoreConfiguration {
 }
 
 public protocol FlowConfigurable {
-    /// If persistence should be used.
-    /// If it should a path needs to be provided. 
-    var usingPersistence: ShouldUsePersistence { get }
+    /// When enabled, you should pass the path where it will be stored
+    /// Othewise it's disabled
+    var persistenceConfiguration: PersistenceConfiguration { get }
     /// If reachability should be used.
     /// `true` by default.
     var shouldCheckReachability: Bool { get }
     /// If the parser should be strick or prune the bad objects.
-    /// Prunning will simply remove objects are were not parsable, instead
+    /// Prunning will simply remove objects that are not parsable, instead
     /// of erroring the flow. Strick on the other hand as soon as it finds
-    /// a bad objects will error the entire flow.
+    /// a bad object will error the entire flow.
     /// Note: if you receive an entire batch of bad objects, it will default to
     /// an empty array. Witch leads to not knowing if the server has no results or
     /// all objects are badly formed.
@@ -48,9 +48,9 @@ public protocol FlowConfigurable {
 }
 
 public typealias PathToPersistence = String
-public enum ShouldUsePersistence {
-    case Yes(withPath: PathToPersistence)
-    case No
+public enum PersistenceConfiguration {
+    case Enabled(withPath: PathToPersistence)
+    case Disabled
 }
 
 extension FlowConfiguration: FlowConfigurable {}
@@ -58,11 +58,11 @@ extension FlowConfiguration: FlowConfigurable {}
 /// Configuration object to customize the Reactor's behaviour
 public struct FlowConfiguration {
 
-    public var usingPersistence: ShouldUsePersistence
+    public var persistenceConfiguration: PersistenceConfiguration
     public var shouldCheckReachability: Bool = true
     public var shouldPrune: Bool = true
     
-    public init(usingPersistence: ShouldUsePersistence) {
-        self.usingPersistence = usingPersistence
+    public init(persistenceConfiguration: PersistenceConfiguration) {
+        self.persistenceConfiguration = persistenceConfiguration
     }
 }

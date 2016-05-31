@@ -101,7 +101,7 @@ The second step would be:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
-let configuration = FlowConfiguration(usingPersistence: .True("path_to_persistence"))
+let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: "path_to_persistence"))
 
 let flow: ReactorFlow<Author> = createFlow(baseURL, configuration: configuration)
 let reactor: Reactor<Author> = Reactor(flow: flow)
@@ -131,13 +131,13 @@ The final piece is the `Resource`, which is nothing more than a struct that enca
 
 For extra flexibility, you can use the `CoreConfiguration` and `FlowConfiguration` protocols. 
 
-The `CoreConfiguration` protocols defines how the Reactor behaves:
+The `CoreConfiguration` protocols define how the Reactor behaves:
 
 ```swift
 public protocol CoreConfiguration {
-/// If the entire flow should fail, when `saveToPersistenceFlow` fails.
-/// `true` by default.
-var shouldFailWhenSaveToPersistenceFails: Bool { get }
+/// When enabled, you should pass the path where it will be stored
+/// Othewise it's disabled
+var persistenceConfiguration: PersistenceConfiguration { get }
 /// If the `saveToPersistenceFlow`, should be part of the flow.
 /// Should be `false` when the flow shouldn't
 /// wait for `saveToPersistenceFlow` to finish (for example it takes
@@ -149,7 +149,7 @@ var shouldWaitForSaveToPersistence: Bool { get }
 }
 ```
 
-The `FlowConfiguration` protocol defines how the Reactor Flow is created:
+The `FlowConfiguration` protocol define how the Reactor Flow is created:
 
 
 ```swift
@@ -161,9 +161,9 @@ var usingPersistence: Bool { get }
 /// `true` by default.
 var shouldCheckReachability: Bool { get }
 /// If the parser should be strick or prune the bad objects.
-/// Prunning will simply remove objects are were not parsable, instead
+/// Prunning will simply remove objects that are not parsable, instead
 /// of erroring the flow. Strick on the other hand as soon as it finds
-/// a bad objects will error the entire flow.
+/// a bad object will error the entire flow.
 /// Note: if you receive an entire batch of bad objects, it will default to
 /// an empty array. Witch leads to not knowing if the server has no results or
 /// all objects are badly formed.
@@ -179,7 +179,7 @@ public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowC
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
 ```
 
-These are convinient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches. 
+These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches. 
  
 
 #### Without Persistence
@@ -188,7 +188,7 @@ If it doesn't make sense to persist data, you can:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
-let configuration = FlowConfiguration(usingPersistence: .False)
+let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
 let flow: ReactorFlow<Foo> = createFlow(baseURL, configuration: configuration)
 let reactor: Reactor<Foo> = Reactor(flow: flow)
 ```
