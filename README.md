@@ -19,7 +19,7 @@ Most applications out there follow the same pattern:
         2. Request failed: send an error ❌
        2. **No**: send an error ❌
 
-If we look carefuly the only thing that changes, from application to application, is the `T`. Reactor provides the whole infrastructure around `T` with minimum configuration, but with flexibility in mind. In order to achieve that, it uses:
+If we look carefully the only thing that changes is the `T`. Reactor provides the whole infrastructure around `T` with minimum configuration, but with flexibility in mind. In order to achieve that, it uses:
 
 * [Network](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Network)
 * [Parser](https://github.com/MailOnline/Reactor/tree/master/Reactor/Core/Parser)
@@ -28,21 +28,16 @@ If we look carefuly the only thing that changes, from application to application
 
 #### Pros and Cons
 
-One of the biggest Pros of Reactor, is how intrinsically forces you to decouple your different components. If you have your persistencense code coupled with your network, Reactor is not for you.
-
 ##### Pros... ✅
 
-* You are are starting a new project. 🌳
-* You are in the process of defining your model layer. 🛠
-* You are creating a prototype or demo and you need something working quickly. 🚀
-* You don't feel comfortable enough with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) and need some help with the setup. 🆒
-* You already have your Model layer in place, but you think Reactor could formalize your flows. ✨ 
+* One of the biggest Pros of Reactor, is how intrinsically forces you to decouple your different components. If your persistence is coupled with your network, Reactor is not for you. 🌳
+* Since Reactor provides most of the insfrastructure out of the box, you can quickly create your entire Model layer. This is useful if you are creating a prototype or a demo. 🚀
+* It removes most of the boilerplate you usually need, when creating a project that follows the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro). ✨
 
 ##### Cons... ❌
 
-* You have an unusual flow, that doesn't really fit the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro). ⛔️
-* You already have a Model layer and you feel it wouldn't really benefit you in any way. 😞
-* After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭 If this is the case, please open an issue, so we see what we can do! 👍
+* If you have an unusual flow, that doesn't really fit the flow described in the [Intro](https://github.com/MailOnline/Reactor#intro), you will just fight Reactor, in that case it's better to just not use it. ⛔️
+* After checking the [Advance usage](#advance-usage), Reactor doesn't give you enough flexibility. 😭😭 If this is the case, please open an issue, so we see what we can do! 👍
 
 ## How to use
 
