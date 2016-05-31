@@ -135,7 +135,7 @@ The `CoreConfiguration` protocols define how the Reactor behaves:
 ```swift
 public protocol CoreConfiguration {
 /// When enabled, you should pass the path where it will be stored
-/// Othewise it's disabled
+/// Otherwise it's disabled
 var persistenceConfiguration: PersistenceConfiguration { get }
 /// If the `saveToPersistenceFlow`, should be part of the flow.
 /// Should be `false` when the flow shouldn't
@@ -159,9 +159,9 @@ var usingPersistence: Bool { get }
 /// If reachability should be used.
 /// `true` by default.
 var shouldCheckReachability: Bool { get }
-/// If the parser should be strick or prune the bad objects.
-/// Prunning will simply remove objects that are not parsable, instead
-/// of erroring the flow. Strick on the other hand as soon as it finds
+/// If the parser should be strict or prune the bad objects.
+/// Pruning will simply remove objects that are not parseable, instead
+/// of erroring the flow. Strict on the other hand as soon as it finds
 /// a bad object will error the entire flow.
 /// Note: if you receive an entire batch of bad objects, it will default to
 /// an empty array. Witch leads to not knowing if the server has no results or
@@ -180,7 +180,7 @@ public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(b
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
 ```
 
-These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches (please check `Using 3rd Party Dependencies` section). 
+These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches (please check [Using 3rd Party Dependencies](https://github.com/MailOnline/Reactor#using-3rd-party-dependencies) section). 
  
 
 ### Without Persistence
@@ -250,7 +250,7 @@ var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
 var saveToPersistenceFlow: T -> SignalProducer<T, Error>
 ```
 
-As mentioned, we encourage you to modify them to suit your needs. With 3rd party dependencies, you have to do exactly that. As an example, these could be the steps you would go thorough in order to make Alamofire compatible:
+As mentioned, we encourage you to modify them to suit your needs. With 3rd party dependencies, you have to do exactly that. As an example, these could be the steps you would go through in order to make Alamofire compatible:
 
 1. Wrap Alamofire with ReactiveCocoa. You can see an example of that [here](https://github.com/indragiek/AlamofireRACExtensions/blob/master/AlamofireRACExtensions/AlamofireRACExtensions.swift#L14#L38), [here](http://stackoverflow.com/a/34243581/491239) and [here](https://yoichitgy.github.io/post/dependency-injection-in-mvvm-architecture-with-reactivecocoa-part-3-designing-the-model/). This is a fairly trivial task and are plenty of examples out there.
 2. Make the `NSError` used by the approaches previously mentioned into an `Error`. You can use the `mapError` operator. Ideally you should transform it into a `Error.Network`.
