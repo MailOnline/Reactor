@@ -9,7 +9,7 @@
 import ReactiveCocoa
 import Result
 
-func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+public func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     
     return SignalProducer.attempt {
         
@@ -18,17 +18,7 @@ func parse<T where T: Mappable>(data: NSData) -> SignalProducer<T, Error> {
     }
 }
 
-func prunedParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
-    
-    return parse(data, toArray: prunedArrayFromJSON)
-}
-
-func strictParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
-    
-    return parse(data, toArray: strictArrayFromJSON)
-}
-
-func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData, toArray: [AnyObject] -> Result<[T.Generator.Element], Error>) -> SignalProducer<T, Error> {
+public func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData, toArray: [AnyObject] -> Result<[T.Generator.Element], Error>) -> SignalProducer<T, Error> {
     
     return SignalProducer.attempt {
         
@@ -36,8 +26,18 @@ func parse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData,
         
         // the `.map { $0.value as! T}` is horrible, but it's the only way for the compiler to accept it.
         // I am 100% sure it will always pass. 😅
-       return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.flatMap(toArray).map { $0 as! T }
+        return decodedData.flatMap { Result($0 as? [AnyObject], failWith: .Parser("\($0) is not an Array")) }.flatMap(toArray).map { $0 as! T }
     }
+}
+
+public func prunedParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+    
+    return parse(data, toArray: prunedArrayFromJSON)
+}
+
+public func strictParse<T where T: SequenceType, T.Generator.Element: Mappable>(data: NSData) -> SignalProducer<T, Error> {
+    
+    return parse(data, toArray: strictArrayFromJSON)
 }
 
 func encode<T where T: Mappable>(item: T) -> SignalProducer<NSData, Error> {
