@@ -44,7 +44,6 @@ A flow is nothing more than a stream of events, in our case, that is composed by
 
 * You have an unusual flow, that doesn't really fit the `ReactorFlow<T>`. ⛔️
 * You already have a Model layer and you feel it wouldn't really benefit you in any way. 😞
-* You already have a parser and your own network library (Alamofire for example). 🔥
 * After checking the [Advance usage](#advance-usage), Reactor doesn't provide what you need. 😭😭
 
 ## How to use
@@ -62,7 +61,7 @@ github "MailOnline/Reactor"
 pod 'MOReactor', '~> 0.9'
 ```
 
-#### Basic setup
+### Basic setup
 
 For Reactor to work, you need to make sure your Model objects comply with the `Mappable` protocol. This protocol allows you to encode and decode an object. This is necessary for parsing the object (coming from the network) and storing it on disk.
 
@@ -127,7 +126,7 @@ The final piece is the `Resource`, which is nothing more than a struct that enca
 * HTTP headers
 * HTTP method
 
-#### Configuration
+### Configuration
 
 For extra flexibility, you can use the `CoreConfiguration` and `FlowConfiguration` protocols. 
 
@@ -176,13 +175,15 @@ The `FlowConfiguration` protocol is used in the following methods:
 
 ```swift
 public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
+public func createFlow<T where T: Mappable>(connection: Connection, configuration: FlowConfigurable) -> ReactorFlow<T>
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
 public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
 ```
 
-These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches. 
+These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches (please check `Using 3rd Party Dependencies` section). 
  
 
-#### Without Persistence
+### Without Persistence
  
 If it doesn't make sense to persist data, you can:
 
@@ -201,8 +202,9 @@ func mapToJSON() -> AnyObject {
 }
 ```
 
-#### Advance Usage
+### Advance Usage
 
+#### Intro
 In order to make most of Reactor, keep the following in mind (these are `ReactorFlow<T>`'s properties):
 
 ```swift
@@ -237,6 +239,44 @@ The `Reactor<T>`'s `fetch` function invariant:
 The `Reactor<T>`'s `fetchFromNetwork` function invariant:
 
 * the `networkFlow` will always be called first, if it succeeds it will be followed by `saveToPersistenceFlow`.
+
+#### Using 3rd Party Dependencies
+
+Reactor plays quite well with other dependencies and requires minimum effort from your side. In the previous section, we saw the three essencial pieces of a `ReactorFlow`:
+
+```swift
+var networkFlow: Resource -> SignalProducer<T, Error>
+var loadFromPersistenceFlow: Void -> SignalProducer<T, Error>
+var saveToPersistenceFlow: T -> SignalProducer<T, Error>
+```
+
+As mentioned, we encourage you to modify them to suit your needs. With 3rd party dependencies, you have to do exactly that. As an example, these could be the steps you would go thorough in order to make Alamofire compatible:
+
+1. Wrap Alamofire with ReactiveCocoa. You can see an example of that [here](https://github.com/indragiek/AlamofireRACExtensions/blob/master/AlamofireRACExtensions/AlamofireRACExtensions.swift#L14#L38), [here](http://stackoverflow.com/a/34243581/491239) and [here](https://yoichitgy.github.io/post/dependency-injection-in-mvvm-architecture-with-reactivecocoa-part-3-designing-the-model/). This is a fairly trivial task and are plenty of examples out there.
+2. Make the `NSError` used by the approaches previously mentioned into an `Error`. You can use the `mapError` operator. Ideally you should transform it into a `Error.Network`.
+3. This will now depend if you have a parser in place or not.
+ 1. If you do, then you just need to hook up your previously wrapped Alamofire request with it. Ideally you will have a function with the following signature: `NSData -> SignalProducer<T, Error>` for the parser. Composition then becomes easy: `alamofireCall().flatMap(.Latest, transformation: parse)` (a concrete example [here](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L67)).
+ 2. If you don't, you can make use of the `Mappable` protocol and the `parse` function provided by Reactor. Once you have that, you can follow [this](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L67).
+
+With all this in place, the final piece is:
+
+```swift
+let persistenceHandler = InDiskPersistenceHandler<MyModel>(persistenceFilePath: persistencePath)
+let loadFromPersistence = persistenceHandler.load
+let saveToPersistence =  persistenceHandler.save
+
+let reactorFlow: ReactorFlow<MyModel> = ReactorFlow(network: myNetworkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistence: saveToPersistence)
+```
+
+The `createFlow` family methods follow these approach internally, so you should [check them out](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L38#L87). 
+
+Other 3rd party dependencies will follow the same approach:
+
+1. Wrap the dependency with ReactiveCocoa
+2. Make it compatible with flow signature.
+3. Create the `ReactorFlow` as it suits you. 
+
+Another benefit of this approach, is that it enforces a clear separation and decoupling of your code. If you have persistence coupled with your network, it will be quite difficult to use Reactor. 
 
 ## License
 Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
