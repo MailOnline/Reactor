@@ -6,33 +6,63 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-/// Configuration object to customize the Reactor's behaviour
-public struct ReactorConfiguration {
-
-    /// If persistence should be used.
-    /// `true` by default.
-    public var usingPersistence: Bool = true
-    /// If reachability should be used.
-    /// `true` by default.
-    public var shouldCheckReachability: Bool = true
+public protocol CoreConfigurable {
     /// If the entire flow should fail, when `saveToPersistenceFlow` fails.
     /// `true` by default.
-    public var flowShouldFailWhenSaveToPersistenceFails: Bool = true
+    var shouldFailWhenSaveToPersistenceFails: Bool { get }
     /// If the `saveToPersistenceFlow`, should be part of the flow.
     /// Should be `false` when the flow shouldn't
-    /// wait for `saveToPersistenceFlow` to finish (for example it takes 
+    /// wait for `saveToPersistenceFlow` to finish (for example it takes
     /// a long time).
-    /// Note: if you set it as `false` and it fails, the failure will be 
+    /// Note: if you set it as `false` and it fails, the failure will be
     /// lost, because it's not part of the flow, but injected instead .
     /// `true` by default.
+    var shouldWaitForSaveToPersistence: Bool { get }
+}
+
+extension CoreConfiguration: CoreConfigurable {}
+
+/// Configuration object to customize the Reactor's behaviour
+public struct CoreConfiguration {
+    
+    public var shouldFailWhenSaveToPersistenceFails: Bool = true
     public var shouldWaitForSaveToPersistence: Bool = true
+}
+
+public protocol FlowConfigurable {
+    /// When enabled, you should pass the path where it will be stored
+    /// Othewise it's disabled
+    var persistenceConfiguration: PersistenceConfiguration { get }
+    /// If reachability should be used.
+    /// `true` by default.
+    var shouldCheckReachability: Bool { get }
     /// If the parser should be strick or prune the bad objects.
-    /// Prunning will simply remove objects are were not parsable, instead
+    /// Prunning will simply remove objects that are not parsable, instead
     /// of erroring the flow. Strick on the other hand as soon as it finds
-    /// a bad objects will error the entire flow.
-    /// Note: if you receive an entire batch of bad objects, it will default to 
+    /// a bad object will error the entire flow.
+    /// Note: if you receive an entire batch of bad objects, it will default to
     /// an empty array. Witch leads to not knowing if the server has no results or
     /// all objects are badly formed.
     /// `true` by default.
+    var shouldPrune: Bool { get }
+}
+
+public typealias PathToPersistence = String
+public enum PersistenceConfiguration {
+    case Enabled(withPath: PathToPersistence)
+    case Disabled
+}
+
+extension FlowConfiguration: FlowConfigurable {}
+
+/// Configuration object to customize the Reactor's behaviour
+public struct FlowConfiguration {
+
+    public var persistenceConfiguration: PersistenceConfiguration
+    public var shouldCheckReachability: Bool = true
     public var shouldPrune: Bool = true
+    
+    public init(persistenceConfiguration: PersistenceConfiguration) {
+        self.persistenceConfiguration = persistenceConfiguration
+    }
 }

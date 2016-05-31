@@ -13,6 +13,20 @@ import Result
 
 class InMemoryPersistenceTests: XCTestCase {
     
+    func testFailedLoading() {
+        
+        let expectation = self.expectationWithDescription("Expected to fail")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+
+        let cache: Cache<Article> = Cache()
+        let inMemoryPersistence = InMemoryPersistenceHandler(cache: cache)
+
+        inMemoryPersistence.load(1).startWithFailed { error in
+            XCTAssertEqual(Error.Persistence(""), error)
+            expectation.fulfill()
+        }
+    }
+    
     func testSingleElementSaveAndLoad() {
         
         let expectation = self.expectationWithDescription("Expected to save and load single element")

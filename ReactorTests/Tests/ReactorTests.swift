@@ -138,8 +138,8 @@ class ReactorTests: XCTestCase {
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        var configuration = ReactorConfiguration()
-        configuration.flowShouldFailWhenSaveToPersistenceFails = false
+        var configuration = CoreConfiguration()
+        configuration.shouldFailWhenSaveToPersistenceFails = false
         
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
         let reactor = Reactor(flow: flow, configuration: configuration)
@@ -169,8 +169,8 @@ class ReactorTests: XCTestCase {
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        var configuration = ReactorConfiguration()
-        configuration.flowShouldFailWhenSaveToPersistenceFails = true
+        var configuration = CoreConfiguration()
+        configuration.shouldFailWhenSaveToPersistenceFails = true
         configuration.shouldWaitForSaveToPersistence = false
 
         let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles, saveToPersistenceFlow: saveArticles)
@@ -193,16 +193,97 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
 
-        var configuration = ReactorConfiguration()
-        configuration.shouldPrune = false
-        
         let flow = createMockedFlow(network, parser: strictParse)
-        let reactor = Reactor(flow: flow, configuration: configuration)
+        let reactor = Reactor(flow: flow)
         
         reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
             
             XCTAssertFalse(isMainThread())
             XCTAssertEqual(error, Error.Parser(""))
+            expectation.fulfill()
+        }
+    }
+    
+    func testPersistenceExistsForSequence() {
+        
+        let expectation = self.expectationWithDescription("Expected to persistence to exist")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+
+        turntable.loadCassette("articles_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        
+        let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: testFileName))
+        let flow: ReactorFlow<[Article]> = createFlow(network, configuration: configuration)
+        let reactor = Reactor(flow: flow)
+
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithNext{ articles in
+            
+            XCTAssertFalse(isMainThread())
+            expectation.fulfill()
+        }
+    }
+    
+    func testPersistenceDoesntExistForSequence() {
+        
+        let expectation = self.expectationWithDescription("Expected to persistence to not exist")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        turntable.loadCassette("articles_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        
+        let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
+        let flow: ReactorFlow<[Article]> = createFlow(network, configuration: configuration)
+        let reactor = Reactor(flow: flow)
+        
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+            
+            XCTAssertFalse(isMainThread())
+            expectation.fulfill()
+        }
+    }
+    
+    func testPersistenceExistsForSingleModel() {
+        
+        let expectation = self.expectationWithDescription("Expected to persistence to exist")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        turntable.loadCassette("author_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        
+        let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: testFileName))
+        let flow: ReactorFlow<Author> = createFlow(network, configuration: configuration)
+        let reactor = Reactor(flow: flow)
+        
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithNext{ author in
+            
+            XCTAssertFalse(isMainThread())
+            expectation.fulfill()
+        }
+    }
+    
+    func testPersistenceDoesntExistForSingleModel() {
+        
+        let expectation = self.expectationWithDescription("Expected to persistence to not exist")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        
+        turntable.loadCassette("author_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        
+        let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
+        let flow: ReactorFlow<Author> = createFlow(network, configuration: configuration)
+        let reactor = Reactor(flow: flow)
+        
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+            
+            XCTAssertFalse(isMainThread())
             expectation.fulfill()
         }
     }

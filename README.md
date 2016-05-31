@@ -101,7 +101,10 @@ The second step would be:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
-let reactor = Reactor<Author>(persistencePath: path, baseURL:baseURL)
+let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: "path_to_persistence"))
+
+let flow: ReactorFlow<Author> = createFlow(baseURL, configuration: configuration)
+let reactor: Reactor<Author> = Reactor(flow: flow)
 ```
 
 Now that you have the `reactor` ready, it exposes two functions:
@@ -113,7 +116,7 @@ func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error>
 
 We find that these are the two most common scenarios:
 
-1. When you get to a new screen, you try to get some data. In this case, Reactor checks the persistence store first and if it fails it will fallback to the network.
+1. When you get to a new screen, you try to get some data. In this case, Reactor checks the persistence first and if it fails it will fallback to the network.
 2. You want fresh data, so Reactor will use the network.
 
 The final piece is the `Resource`, which is nothing more than a struct that encapsulates how the request will be made:
@@ -124,16 +127,73 @@ The final piece is the `Resource`, which is nothing more than a struct that enca
 * HTTP headers
 * HTTP method
 
+#### Configuration
+
+For extra flexibility, you can use the `CoreConfiguration` and `FlowConfiguration` protocols. 
+
+The `CoreConfiguration` protocols define how the Reactor behaves:
+
+```swift
+public protocol CoreConfiguration {
+/// When enabled, you should pass the path where it will be stored
+/// Othewise it's disabled
+var persistenceConfiguration: PersistenceConfiguration { get }
+/// If the `saveToPersistenceFlow`, should be part of the flow.
+/// Should be `false` when the flow shouldn't
+/// wait for `saveToPersistenceFlow` to finish (for example it takes
+/// a long time).
+/// Note: if you set it as `false` and it fails, the failure will be
+/// lost, because it's not part of the flow, but injected instead .
+/// `true` by default.
+var shouldWaitForSaveToPersistence: Bool { get }
+}
+```
+
+The `FlowConfiguration` protocol define how the Reactor Flow is created:
+
+
+```swift
+public protocol FlowConfiguration {
+/// If persistence should be used.
+/// `true` by default.
+var usingPersistence: Bool { get }
+/// If reachability should be used.
+/// `true` by default.
+var shouldCheckReachability: Bool { get }
+/// If the parser should be strick or prune the bad objects.
+/// Prunning will simply remove objects that are not parsable, instead
+/// of erroring the flow. Strick on the other hand as soon as it finds
+/// a bad object will error the entire flow.
+/// Note: if you receive an entire batch of bad objects, it will default to
+/// an empty array. Witch leads to not knowing if the server has no results or
+/// all objects are badly formed.
+/// `true` by default.
+var shouldPrune: Bool { get }
+}
+```
+
+The `FlowConfiguration` protocol is used in the following methods:
+
+```swift
+public func createFlow<T where T: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
+public func createFlow<T where T: SequenceType, T.Generator.Element: Mappable>(baseURL: NSURL, configuration: FlowConfigurable) -> ReactorFlow<T>
+```
+
+These are convenient methods, that provide a ready to use `ReactorFlow`. **It's important to note**, that if you would like to use a custom persistence (CoreData, Realm, SQLite, etc), you should create a `ReactorFlow` on your own. The reason why, is because the default Persistence class (`InDiskPersistence.swift`) takes a path, where the data will be saved. This might not make sense with other approaches. 
+ 
+
 #### Without Persistence
  
-If it doesn't make sense to persist data, you pass the `persistencePath` as an empty string (`""`) or:
+If it doesn't make sense to persist data, you can:
 
 ```swift
 let baseURL = NSURL(string: "https://myApi.com")!
-let reactor = Reactor<Author>(baseURL:baseURL)
+let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
+let flow: ReactorFlow<Foo> = createFlow(baseURL, configuration: configuration)
+let reactor: Reactor<Foo> = Reactor(flow: flow)
 ```
 
-In the future will make this explicit via a `ReactorConfiguration`. As for the `mapToJSON` function, you can simply return an `NSNull`:
+As for the `mapToJSON` function, you can simply return an `NSNull`:
 
 ```swift
 func mapToJSON() -> AnyObject {
@@ -156,11 +216,10 @@ All three properties are mutable (`var`) on purpose, so you can extend specific 
 A way to accomplish this, is by creating a default flow and then extending it:
 
 ```swift
-let baseURL = NSURL(string: "https://myApi.com")!
-let reactor = Reactor<Author>(persistencePath: path, baseURL:baseURL)
+let reactorFlow: ReactorFlow<Author> = ...
 
-let extendedPersistence = reactor.loadFromPersistenceFlow().on(failure: { error in print(error) })
-reactor.loadFromPersistenceFlow =  { extendedPersistence }
+let extendedPersistence = reactorFlow.loadFromPersistenceFlow().on(failure: { error in print(error) })
+reactorFlow.loadFromPersistenceFlow =  { extendedPersistence }
 ```
 
 You can further decompose the flow, since all the core pieces are exposed in the public API. More specifically:
@@ -171,11 +230,11 @@ You can further decompose the flow, since all the core pieces are exposed in the
 
 The default flow provided by Reactor ([Intro](https://github.com/MailOnline/Reactor#intro)) is something you are welcome to use, but not tied to. Keep in mind the following when creating your own flows:
 
-The `Reactor<T>`'s `fetch` function axiom:
+The `Reactor<T>`'s `fetch` function invariant:
 
 * the `loadFromPersistenceFlow` will always be called first. If it fails, `fetchFromNetwork` is called.
 
-The `Reactor<T>`'s `fetchFromNetwork` function axiom:
+The `Reactor<T>`'s `fetchFromNetwork` function invariant:
 
 * the `networkFlow` will always be called first, if it succeeds it will be followed by `saveToPersistenceFlow`.
 
