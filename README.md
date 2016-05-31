@@ -253,10 +253,10 @@ var saveToPersistenceFlow: T -> SignalProducer<T, Error>
 As mentioned, we encourage you to modify them to suit your needs. With 3rd party dependencies, you have to do exactly that. As an example, these could be the steps you would go through in order to make Alamofire compatible:
 
 1. Wrap Alamofire with ReactiveCocoa. You can see an example of that [here](https://github.com/indragiek/AlamofireRACExtensions/blob/master/AlamofireRACExtensions/AlamofireRACExtensions.swift#L14#L38), [here](http://stackoverflow.com/a/34243581/491239) and [here](https://yoichitgy.github.io/post/dependency-injection-in-mvvm-architecture-with-reactivecocoa-part-3-designing-the-model/). This is a fairly trivial task and are plenty of examples out there.
-2. Make the `NSError` used by the approaches previously mentioned into an `Error`. You can use the `mapError` operator. Ideally you should transform it into a `Error.Network`.
+2. Make the `NSError` used by the approaches previously mentioned into an `Error`. You can use the `mapError` operator. You should then transform it into an `Error.Network`.
 3. This will now depend if you have a parser in place or not.
  1. If you do, then you just need to hook up your previously wrapped Alamofire request with it. Ideally you will have a function with the following signature: `NSData -> SignalProducer<T, Error>` for the parser. Composition then becomes easy: `alamofireCall().flatMap(.Latest, transformation: parse)` (a concrete example [here](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L67)).
- 2. If you don't, you can make use of the `Mappable` protocol and the `parse` function provided by Reactor. Once you have that, you can follow [this](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L67).
+ 2. If you don't, you can make use of the `Mappable` protocol and the [`parse`](https://github.com/MailOnline/Reactor/blob/master/Reactor/Core/Parser/Parser.swift#L12#L41) function provided by Reactor. Once you have that, you can follow [this](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L67).
 
 With all this in place, the final piece is:
 
@@ -268,7 +268,7 @@ let saveToPersistence =  persistenceHandler.save
 let reactorFlow: ReactorFlow<MyModel> = ReactorFlow(network: myNetworkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistence: saveToPersistence)
 ```
 
-The `createFlow` family methods follow these approach internally, so you should [check them out](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L38#L87). 
+The `createFlow` family methods follow this approach internally, so you should [check them out](https://github.com/MailOnline/Reactor/blob/master/Reactor/Reactor/ReactorFlow.swift#L38#L87). 
 
 Other 3rd party dependencies will follow the same approach:
 
