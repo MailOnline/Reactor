@@ -31,14 +31,14 @@ public struct CoreConfiguration {
 
 public protocol FlowConfigurable {
     /// When enabled, you should pass the path where it will be stored
-    /// Othewise it's disabled
+    /// Otherwise it's disabled
     var persistenceConfiguration: PersistenceConfiguration { get }
     /// If reachability should be used.
     /// `true` by default.
     var shouldCheckReachability: Bool { get }
-    /// If the parser should be strick or prune the bad objects.
-    /// Prunning will simply remove objects that are not parsable, instead
-    /// of erroring the flow. Strick on the other hand as soon as it finds
+    /// If the parser should be strict or prune the bad objects.
+    /// Pruning will simply remove objects that are not parseable, instead
+    /// of erroring the flow. Strict on the other hand as soon as it finds
     /// a bad object will error the entire flow.
     /// Note: if you receive an entire batch of bad objects, it will default to
     /// an empty array. Witch leads to not knowing if the server has no results or
