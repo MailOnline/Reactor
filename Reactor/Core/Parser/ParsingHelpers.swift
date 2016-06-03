@@ -8,7 +8,7 @@
 
 import Result
 
-func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
+public func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
     
     var convertAndCleanArray: [T] = []
     
@@ -23,7 +23,7 @@ func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error
     return Result(value: convertAndCleanArray)
 }
 
-func prunedArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
+public func prunedArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
     
     var convertAndCleanArray: [T] = []
     
@@ -36,7 +36,7 @@ func prunedArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error
     return Result(value: convertAndCleanArray)
 }
 
-func prunedArrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> Result<[T], Error> {
+public func prunedArrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> Result<[T], Error> {
     
     guard
         let dictionary = anyObject as? [String: AnyObject],
