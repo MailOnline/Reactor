@@ -49,8 +49,8 @@ extension Reactor: ReactorType {
         
         switch saveConfiguration {
         case .Enabled(let saveInput):
-            let save = curry(flow.saveToPersistenceFlow)(saveInput)
-            let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(save)
+            let saveFlow = curry(flow.saveToPersistenceFlow)(saveInput)
+            let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(saveFlow)
             return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: saveToPersistence)
         case .Disabled:
             return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: { _ in SignalProducer.empty })
