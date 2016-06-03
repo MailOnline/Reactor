@@ -53,7 +53,7 @@ extension Reactor: ReactorType {
             let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(saveFlow)
             return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: saveToPersistence)
         case .Disabled:
-            return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: { _ in SignalProducer.empty })
+            return networkFlow
         }
     }
     
