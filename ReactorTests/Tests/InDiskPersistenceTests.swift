@@ -24,13 +24,13 @@ class InDiskPersistenceTests: XCTestCase {
         let expectation = self.expectationWithDescription("Expected to save and load single element")
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
-        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<Article>()
         
         let article = Article(title: "Hello", body: "Body", authors: [], numberOfLikes: 1)
-        let loadArticle: Void -> SignalProducer<Article, Error> = inDiskPersistence.load
+        let loadArticle: String -> SignalProducer<Article, Error> = inDiskPersistence.load
         
-        inDiskPersistence.save(article)
-            .flatMapLatest { _ in loadArticle() }
+        inDiskPersistence.save(testFileName, model: article)
+            .flatMapLatest { _ in loadArticle(self.testFileName) }
             .startWithNext { loadedArticle in
                 
                 XCTAssertEqual(article, loadedArticle)
@@ -43,15 +43,15 @@ class InDiskPersistenceTests: XCTestCase {
         let expectation = self.expectationWithDescription("Expected to save and load multiple elements")
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
-        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>()
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
         let article2 = Article(title: "Hello2", body: "Body2", authors: [], numberOfLikes: 2)
         
-        let loadArticle: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
+        let loadArticle: String -> SignalProducer<[Article], Error> = flip(curry(inDiskPersistence.load))(prunedParse)
         
-        inDiskPersistence.save([article1, article2])
-            .flatMapLatest { _ in loadArticle() }
+        inDiskPersistence.save(testFileName, models: [article1, article2])
+            .flatMapLatest { _ in loadArticle(self.testFileName) }
             .startWithNext { articles in
                 
                 XCTAssertEqual(articles, [article1, article2])
@@ -64,14 +64,14 @@ class InDiskPersistenceTests: XCTestCase {
         let expectation = self.expectationWithDescription("Expected file to be expired")
         defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
         
-        let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName, expirationTime: 1)
+        let inDiskPersistence = InDiskPersistenceHandler<Article>()
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
                 
-        inDiskPersistence.save(article1)
+        inDiskPersistence.save(testFileName, model: article1)
             .delay(1.5, onScheduler: QueueScheduler(name: "test"))
             .flatMapLatest { _ in
-                inDiskPersistence.hasPersistenceExpired()
+                inDiskPersistence.hasPersistenceExpired(self.testFileName, expirationTime: 1)
                     .mapError {_ in .Persistence("File not found")
                 }
             }

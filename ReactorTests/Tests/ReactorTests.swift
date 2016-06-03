@@ -18,6 +18,8 @@ class ReactorTests: XCTestCase {
     let baseURL = NSURL(string: "http://api.com/")!
     let turntable = Turntable(configuration: TurntableConfiguration(matchingStrategy: .TrackOrder))
     
+    var configuration: PersistenceConfiguration<String, String> { return .Enabled(self.testFileName, self.testFileName) }
+    
     override func tearDown() {
         removeTestFile(testFileName)
     }
@@ -31,13 +33,32 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
-        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
-        let loadArticles: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
         
         let flow = createMockedFlow(network)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in loadArticles() }.startWithNext { articles in
+        reactor.fetch(resource).startWithNext { articles in
+            
+            XCTAssertFalse(isMainThread())
+            XCTAssertEqual(articles.count, 3)
+            expectation.fulfill()
+        }
+    }
+    
+    func testSuccessfullNetworkCallWillPersistData() {
+        
+        let expectation = self.expectationWithDescription("Expected to persist articles after successful request")
+        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+
+        turntable.loadCassette("articles_cassette")
+        
+        let resource = Resource(path: "/test/", method: .GET)
+        let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
+        
+        let flow = createMockedFlow(network)
+        let reactor = Reactor(flow: flow)
+        
+        reactor.fetch(resource, persistenceConfiguration: configuration).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithNext { articles in
             
             XCTAssertFalse(isMainThread())
             XCTAssertEqual(articles.count, 3)
@@ -52,7 +73,7 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = NetworkLayerIsCalled(connectionCalled: { fatalError("Shouldn't be called")})
-        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>()
         let flow = createMockedFlow(network)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
@@ -60,9 +81,9 @@ class ReactorTests: XCTestCase {
         
         let reactor = Reactor(flow: flow)
         
-        inDiskPersistence.save([article1, article2]).startWithNext {_ in
+        inDiskPersistence.save(testFileName, models: [article1, article2]).startWithNext {_ in
             
-            reactor.fetch(resource).startWithNext { articles in
+            reactor.fetch(resource, persistenceConfiguration: self.configuration).startWithNext { articles in
                 
                 XCTAssertFalse(isMainThread())
                 XCTAssertEqual(articles, [article1, article2])
@@ -70,29 +91,7 @@ class ReactorTests: XCTestCase {
             }
         }
     }
-    
-    func testWithEmptyPathPersistenceIsNotReached() {
-        
-        let expectation = self.expectationWithDescription("Expected to not persist anything")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
-        
-        let resource = Resource(path: "/test/", method: .GET)
-        let network = NetworkLayerIsCalled(connectionCalled: {
-            
-            XCTAssertFalse(isMainThread())
-            expectation.fulfill()
-        })
-        
-        let networkFlow: Resource -> SignalProducer<[Article], Error> = { resource in
-            network.makeRequest(resource).map { $0.0} .flatMapLatest(prunedParse)
-        }
-        
-        let flow = ReactorFlow(networkFlow: networkFlow)
-        let reactor = Reactor(flow: flow)
-        
-        reactor.fetch(resource).start()
-    }
-    
+
     func testShouldNotPersistIfSaveToPersistenceFlowIsMissing() {
         
         let expectation = self.expectationWithDescription("Expected to fail, if no saveToPersistenceFlow is provided")
@@ -102,24 +101,24 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
-        let inDiskPersistence = InDiskPersistenceHandler<Author>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<Author>()
         
-        let loadArticles: Void -> SignalProducer<Author, Error> = inDiskPersistence.load
+        let loadArticles: String -> SignalProducer<Author, Error> = inDiskPersistence.load
         let networkFlow: Resource -> SignalProducer<Author, Error> = { resource in
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
         }
         
-        let flow = ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles)        
+        let flow = ReactorFlow<Author, String, String>(networkFlow: networkFlow, loadFromPersistenceFlow: loadArticles)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in loadArticles()}.startWithFailed { error in
+        reactor.fetch(resource).flatMapLatest { _ in loadArticles(self.testFileName)}.startWithFailed { error in
             
             XCTAssertFalse(isMainThread())
             XCTAssertEqual(error, Error.Persistence(""))
             expectation.fulfill()
         }
     }
-    
+
     func testShouldNotFailWhenSaveToPersistenceFails() {
         
         let expectation = self.expectationWithDescription("Expected to not fail, even if saveToPersistenceFlowfails")
@@ -129,10 +128,10 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
-        let inDiskPersistence = InDiskPersistenceHandler<Author>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<Author>()
         
-        let loadArticles: Void -> SignalProducer<Author, Error> = inDiskPersistence.load
-        let saveArticles: Author -> SignalProducer<Author, Error> = { _ in SignalProducer(error: .Persistence("Save failed")) }
+        let loadArticles: String -> SignalProducer<Author, Error> = inDiskPersistence.load
+        let saveArticles: (String, Author) -> SignalProducer<Author, Error> = { _ in SignalProducer(error: .Persistence("Save failed")) }
         
         let networkFlow: Resource -> SignalProducer<Author, Error> = { resource in
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
@@ -150,7 +149,7 @@ class ReactorTests: XCTestCase {
             expectation.fulfill()
         }
     }
-    
+
     func testShouldNotFailWhenSaveToPersistenceFailsButItsASideEffect() {
         
         let expectation = self.expectationWithDescription("Expected to not fail, even if saveToPersistenceFlowfails")
@@ -160,10 +159,10 @@ class ReactorTests: XCTestCase {
         
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
-        let inDiskPersistence = InDiskPersistenceHandler<Author>(persistenceFilePath: testFileName)
+        let inDiskPersistence = InDiskPersistenceHandler<Author>()
         
-        let loadArticles: Void -> SignalProducer<Author, Error> = inDiskPersistence.load
-        let saveArticles: Author -> SignalProducer<Author, Error> = { _ in SignalProducer(error: .Persistence("Save failed")) }
+        let loadArticles: String -> SignalProducer<Author, Error> = inDiskPersistence.load
+        let saveArticles: (String, Author) -> SignalProducer<Author, Error> = { _ in SignalProducer(error: .Persistence("Save failed")) }
         
         let networkFlow: Resource -> SignalProducer<Author, Error> = { resource in
             network.makeRequest(resource).map { $0.0} .flatMapLatest(parse)
@@ -182,7 +181,7 @@ class ReactorTests: XCTestCase {
             expectation.fulfill()
         }
     }
-    
+
     func testShouldNotPassWhenItIsStrickAndThereAreBadObjects() {
         
         let expectation = self.expectationWithDescription("Expected to fail, if no saveToPersistenceFlow is provided")
@@ -196,14 +195,14 @@ class ReactorTests: XCTestCase {
         let flow = createMockedFlow(network, parser: strictParse)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithFailed { error in
             
             XCTAssertFalse(isMainThread())
             XCTAssertEqual(error, Error.Parser(""))
             expectation.fulfill()
         }
     }
-    
+
     func testPersistenceExistsForSequence() {
         
         let expectation = self.expectationWithDescription("Expected to persistence to exist")
@@ -214,17 +213,17 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
         
-        let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: testFileName))
-        let flow: ReactorFlow<[Article]> = createFlow(network, configuration: configuration)
+        let configuration = FlowConfiguration()
+        let flow: ReactorFlow<[Article], String, String> = createFlow(network, configuration: configuration)
         let reactor = Reactor(flow: flow)
 
-        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithNext{ articles in
+        reactor.fetch(resource, persistenceConfiguration: .Enabled(testFileName, testFileName)).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithNext{ articles in
             
             XCTAssertFalse(isMainThread())
             expectation.fulfill()
         }
     }
-    
+
     func testPersistenceDoesntExistForSequence() {
         
         let expectation = self.expectationWithDescription("Expected to persistence to not exist")
@@ -235,17 +234,16 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
         
-        let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
-        let flow: ReactorFlow<[Article]> = createFlow(network, configuration: configuration)
+        let flow: ReactorFlow<[Article], String, String> = createFlow(network)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithFailed { error in
             
             XCTAssertFalse(isMainThread())
             expectation.fulfill()
         }
     }
-    
+
     func testPersistenceExistsForSingleModel() {
         
         let expectation = self.expectationWithDescription("Expected to persistence to exist")
@@ -256,17 +254,16 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
         
-        let configuration = FlowConfiguration(persistenceConfiguration: .Enabled(withPath: testFileName))
-        let flow: ReactorFlow<Author> = createFlow(network, configuration: configuration)
+        let flow: ReactorFlow<Author, String, String> = createFlow(network)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithNext{ author in
+        reactor.fetch(resource, persistenceConfiguration: configuration).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithNext{ author in
             
             XCTAssertFalse(isMainThread())
             expectation.fulfill()
         }
     }
-    
+
     func testPersistenceDoesntExistForSingleModel() {
         
         let expectation = self.expectationWithDescription("Expected to persistence to not exist")
@@ -277,22 +274,21 @@ class ReactorTests: XCTestCase {
         let resource = Resource(path: "/test/", method: .GET)
         let network = Network(session: turntable, baseURL: baseURL, reachability: MutableReachability())
         
-        let configuration = FlowConfiguration(persistenceConfiguration: .Disabled)
-        let flow: ReactorFlow<Author> = createFlow(network, configuration: configuration)
+        let flow: ReactorFlow<Author, String, String> = createFlow(network)
         let reactor = Reactor(flow: flow)
         
-        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow() }.startWithFailed { error in
+        reactor.fetch(resource).flatMapLatest { _ in flow.loadFromPersistenceFlow(self.testFileName) }.startWithFailed { error in
             
             XCTAssertFalse(isMainThread())
             expectation.fulfill()
         }
     }
     
-    private func createMockedFlow(connection: Connection, parser: NSData -> SignalProducer<[Article], Error> = prunedParse) -> ReactorFlow<[Article]> {
+    private func createMockedFlow(connection: Connection, parser: NSData -> SignalProducer<[Article], Error> = prunedParse) -> ReactorFlow<[Article], String, String> {
         
-        let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
-        let loadArticles: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
-        let saveArticles: [Article] -> SignalProducer<[Article], Error> = inDiskPersistence.save
+        let inDiskPersistence = InDiskPersistenceHandler<[Article]>()
+        let loadArticles: String -> SignalProducer<[Article], Error> = flip(curry(inDiskPersistence.load))(prunedParse)
+        let saveArticles: (String, [Article]) -> SignalProducer<[Article], Error> = inDiskPersistence.save
         
         let networkFlow: Resource -> SignalProducer<[Article], Error> = { resource in
             connection.makeRequest(resource).map { $0.0} .flatMapLatest(parser)
