@@ -81,7 +81,7 @@ public struct Reactor<Model, LoadInput, SaveInput> {
     public let flow: ReactorFlow<Model, LoadInput, SaveInput>
     public let configuration: CoreConfigurable
     
-    init(flow: ReactorFlow<Model, LoadInput, SaveInput>, configuration: CoreConfigurable = CoreConfiguration()) {
+    public init(flow: ReactorFlow<Model, LoadInput, SaveInput>, configuration: CoreConfigurable = CoreConfiguration()) {
         self.flow = flow
         self.configuration = configuration
     }
