@@ -26,7 +26,7 @@ public struct ReactorFlow<Model, LoadInput, SaveInput> {
     
     /// If `loadFromPersistenceFlow` is not passed, the `Reactor` will bailout and hit the network
     /// If `saveToPersistenceFlow` is not passed, the `Reactor` will persist anything
-    init(networkFlow: NetworkFlow, loadFromPersistenceFlow: LoadFromPersistenceFlow = {_ in SignalProducer(error: .Persistence("Persistence bailout"))}, saveToPersistenceFlow: SaveToPersistenceFlow = { (saveInput, models) in SignalProducer(value: models)}) {
+    public init(networkFlow: NetworkFlow, loadFromPersistenceFlow: LoadFromPersistenceFlow = {_ in SignalProducer(error: .Persistence("Persistence bailout"))}, saveToPersistenceFlow: SaveToPersistenceFlow = { (saveInput, models) in SignalProducer(value: models)}) {
         
         self.networkFlow = networkFlow
         self.loadFromPersistenceFlow = loadFromPersistenceFlow
