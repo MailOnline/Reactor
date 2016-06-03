@@ -6,7 +6,7 @@ before_install:
   - rm "Carthage.pkg"
 script:
   - set -o pipefail
-  - carthage bootstrap --use-ssh --platform iOS
+  - carthage bootstrap --platform iOS
   -  xcodebuild test -scheme Reactor-iOS -sdk iphonesimulator | xcpretty
 notifications:
   slack: mailonline:CvgBKsRkoSBcuafeSy46hUKB
