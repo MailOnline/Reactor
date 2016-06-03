@@ -14,7 +14,7 @@ public enum Configuration<ConfigurationInput> {
 }
 
 public enum PersistenceConfiguration<LoadInput, SaveInput> {
-    case Enabled(LoadInput, Configuration<SaveInput>)
+    case Enabled(LoadInput, SaveInput)
     case Disabled
 }
 
@@ -35,7 +35,7 @@ extension Reactor: ReactorType {
         case .Enabled(let loadInput, let saveConfiguration):
             return flow.loadFromPersistenceFlow(loadInput)
                 .startOn(QueueScheduler(name: "queue.reactor"))
-                .flatMapError { _ in self.fetchFromNetwork (resource, saveConfiguration: saveConfiguration) }
+                .flatMapError { _ in self.fetchFromNetwork (resource, saveConfiguration: .Enabled(saveConfiguration)) }
         case .Disabled:
             return self.fetchFromNetwork(resource)
         }
