@@ -32,10 +32,8 @@ extension InDiskPersistenceHandler where T: Mappable {
 extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: Mappable {
     
     /// Used to load a Sequence of `Mappable` elements from persistence
-    public func load(path: String) -> SignalProducer<T, Error> {
+    public func load(path: String, parser: NSData -> SignalProducer<T, Error> = prunedParse) -> SignalProducer<T, Error> {
         
-        let parser: NSData -> SignalProducer<T, Error> = flip(curry(parse))(prunedArrayFromJSON)
-
         return readFileData(path)
             .flatMapLatest(parser)
     }
@@ -55,15 +53,9 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
 /// Used to persist a `T` in disk. The `T` or the `Sequence.Generator.Element` must be `Mappable`, in order for it work
 public final class InDiskPersistenceHandler<T> {
     
-    private let expirationTime: NSTimeInterval
-    
-    public init(expirationTime: NSTimeInterval = 2) {
-        self.expirationTime = expirationTime
-    }
-    
     /// Check if a file has experied. The expiration time is based on the 
     /// TimeInterval passed when the InDiskPersistenceHandler is created
-    public func hasPersistenceExpired(path: String) -> SignalProducer<Bool, NoError> {
+    public func hasPersistenceExpired(path: String, expirationTime: NSTimeInterval = 2) -> SignalProducer<Bool, NoError> {
         
         let didExpire = flip(curry(didCacheExpired))(expirationTime)
         return fileCreationDate(path)

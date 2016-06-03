@@ -61,7 +61,7 @@ public func createFlow<Model where Model: SequenceType, Model.Generator.Element:
     let networkFlow: Resource -> SignalProducer<Model, Error> = { resource in connection.makeRequest(resource).map { $0.0}.flatMapLatest(parser) }
     
     let persistenceHandler = InDiskPersistenceHandler<Model>()
-    let loadFromPersistence = persistenceHandler.load
+    let loadFromPersistence = flip(curry(persistenceHandler.load))(parser)
     let saveToPersistence =  persistenceHandler.save
     
     return ReactorFlow(networkFlow: networkFlow, loadFromPersistenceFlow: loadFromPersistence, saveToPersistenceFlow: saveToPersistence)
