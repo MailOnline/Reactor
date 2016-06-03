@@ -12,16 +12,16 @@ import ReactiveCocoa
 extension InDiskPersistenceHandler where T: Mappable {
     
     /// Used to load a single `Mappable` element from persistence
-    public func load() -> SignalProducer<T, Error> {
-        return readFileData(persistenceFilePath)
+    public func load(path: String) -> SignalProducer<T, Error> {
+        return readFileData(path)
             .flatMapLatest(parse)
     }
     
     /// Used to save to persistence a single `Mappable` element into persistence
     /// The model is returned back when saved.
-    public func save(model: T) -> SignalProducer<T, Error> {
+    public func save(path: String, model: T) ->  SignalProducer<T, Error> {
         
-        let writeData = curry(writeToFile)(persistenceFilePath)
+        let writeData = curry(writeToFile)(path)
         
         return encode(model)
             .flatMapLatest(writeData)
@@ -32,19 +32,19 @@ extension InDiskPersistenceHandler where T: Mappable {
 extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: Mappable {
     
     /// Used to load a Sequence of `Mappable` elements from persistence
-    public func load() -> SignalProducer<T, Error> {
+    public func load(path: String) -> SignalProducer<T, Error> {
         
         let parser: NSData -> SignalProducer<T, Error> = flip(curry(parse))(prunedArrayFromJSON)
 
-        return readFileData(persistenceFilePath)
+        return readFileData(path)
             .flatMapLatest(parser)
     }
     
     /// Used to save to persistence a Sequence of `Mappable` elements into persistence
     /// The models are returned back when saved.
-    public func save(models: T) ->  SignalProducer<T, Error> {
+    public func save(path: String, models: T) ->  SignalProducer<T, Error> {
         
-        let writeData = curry(writeToFile)(persistenceFilePath)
+        let writeData = curry(writeToFile)(path)
         
         return encode(models)
             .flatMapLatest(writeData)
@@ -55,21 +55,18 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
 /// Used to persist a `T` in disk. The `T` or the `Sequence.Generator.Element` must be `Mappable`, in order for it work
 public final class InDiskPersistenceHandler<T> {
     
-    private let persistenceFilePath: String
     private let expirationTime: NSTimeInterval
     
-    public init(persistenceFilePath: String, expirationTime: NSTimeInterval = 2) {
-        
-        self.persistenceFilePath = persistenceFilePath
+    public init(expirationTime: NSTimeInterval = 2) {
         self.expirationTime = expirationTime
     }
     
     /// Check if a file has experied. The expiration time is based on the 
     /// TimeInterval passed when the InDiskPersistenceHandler is created
-    public func hasPersistenceExpired() -> SignalProducer<Bool, NoError> {
+    public func hasPersistenceExpired(path: String) -> SignalProducer<Bool, NoError> {
         
         let didExpire = flip(curry(didCacheExpired))(expirationTime)
-        return fileCreationDate(persistenceFilePath)
+        return fileCreationDate(path)
             .flatMapLatest{ SignalProducer(value: $0) }
             .flatMapLatest(didExpire)
             .flatMapError{ _ in SignalProducer(value: true) }
