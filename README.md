@@ -52,6 +52,10 @@ github "MailOnline/Reactor"
 pod 'MOReactor', '~> 0.9'
 ```
 
+#### Manually
+1. Download and drop ```/Reactor``` folder in your project.  
+2. Congratulations!  
+
 ### Basic setup
 
 For Reactor to work, you need to make sure your Model objects comply with the `Mappable` protocol. This protocol allows you to encode and decode an object. This is necessary for parsing the object (coming from the network) and storing it on disk.
