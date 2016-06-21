@@ -53,8 +53,8 @@ pod 'MOReactor', '~> 0.9'
 ```
 
 #### Manually
-1. Download and drop ```/Reactor``` folder in your project.  
-2. Congratulations!  
+
+Download and drop ```/Reactor``` folder in your project.  
 
 ### Basic setup
 
