@@ -10,20 +10,6 @@ import Foundation
 import Result
 @testable import Reactor
 
-private func arrayToJSON<T: Mappable>(input: [T]) -> AnyObject {
-    
-    var a: [AnyObject] = []
-    
-    for i in input {
-        
-        let o = i.mapToJSON()
-        a.append(o)
-        
-    }
-    
-    return a
-}
-
 struct Author {
     let name: String
 }

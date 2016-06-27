@@ -8,71 +8,81 @@
 
 import ReactiveCocoa
 
-/// The `Reactor` is nothing more than an assembler of flows.
-/// A typical iOS app will have a network call, a persistence and next time the same call is made
-/// it will check the persistence first. The Reactor's job is to facilitate this process by assembling the flows
-/// passed in a `ReactorFlow`
-public struct Reactor<T> {
-    
-    private let flow: ReactorFlow<T>
-    private let configuration: CoreConfigurable
-    
-    init(flow: ReactorFlow<T>, configuration: CoreConfigurable = CoreConfiguration()) {
-        
-        self.flow = flow
-        self.configuration = configuration
-    }
-    
-    /// It will check the persistence first, if it fails it will internally call `fetchFromNetwork`
-    public func fetch(resource: Resource) -> SignalProducer<T, Error> {
-        
-        return flow.loadFromPersistenceFlow()
-            .startOn(QueueScheduler(name: "Reactor"))
-            .flatMapError { _ in self.fetchFromNetwork (resource) }
-    }
+public enum Configuration<ConfigurationInput> {
+    case Enabled(ConfigurationInput)
+    case Disabled
+}
 
-    /// It will fetch from the network, if successful it will persist the data.
-    public func fetchFromNetwork(resource: Resource) -> SignalProducer<T, Error> {
+public enum PersistenceConfiguration<LoadInput, SaveInput> {
+    case Enabled(LoadInput, SaveInput)
+    case Disabled
+}
+
+public protocol ReactorType {
+    associatedtype Model
+    associatedtype LoadInput
+    associatedtype SaveInput
+    
+    var flow: ReactorFlow<Model, LoadInput, SaveInput> { get }
+    var configuration: CoreConfigurable { get }
+}
+
+extension Reactor: ReactorType {
+    
+    public func fetch(resource: Resource, persistenceConfiguration: PersistenceConfiguration<LoadInput, SaveInput> = .Disabled) -> SignalProducer<Model, Error> {
         
-        let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(flow.saveToPersistenceFlow)
+        switch persistenceConfiguration {
+        case .Enabled(let loadInput, let saveConfiguration):
+            return flow.loadFromPersistenceFlow(loadInput)
+                .startOn(QueueScheduler(name: "queue.reactor"))
+                .flatMapError { _ in self.fetchFromNetwork (resource, saveConfiguration: .Enabled(saveConfiguration)) }
+        case .Disabled:
+            return self.fetchFromNetwork(resource)
+        }
+    }
+    
+    /// It will fetch from the network, skipping the persistence
+    public func fetchFromNetwork(resource: Resource, saveConfiguration: Configuration<SaveInput> = .Disabled) -> SignalProducer<Model, Error> {
         
         let networkFlow = flow.networkFlow(resource)
-            .startOn(QueueScheduler(name: "Reactor"))
+            .startOn(QueueScheduler(name: "queue.reactor"))
         
-        return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: saveToPersistence)
+        switch saveConfiguration {
+        case .Enabled(let saveInput):
+            let saveFlow = curry(flow.saveToPersistenceFlow)(saveInput)
+            let saveToPersistence = flip(curry(shouldFailSaveToPersistenceModifier))(saveFlow)
+            return shouldWaitForSaveToPersistence(networkFlow, saveToPersistenceFlow: saveToPersistence)
+        case .Disabled:
+            return networkFlow
+        }
     }
     
-    private func shouldFailSaveToPersistenceModifier(result: T, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
+    private func shouldFailSaveToPersistenceModifier(result: Model, saveToPersistenceFlow: Model -> SignalProducer<Model, Error>) -> SignalProducer<Model, Error> {
         
         guard configuration.shouldFailWhenSaveToPersistenceFails == false else { return saveToPersistenceFlow(result) }
         
         return saveToPersistenceFlow(result).flatMapError { _ in SignalProducer(value: result) }
     }
     
-    private func shouldWaitForSaveToPersistence(flow: SignalProducer<T, Error>, saveToPersistenceFlow: T -> SignalProducer<T, Error>) -> SignalProducer<T, Error> {
+    private func shouldWaitForSaveToPersistence(flow: SignalProducer<Model, Error>, saveToPersistenceFlow: Model -> SignalProducer<Model, Error>) -> SignalProducer<Model, Error> {
         
         guard configuration.shouldWaitForSaveToPersistence == false else { return flow.flatMapLatest(saveToPersistenceFlow) }
         
-        let saveToPersistence: T -> Void = { saveToPersistenceFlow($0).start() }
-        
-        return flow.injectSideEffect(saveToPersistence)
+        return flow.injectSideEffect { saveToPersistenceFlow($0).start() }
     }
 }
 
-public extension Reactor where T: Mappable {
+/// The `Reactor` is nothing more than an assembler of flows.
+/// A typical iOS app will have a network call, a persistence and next time the same call is made
+/// it will check the persistence first. The Reactor's job is to facilitate this process by assembling the flows
+/// passed in a `ReactorFlow`
+public struct Reactor<Model, LoadInput, SaveInput> {
     
-    // Convenience initializer to create a `ReactorFlow` for a single `T: Mappable`
-    public init (baseURL: NSURL, configuration: protocol<CoreConfigurable, FlowConfigurable>) {
-        self.flow = createFlow(baseURL, configuration: configuration)
-        self.configuration = configuration
-    }
-}
-
-public extension Reactor where T: SequenceType, T.Generator.Element: Mappable {
+    public let flow: ReactorFlow<Model, LoadInput, SaveInput>
+    public let configuration: CoreConfigurable
     
-    // Convenience initializer to create a `ReactorFlow` for a `SequenceType` of `T: Mappable`
-    public init (baseURL: NSURL, configuration: protocol<CoreConfigurable, FlowConfigurable>) {
-        self.flow = createFlow(baseURL, configuration: configuration)
+    public init(flow: ReactorFlow<Model, LoadInput, SaveInput>, configuration: CoreConfigurable = CoreConfiguration()) {
+        self.flow = flow
         self.configuration = configuration
     }
 }

@@ -9,7 +9,7 @@
 import Result
 import ReactiveCocoa
 
-func writeToFile(fullPath: String, data: NSData) -> SignalProducer<NSData, Error> {
+public func writeToFile(fullPath: String, data: NSData) -> SignalProducer<NSData, Error> {
     
     return SignalProducer { o, d in
         do
@@ -25,7 +25,7 @@ func writeToFile(fullPath: String, data: NSData) -> SignalProducer<NSData, Error
     }
 }
 
-func readFileData(fullPath: String) -> SignalProducer<NSData, Error> {
+public func readFileData(fullPath: String) -> SignalProducer<NSData, Error> {
     return SignalProducer { o, d in
         do
         {
@@ -39,7 +39,7 @@ func readFileData(fullPath: String) -> SignalProducer<NSData, Error> {
     }
 }
 
-func fileCreationDate(fullPath: String) -> SignalProducer<NSDate, Error> {
+public func fileCreationDate(fullPath: String) -> SignalProducer<NSDate, Error> {
     return SignalProducer { o, d in
         do
         {
@@ -58,26 +58,26 @@ func fileCreationDate(fullPath: String) -> SignalProducer<NSDate, Error> {
     }
 }
 
-func doesFileExists(fullPath: String) -> SignalProducer<Bool, NoError> {
+public func doesFileExists(fullPath: String) -> SignalProducer<Bool, NoError> {
     return SignalProducer { o, d in
         o.sendNext(NSFileManager().fileExistsAtPath(fullPath))
         o.sendCompleted()
     }   
 }
 
-func appendRelativePathToRoot(relativePath: String, rootPath: String = documentsRootPath) -> String {
+public func appendRelativePathToRoot(relativePath: String, rootPath: String = documentsRootPath) -> String {
     return (rootPath as NSString).stringByAppendingPathComponent(relativePath)
 }
 
-let documentsRootPath: String = {
+public let documentsRootPath: String = {
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
     }()
 
-func dateLaterThan(date: NSDate, seconds: NSTimeInterval) -> Bool {
+public func dateLaterThan(date: NSDate, seconds: NSTimeInterval) -> Bool {
     return abs(date.timeIntervalSinceNow) > seconds
 }
 
-func didCacheExpired(date: NSDate, laterThan seconds: NSTimeInterval) -> SignalProducer<Bool, Error> {
+public func didCacheExpired(date: NSDate, laterThan seconds: NSTimeInterval) -> SignalProducer<Bool, Error> {
     return SignalProducer {o, d in
         let laterThan = dateLaterThan(date, seconds: seconds)
         

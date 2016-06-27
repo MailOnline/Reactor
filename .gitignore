@@ -26,3 +26,5 @@ config/releasenotes.txt
 .bundle
 *.xcuserstate
 *.ipa
+
+Carthage/Build

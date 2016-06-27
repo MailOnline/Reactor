@@ -30,9 +30,6 @@ public struct CoreConfiguration {
 }
 
 public protocol FlowConfigurable {
-    /// When enabled, you should pass the path where it will be stored
-    /// Otherwise it's disabled
-    var persistenceConfiguration: PersistenceConfiguration { get }
     /// If reachability should be used.
     /// `true` by default.
     var shouldCheckReachability: Bool { get }
@@ -47,22 +44,22 @@ public protocol FlowConfigurable {
     var shouldPrune: Bool { get }
 }
 
-public typealias PathToPersistence = String
-public enum PersistenceConfiguration {
-    case Enabled(withPath: PathToPersistence)
-    case Disabled
-}
+//public typealias PathToPersistence = String
+//public enum PersistenceConfiguration {
+//    case Enabled(withPath: PathToPersistence)
+//    case Disabled
+//}
 
 extension FlowConfiguration: FlowConfigurable {}
 
 /// Configuration object to customize the Reactor's behaviour
 public struct FlowConfiguration {
 
-    public var persistenceConfiguration: PersistenceConfiguration
+//    public var persistenceConfiguration: PersistenceConfiguration
     public var shouldCheckReachability: Bool = true
     public var shouldPrune: Bool = true
     
-    public init(persistenceConfiguration: PersistenceConfiguration) {
-        self.persistenceConfiguration = persistenceConfiguration
-    }
+//    public init(persistenceConfiguration: PersistenceConfiguration) {
+//        self.persistenceConfiguration = persistenceConfiguration
+//    }
 }
