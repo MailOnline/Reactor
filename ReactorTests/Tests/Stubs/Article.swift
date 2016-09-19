@@ -10,7 +10,7 @@ import Foundation
 import Result
 @testable import Reactor
 
-private func arrayToJSON<T: Mappable>(input: [T]) -> AnyObject {
+private func arrayToJSON<T: Mappable>(_ input: [T]) -> AnyObject {
     
     var a: [AnyObject] = []
     
@@ -21,7 +21,7 @@ private func arrayToJSON<T: Mappable>(input: [T]) -> AnyObject {
         
     }
     
-    return a
+    return a as AnyObject
 }
 
 struct Author {
@@ -50,12 +50,12 @@ func == (lhs: Article, rhs: Article) -> Bool {
 
 extension Author: Mappable {
     
-    static func mapToModel(object: AnyObject) -> Result<Author, MappedError> {
+    static func mapToModel(_ object: AnyObject) -> Result<Author, MappedError> {
         
         guard
             let dictionary = object as? [String: AnyObject],
             let name = dictionary["name"] as? String
-            else { return Result(error: MappedError.Custom("Invalid dictionary @ \(Author.self)\n \(object)"))}
+            else { return Result(error: MappedError.custom("Invalid dictionary @ \(Author.self)\n \(object)"))}
         
         let author = Author(name: name)
         
@@ -64,23 +64,24 @@ extension Author: Mappable {
     
     func mapToJSON() -> AnyObject {
         
-        return ["name": self.name]
+        return ["name": self.name] as AnyObject
     }
 }
 
 extension Article: Mappable {
     
-    static func mapToModel(object: AnyObject) -> Result<Article, MappedError> {
-        
+    static func mapToModel(_ object: AnyObject) -> Result<Article, MappedError> {
+
+        let authorsResult: Result<[Author], ReactorError> = prunedArrayFromJSON(object, key: "authors")
+
         guard
             let dictionary = object as? [String: AnyObject],
             let title = dictionary["title"] as? String,
             let body = dictionary["body"] as? String,
-            let authorsResult: Result<[Author], Error> = prunedArrayFromJSON(dictionary, key: "authors"),
-            case .Success(let authors) = authorsResult,
+            case .success(let authors) = authorsResult,
             let numberOfLikes = dictionary["numberOfLikes"] as? Int
-            else { return Result(error: MappedError.Custom("Invalid dictionary @ \(Article.self)\n \(object)"))}
-        
+            else { return Result(error: MappedError.custom("Invalid dictionary @ \(Article.self)\n \(object)"))}
+
         let video = Article(title: title, body: body, authors: authors, numberOfLikes: numberOfLikes)
         
         return Result(value: video)
@@ -90,11 +91,11 @@ extension Article: Mappable {
         
         var d: [String:AnyObject] = [:]
         
-        d["title"] = title
-        d["body"] = body
+        d["title"] = title as AnyObject?
+        d["body"] = body as AnyObject?
         d["authors"] = arrayToJSON(authors)
-        d["numberOfLikes"] = numberOfLikes
+        d["numberOfLikes"] = numberOfLikes as AnyObject?
         
-        return d
+        return d as AnyObject
     }
 }

@@ -6,21 +6,21 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-import ReactiveCocoa
+import ReactiveSwift
 @testable import Reactor
 
 class NetworkLayerIsCalled : Connection  {
     
     var reachability: Reachable = MutableReachability()
     
-    private let connectionCalled: Void -> Void
+    private let connectionCalled: (Void) -> Void
     
-    init(connectionCalled: Void -> Void) {
+    init(connectionCalled: @escaping (Void) -> Void) {
         
         self.connectionCalled = connectionCalled
     }
     
-    func makeRequest(resource: Resource) -> Response {
+    func makeRequest(_ resource: Resource) -> Response {
         connectionCalled()
         return SignalProducer.empty
     }

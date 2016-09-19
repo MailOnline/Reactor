@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 @testable import Reactor
 
@@ -15,22 +15,22 @@ class InMemoryPersistenceTests: XCTestCase {
     
     func testFailedLoading() {
         
-        let expectation = self.expectationWithDescription("Expected to fail")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to fail")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
 
         let cache: Cache<Article> = Cache()
         let inMemoryPersistence = InMemoryPersistenceHandler(cache: cache)
 
         inMemoryPersistence.load(1).startWithFailed { error in
-            XCTAssertEqual(Error.Persistence(""), error)
+            XCTAssertEqual(ReactorError.persistence(""), error)
             expectation.fulfill()
         }
     }
     
     func testSingleElementSaveAndLoad() {
         
-        let expectation = self.expectationWithDescription("Expected to save and load single element")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to save and load single element")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let cache: Cache<Article> = Cache()
         let inMemoryPersistence = InMemoryPersistenceHandler(cache: cache)
@@ -39,17 +39,17 @@ class InMemoryPersistenceTests: XCTestCase {
         
         inMemoryPersistence.save(article)
             .flatMapLatest { inMemoryPersistence.load($0.hashValue)}
-            .startWithNext { loadedArticle in
+            .startWithResult { loadedArticle in
                 
-                XCTAssertEqual(article, loadedArticle)
+                XCTAssertEqual(article, loadedArticle.value!)
                 expectation.fulfill()
         }
     }
     
     func testMultipleElementsSaveAndLoad() {
         
-        let expectation = self.expectationWithDescription("Expected to save and load multiple elements")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to save and load multiple elements")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let cache: Cache<Article> = Cache()
         let inMemoryPersistence = InMemoryPersistenceHandler(cache: cache)
@@ -60,9 +60,9 @@ class InMemoryPersistenceTests: XCTestCase {
         let articles = [article1, article2]
         inMemoryPersistence.save(articles)
             .flatMapLatest { _ in inMemoryPersistence.load() }
-            .startWithNext { articlesStored in
+            .startWithResult { articlesStored in
                 
-                XCTAssertEqual(articles.count, articlesStored.count)
+                XCTAssertEqual(articles.count, articlesStored.value!.count)
                 expectation.fulfill()
         }
     }

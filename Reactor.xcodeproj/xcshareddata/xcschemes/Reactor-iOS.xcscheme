@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -33,7 +33,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C7BE699F1C93419E00EA9462"
+               BlueprintIdentifier = "C76D70FB1D8C2AB0000ADF6E"
                BuildableName = "ReactorTests-iOS.xctest"
                BlueprintName = "ReactorTests-iOS"
                ReferencedContainer = "container:Reactor.xcodeproj">

@@ -6,9 +6,9 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-import ReactiveCocoa
+import ReactiveSwift
 
-public typealias ResponseModifier = (NSData, NSURLResponse) -> Response
+public typealias ResponseModifier = (Data, URLResponse) -> Response
 
 /// Concrete implementation of the Connection protocol.
 /// Offers a `responseModifiers`, that allows the consumer to inject custom logic.
@@ -34,12 +34,12 @@ public typealias ResponseModifier = (NSData, NSURLResponse) -> Response
 ///
 public final class Network: Connection {
     
-    public let session: NSURLSession
-    public let baseURL: NSURL
+    public let session: URLSession
+    public let baseURL: URL
     public let reachability: Reachable
     public let responseModifier: ResponseModifier
     
-    init(session: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration()), baseURL: NSURL, reachability: Reachable = Reachability(), responseModifier: ResponseModifier = SignalProducer.identity) {
+    init(session: URLSession = URLSession(configuration: URLSessionConfiguration.default), baseURL: URL, reachability: Reachable = Reachability(), responseModifier: @escaping ResponseModifier = SignalProducer.identity) {
         
         self.session = session
         self.baseURL = baseURL
@@ -47,24 +47,24 @@ public final class Network: Connection {
         self.responseModifier = responseModifier
     }
     
-   public func makeRequest(resource: Resource) -> Response {
+   public func makeRequest(_ resource: Resource) -> Response {
         
         let request = resource.toRequest(self.baseURL)
         
         let networkRequest = self.session
-            .rac_dataWithRequest(request)
-            .mapError { .Server($0.localizedDescription) }
+            .rac_data(with: request)
+            .mapError { .server($0.localizedDescription) }
             .flatMapLatest(self.responseModifier)
         
-        let isReachable: Bool -> Response = { isReachable in
-            guard isReachable else { return SignalProducer(error: .NoConnectivity) }
+        let isReachable: (Bool) -> Response = { isReachable in
+            guard isReachable else { return SignalProducer(error: .noConnectivity) }
             return networkRequest
         }
         
         return reachability.isConnected()
-            .mapError { _ in Error.NoConnectivity }
+            .mapError { _ in ReactorError.noConnectivity }
             .flatMapLatest(isReachable)
-            .startOn(QueueScheduler(name: "Network"))
+            .start(on: QueueScheduler(name: "Network"))
     }
     
     deinit {

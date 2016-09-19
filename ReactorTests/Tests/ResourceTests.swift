@@ -19,15 +19,15 @@ class ResourceTests: XCTestCase {
     }
     
     func testEqualityForNonNilBody() {
-        let resource1 = Resource(path: "/path/1", method: .GET, body: NSData())
-        let resource2 = Resource(path: "/path/1", method: .GET, body: NSData())
+        let resource1 = Resource(path: "/path/1", method: .GET, body: Data())
+        let resource2 = Resource(path: "/path/1", method: .GET, body: Data())
         
         XCTAssertEqual(resource1, resource2)
     }
     
     func testInequalityForDifferentBody() {
         let resource1 = Resource(path: "/path/1", method: .GET)
-        let resource2 = Resource(path: "/path/1", method: .GET, body: NSData())
+        let resource2 = Resource(path: "/path/1", method: .GET, body: Data())
         
         XCTAssertNotEqual(resource1, resource2)
         XCTAssertNotEqual(resource2, resource1)
@@ -40,18 +40,18 @@ class ResourceTests: XCTestCase {
     }
     
     func testRequestConversion() {
-        let body = "Hello World".dataUsingEncoding(NSUTF8StringEncoding)
+        let body = "Hello World".data(using: String.Encoding.utf8)
         let headers = ["key" : "value"]
-        let baseURL = NSURL(string: "http://dailyMail.api")
+        let baseURL = URL(string: "http://dailyMail.api")
         
         let resource = Resource(path: "/path/1", method: .GET, body: body, headers: headers)
         let request = resource.toRequest(baseURL!)
         
-        XCTAssertEqual(request.URL!, baseURL?.URLByAppendingPathComponent(resource.path))
-        XCTAssertEqual(request.HTTPMethod!, resource.method.rawValue)
+        XCTAssertEqual(request.url!, baseURL?.appendingPathComponent(resource.path))
+        XCTAssertEqual(request.httpMethod!, resource.method.rawValue)
         XCTAssertEqual(request.allHTTPHeaderFields!, resource.headers)
         XCTAssertEqual(request.allHTTPHeaderFields!, resource.headers)
-        XCTAssertEqual(request.HTTPBody!, resource.body!)
+        XCTAssertEqual(request.httpBody!, resource.body!)
     }
     
     func testAddingNewHeaderWithEmptyHeaders() {
@@ -69,11 +69,12 @@ class ResourceTests: XCTestCase {
         XCTAssertEqual(newResource.headers.keys.count, 2)
         XCTAssertEqual(newResource.headers["key1"], "value1")
     }
-    
+
     func testQuery() {
         let resource = Resource(path: "/path/1", method: .GET, body: nil, query: ["key1": "value1", "key2":"value2"])
-        let request = resource.toRequest(NSURL(string: "http://api.com/")!)
+        let request = resource.toRequest(URL(string: "http://api.com/")!)
 
-        XCTAssertEqual(request.URL?.absoluteString, "http://api.com/path/1?key1=value1&key2=value2")
+        XCTAssertTrue((request.url!.absoluteString.contains("key1=value1")))
+        XCTAssertTrue((request.url!.absoluteString.contains("key2=value2")))
     }
 }

@@ -8,16 +8,16 @@
 
 import Foundation
 
-func removeTestFile(path: String) {
-    let fileManager = NSFileManager()
+func removeTestFile(_ path: String) {
+    let fileManager = FileManager()
     
-    if (fileManager.fileExistsAtPath(path)) {
-        try! fileManager.removeItemAtPath(path)
+    if (fileManager.fileExists(atPath: path)) {
+        try! fileManager.removeItem(atPath: path)
     }
 }
 
-func fileExists(path: String) -> Bool {
-    let fileManager = NSFileManager()
+func fileExists(_ path: String) -> Bool {
+    let fileManager = FileManager()
     
-    return fileManager.fileExistsAtPath(path)
+    return fileManager.fileExists(atPath: path)
 }

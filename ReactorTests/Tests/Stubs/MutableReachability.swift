@@ -7,7 +7,7 @@
 //
 
 import Result
-import ReactiveCocoa
+import ReactiveSwift
 @testable import Reactor
 
 struct MutableReachability: Reachable {

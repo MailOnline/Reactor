@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 @testable import Reactor
 
@@ -21,63 +21,63 @@ class InDiskPersistenceTests: XCTestCase {
     
     func testSingleElementSaveAndLoad() {
         
-        let expectation = self.expectationWithDescription("Expected to save and load single element")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to save and load single element")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName)
         
         let article = Article(title: "Hello", body: "Body", authors: [], numberOfLikes: 1)
-        let loadArticle: Void -> SignalProducer<Article, Error> = inDiskPersistence.load
+        let loadArticle: (Void) -> SignalProducer<Article, ReactorError> = inDiskPersistence.load
         
         inDiskPersistence.save(article)
             .flatMapLatest { _ in loadArticle() }
-            .startWithNext { loadedArticle in
+            .startWithResult { loadedArticle in
                 
-                XCTAssertEqual(article, loadedArticle)
+                XCTAssertEqual(article, loadedArticle.value!)
                 expectation.fulfill()
         }
     }
     
     func testMultipleElementsSaveAndLoad() {
         
-        let expectation = self.expectationWithDescription("Expected to save and load multiple elements")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to save and load multiple elements")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let inDiskPersistence = InDiskPersistenceHandler<[Article]>(persistenceFilePath: testFileName)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
         let article2 = Article(title: "Hello2", body: "Body2", authors: [], numberOfLikes: 2)
         
-        let loadArticle: Void -> SignalProducer<[Article], Error> = inDiskPersistence.load
+        let loadArticle: (Void) -> SignalProducer<[Article], ReactorError> = inDiskPersistence.load
         
         inDiskPersistence.save([article1, article2])
             .flatMapLatest { _ in loadArticle() }
-            .startWithNext { articles in
+            .startWithResult { articles in
                 
-                XCTAssertEqual(articles, [article1, article2])
+                XCTAssertEqual(articles.value!, [article1, article2])
                 expectation.fulfill()
         }
     }
     
     func testFileExpiration() {
         
-        let expectation = self.expectationWithDescription("Expected file to be expired")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected file to be expired")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let inDiskPersistence = InDiskPersistenceHandler<Article>(persistenceFilePath: testFileName, expirationTime: 1)
         
         let article1 = Article(title: "Hello1", body: "Body1", authors: [], numberOfLikes: 1)
                 
         inDiskPersistence.save(article1)
-            .delay(1.5, onScheduler: QueueScheduler(name: "test"))
+            .delay(1.5, on: QueueScheduler(name: "test"))
             .flatMapLatest { _ in
                 inDiskPersistence.hasPersistenceExpired()
-                    .mapError {_ in .Persistence("File not found")
+                    .mapError {_ in .persistence("File not found")
                 }
             }
-            .startWithNext { didExpired in
+            .startWithResult { didExpired in
                 
-                XCTAssertTrue(didExpired)
+                XCTAssertTrue(didExpired.value!)
                 expectation.fulfill()
         }
     }

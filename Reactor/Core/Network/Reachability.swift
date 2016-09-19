@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mail Online. All rights reserved.
 //
 
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 import SystemConfiguration
 
@@ -25,11 +25,13 @@ public class Reachability: Reachable {
     public func isConnected() -> SignalProducer<Bool, NoError> {
         
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
         
-        guard let defaultRouteReachability = withUnsafePointer(&zeroAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
         }) else {
             return SignalProducer(value: false)
         }
@@ -39,8 +41,8 @@ public class Reachability: Reachable {
             return SignalProducer(value: false)
         }
         
-        let isReachable = flags.contains(.Reachable)
-        let needsConnection = flags.contains(.ConnectionRequired)
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
         return SignalProducer(value:isReachable && !needsConnection)
     }
 }

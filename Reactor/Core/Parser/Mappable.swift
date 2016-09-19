@@ -9,12 +9,12 @@
 import Result
 
 /// This should be used when there is an error at the parsing level for better debugging
-public enum MappedError: ErrorType {
-    case Custom(String)
+public enum MappedError: Error {
+    case custom(String)
     
     var description: String {
         switch self {
-        case .Custom(let description): return description
+        case .custom(let description): return description
         }
     }
 }
@@ -24,7 +24,7 @@ public enum MappedError: ErrorType {
 public protocol Mappable {
     
     /// Converts the object from a `AnyObject` (Dictionary) to Itself.
-    static func mapToModel(o: AnyObject) -> Result<Self, MappedError>
+    static func mapToModel(_ o: AnyObject) -> Result<Self, MappedError>
     
     /// Converts the object from a `AnyObject` (Dictionary) to Itself.
     /// You can simply return `NSNull()` if it doesn't make sense in your context to do that.
