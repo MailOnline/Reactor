@@ -7,27 +7,27 @@
 //
 
 import Result
-import ReactiveCocoa
+import ReactiveSwift
 
 protocol InMemoryElementsPersistence {
     
     associatedtype Model: Hashable
 
-    func load(hash: Int) -> SignalProducer<Model, Error>
-    func save(model: Model) ->  SignalProducer<Model, Error>
+    func load(_ hash: Int) -> SignalProducer<Model, ReactorError>
+    func save(_ model: Model) ->  SignalProducer<Model, ReactorError>
 }
 
 protocol InMemoryElementPersistence {
     
     associatedtype Model: Hashable
     
-    func load() -> SignalProducer<[Model], Error>
-    func save(models: [Model]) ->  SignalProducer<[Model], Error>
+    func load() -> SignalProducer<[Model], ReactorError>
+    func save(_ models: [Model]) ->  SignalProducer<[Model], ReactorError>
 }
 
-typealias InMemoryPersistence = protocol <InMemoryElementPersistence, InMemoryElementsPersistence>
+typealias InMemoryPersistence = (InMemoryElementPersistence & InMemoryElementsPersistence)
 
-final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPersistence {
+final class InMemoryPersistenceHandler<T>: InMemoryPersistence where T: Hashable {
     
     private let cache: Cache<T>
     
@@ -36,45 +36,45 @@ final class InMemoryPersistenceHandler<T where T: Hashable>: InMemoryPersistence
         self.cache = cache
     }
     
-    func load(hash: Int) -> SignalProducer<T, Error> {
-        
+    func load(_ hash: Int) -> SignalProducer<T, ReactorError> {
+
         return SignalProducer {[weak self] observer, disposable in
             
             guard let object = self?.cache[hash]
                 else {
-                    observer.sendFailed(.Persistence("file not found in cache"))
+                    observer.send(error: .persistence("file not found in cache"))
                     return
             }
-            
-            observer.sendNext(object)
+
+            observer.send(value: object)
             observer.sendCompleted()
         }
     }
     
-    func load() -> SignalProducer<[T], Error> {
+    func load() -> SignalProducer<[T], ReactorError> {
         
         return SignalProducer(value: cache.all())
     }
     
-    func save(object: T) -> SignalProducer<T, Error> {
+    func save(_ object: T) -> SignalProducer<T, ReactorError> {
         
         return SignalProducer {[weak self] observer, disposable in
             
             self?.cache[object.hashValue] = object
             
-            observer.sendNext(object)
+            observer.send(value: object)
             observer.sendCompleted()
         }
     }
     
-    func save(objects: [T]) -> SignalProducer<[T], Error> {
+    func save(_ objects: [T]) -> SignalProducer<[T], ReactorError> {
         
         return SignalProducer {[weak self] observer, disposable in
             
             objects.forEach { item in
                 self?.cache[item.hashValue] = item
             }
-            observer.sendNext(objects)
+            observer.send(value: objects)
             observer.sendCompleted()
         }
     }

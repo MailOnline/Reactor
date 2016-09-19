@@ -1,3 +1,3 @@
-github "antitypical/Result" "2.0.0"
+github "antitypical/Result" "3.0.0"
 github "Velhotes/Vinyl" "0.9.1"
-github "ReactiveCocoa/ReactiveCocoa" "v4.2.0"
+github "ReactiveCocoa/ReactiveSwift" "2cdbc4159dede57a47df0e2eeccd8c0ba8436470"

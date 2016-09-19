@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 @testable import Reactor
 
@@ -21,8 +21,8 @@ class PersistenceTest: XCTestCase {
     
     func testWritingPersistenceSuccessfully() {
         
-        let expectation = self.expectationWithDescription("Expected data to be persisted with success")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected data to be persisted with success")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let writingSignal = writeToFile(testFileName, data: dataFromFile("articles"))
             .on(
@@ -34,19 +34,19 @@ class PersistenceTest: XCTestCase {
     }
     
     func testReadingPersistenceSuccess() {
-        let expectation = self.expectationWithDescription("Expected data to be read with succcess")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected data to be read with succcess")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let data = dataFromFile("articles")
         
         let readingSignal = readFileData(testFileName)
             .on(
-            completed: {
-                expectation.fulfill()},
-            next: { x in
-                XCTAssertEqual(x.length, data.length)
-                removeTestFile(self.testFileName)
-        })
+                value: { x in
+                    XCTAssertEqual(x.count, data.count)
+                    removeTestFile(self.testFileName)
+                },
+                completed: {
+                    expectation.fulfill()})
         
         let writingSignal = writeToFile(testFileName, data: data) . on(completed: {
             readingSignal.start()
@@ -56,9 +56,9 @@ class PersistenceTest: XCTestCase {
     }
     
     func testReadingPersistenceFailure() {
-        let expectation = self.expectationWithDescription("Expected to fail")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
-        
+        let expectation = self.expectation(description: "Expected to fail")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
+
         let readingSignal = readFileData(testFileName).on(failed: {error in expectation.fulfill() })
         
         readingSignal.start()
@@ -66,52 +66,52 @@ class PersistenceTest: XCTestCase {
     
     func testFileDoesNotExist() {
         
-        let expectation = self.expectationWithDescription("Expected to not find any file")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to not find any file")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         doesFileExists(testFileName)
             .on(
+                value: { doesFileExists in
+                    XCTAssertEqual(doesFileExists, false)
+                },
                 completed: {
                     expectation.fulfill()
-                },
-                next: { doesFileExists in
-                    XCTAssertEqual(doesFileExists, false)
             })
             .start()
     }
     
     func testFileDoesExist() {
         
-        let expectation = self.expectationWithDescription("Expected to find file")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to find file")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let doesFileExitsSignal = doesFileExists(testFileName).on(
-            completed: {
-                expectation.fulfill() },
-            next: { doesFileExists in
+            value: { doesFileExists in
                 XCTAssertEqual(doesFileExists, true)
-        })
-        
+            },
+            completed: {
+                expectation.fulfill() })
+
         writeToFile(testFileName, data: dataFromFile("articles")).on (completed: {
             doesFileExitsSignal.start()
         }).start()
     }
     
     func testShouldFailWithBadPath() {
-        let expectation = self.expectationWithDescription("Expected to fail with bad path")
-        defer { self.waitForExpectationsWithTimeout(4.0, handler: nil) }
+        let expectation = self.expectation(description: "Expected to fail with bad path")
+        defer { self.waitForExpectations(timeout: 4.0, handler: nil) }
         
         let fullPath = testFileName
         
-        try! NSFileManager.defaultManager().setAttributes([:], ofItemAtPath: testFileName)
+        try! FileManager.default.setAttributes([:], ofItemAtPath: testFileName)
         
         fileCreationDate(fullPath)
             .on(
-                started: { _ in
-                    expectation.fulfill()
-                },
-                next: { _  in
+                value: { _ in
                     XCTFail()
+                },
+                failed: { _  in
+                    expectation.fulfill()
             })
             .start()
     }

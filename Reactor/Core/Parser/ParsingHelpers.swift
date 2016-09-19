@@ -8,7 +8,7 @@
 
 import Result
 
-func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
+func strictArrayFromJSON<T: Mappable>(_ objects: [AnyObject]) -> Result<[T], ReactorError> {
     
     var convertAndCleanArray: [T] = []
     
@@ -16,27 +16,27 @@ func strictArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error
         
         let mappedModel = T.mapToModel(object)
         
-        guard case .Success(let model) = mappedModel else { return mappedModel.map { _ in [] }.mapError { .Parser($0.description) } }
+        guard case .success(let model) = mappedModel else { return mappedModel.map { _ in [] }.mapError { .parser($0.description) } }
         convertAndCleanArray.append(model)
     }
     
     return Result(value: convertAndCleanArray)
 }
 
-func prunedArrayFromJSON<T: Mappable>(objects: [AnyObject]) -> Result<[T], Error> {
+func prunedArrayFromJSON<T: Mappable>(_ objects: [AnyObject]) -> Result<[T], ReactorError> {
     
     var convertAndCleanArray: [T] = []
     
     for object in objects {
         
-        guard case .Success(let model) = T.mapToModel(object) else { continue }
+        guard case .success(let model) = T.mapToModel(object) else { continue }
         convertAndCleanArray.append(model)
     }
     
     return Result(value: convertAndCleanArray)
 }
 
-func prunedArrayFromJSON<T: Mappable>(anyObject: AnyObject, key: String) -> Result<[T], Error> {
+func prunedArrayFromJSON<T: Mappable>(_ anyObject: AnyObject, key: String) -> Result<[T], ReactorError> {
     
     guard
         let dictionary = anyObject as? [String: AnyObject],

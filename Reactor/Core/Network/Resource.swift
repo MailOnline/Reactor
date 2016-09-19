@@ -18,10 +18,10 @@ public struct Resource: Equatable, CustomStringConvertible {
     public let path: String
     public let method: Method
     public let headers: Headers
-    public let body: NSData?
+    public let body: Data?
     public let query: Query
     
-    public init(path: String, method: Method, body: NSData? = nil, headers: Headers = [:], query: Query = [:]) {
+    public init(path: String, method: Method, body: Data? = nil, headers: Headers = [:], query: Query = [:]) {
         self.path = path
         self.method = method
         self.body = body
@@ -42,7 +42,7 @@ public func == (lhs: Resource, rhs: Resource) -> Bool {
     case (nil,nil): equalBody = true
     case (nil,_?): equalBody = false
     case (_?,nil): equalBody = false
-    case (let l?,let r?): equalBody = l.isEqualToData(r)
+    case (let l?,let r?): equalBody = l == r
     }
     
     return (lhs.path == rhs.path && lhs.method == rhs.method && equalBody)
@@ -63,25 +63,25 @@ public enum Method: String {
 extension Resource {
     
     /// Used to transform a Resource into a NSURLRequest
-    public func toRequest(baseURL: NSURL) -> NSURLRequest {
+    public func toRequest(_ baseURL: URL) -> URLRequest {
         
-        let components = NSURLComponents(URL: baseURL, resolvingAgainstBaseURL: false)
+        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
         
         components?.queryItems = createQueryItems(query)
         components?.path = path
         
-        let finalURL = components?.URL ?? baseURL
-        let request = NSMutableURLRequest(URL: finalURL)
+        let finalURL = components?.url ?? baseURL
+        let request = NSMutableURLRequest(url: finalURL)
         
-        request.HTTPBody = body
+        request.httpBody = body
         request.allHTTPHeaderFields = headers
-        request.HTTPMethod = method.rawValue
+        request.httpMethod = method.rawValue
         
-        return request
+        return request as URLRequest
     }
     
     /// Creates a new Resource by adding the new header.
-    public func addHeader(value: String, key: String) -> Resource {
+    public func addHeader(_ value: String, key: String) -> Resource {
         
         var headers = self.headers
         headers[key] = value
@@ -89,12 +89,12 @@ extension Resource {
         return Resource(path: path, method: method, body: body, headers: headers, query: query)
     }
     
-    private func createQueryItems(query: Query) -> [NSURLQueryItem]? {
+    private func createQueryItems(_ query: Query) -> [URLQueryItem]? {
         
         guard query.isEmpty == false else { return nil }
         
         return query.map { (key, value) in
-            return NSURLQueryItem(name: key, value: value)
+            return URLQueryItem(name: key, value: value)
         }
     }
 }

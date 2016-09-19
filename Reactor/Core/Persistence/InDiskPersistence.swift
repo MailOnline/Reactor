@@ -7,19 +7,19 @@
 //
 
 import Result
-import ReactiveCocoa
+import ReactiveSwift
 
 extension InDiskPersistenceHandler where T: Mappable {
     
     /// Used to load a single `Mappable` element from persistence
-    public func load() -> SignalProducer<T, Error> {
+    public func load() -> SignalProducer<T, ReactorError> {
         return readFileData(persistenceFilePath)
             .flatMapLatest(parse)
     }
     
     /// Used to save to persistence a single `Mappable` element into persistence
     /// The model is returned back when saved.
-    public func save(model: T) -> SignalProducer<T, Error> {
+    public func save(_ model: T) -> SignalProducer<T, ReactorError> {
         
         let writeData = curry(writeToFile)(persistenceFilePath)
         
@@ -29,12 +29,12 @@ extension InDiskPersistenceHandler where T: Mappable {
     }
 }
 
-extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: Mappable {
+extension InDiskPersistenceHandler where T: Sequence, T.Iterator.Element: Mappable {
     
     /// Used to load a Sequence of `Mappable` elements from persistence
-    public func load() -> SignalProducer<T, Error> {
+    public func load() -> SignalProducer<T, ReactorError> {
         
-        let parser: NSData -> SignalProducer<T, Error> = flip(curry(parse))(prunedArrayFromJSON)
+        let parser: (Data) -> SignalProducer<T, ReactorError> = flip(curry(parse))(prunedArrayFromJSON)
 
         return readFileData(persistenceFilePath)
             .flatMapLatest(parser)
@@ -42,7 +42,7 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
     
     /// Used to save to persistence a Sequence of `Mappable` elements into persistence
     /// The models are returned back when saved.
-    public func save(models: T) ->  SignalProducer<T, Error> {
+    public func save(_ models: T) ->  SignalProducer<T, ReactorError> {
         
         let writeData = curry(writeToFile)(persistenceFilePath)
         
@@ -55,10 +55,10 @@ extension InDiskPersistenceHandler where T: SequenceType, T.Generator.Element: M
 /// Used to persist a `T` in disk. The `T` or the `Sequence.Generator.Element` must be `Mappable`, in order for it work
 public final class InDiskPersistenceHandler<T> {
     
-    private let persistenceFilePath: String
-    private let expirationTime: NSTimeInterval
+    internal let persistenceFilePath: String
+    private let expirationTime: TimeInterval
     
-    public init(persistenceFilePath: String, expirationTime: NSTimeInterval = 2) {
+    public init(persistenceFilePath: String, expirationTime: TimeInterval = 2) {
         
         self.persistenceFilePath = persistenceFilePath
         self.expirationTime = expirationTime

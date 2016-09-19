@@ -9,25 +9,25 @@
 import Foundation
 import XCTest
 
-func JSONFromFile(file: String) -> AnyObject {
+func JSONFromFile(_ file: String) -> AnyObject {
     
-    let path = NSBundle(forClass: JSONFileReader.self).pathForResource(file, ofType: "json")
-    let data = NSData(contentsOfFile: path!)
+    let path = Bundle(for: JSONFileReader.self).path(forResource: file, ofType: "json")
+    let data = try? Data(contentsOf: URL(fileURLWithPath: path!))
     
-    return try! NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+    return try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as AnyObject
 }
 
-func dataFromFile(file: String) -> NSData {
+func dataFromFile(_ file: String) -> Data {
     
-    let path = NSBundle(forClass: JSONFileReader.self).pathForResource(file, ofType: "json")
+    let path = Bundle(for: JSONFileReader.self).path(forResource: file, ofType: "json")
     
-    return NSData(contentsOfFile: path!)!
+    return (try! Data(contentsOf: URL(fileURLWithPath: path!)))
 }
 
-func delay(delay:Double, closure: Void -> Void) {
+func delay(_ delay:Double, closure: @escaping (Void) -> Void) {
     
-    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-    dispatch_after(dispatchTime, dispatch_get_main_queue(), closure)
+    let dispatchTime = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: closure)
 }
 
 private class JSONFileReader { }
