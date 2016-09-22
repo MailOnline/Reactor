@@ -1,9 +1,8 @@
 language: objective-c
 osx_image: xcode8
-env:
-  matrix:
-  - PLATFORM="iOS9"
 script:
-  - make $PLATFORM
+  - set -o pipefail
+  - xcodebuild test -scheme Reactor-iOS -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6s" | xcpretty -c
+
 notifications:
   slack: mailonline:CvgBKsRkoSBcuafeSy46hUKB
