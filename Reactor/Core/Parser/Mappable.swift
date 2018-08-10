@@ -1,11 +1,3 @@
-//
-//  Mappable.swift
-//  Reactor
-//
-//  Created by Rui Peres on 13/03/2016.
-//  Copyright © 2016 Mail Online. All rights reserved.
-//
-
 import Result
 
 /// This should be used when there is an error at the parsing level for better debugging

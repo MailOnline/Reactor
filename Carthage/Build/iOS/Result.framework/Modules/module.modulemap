@@ -7,4 +7,5 @@ framework module Result {
 
 module Result.Swift {
     header "Result-Swift.h"
+    requires objc
 }

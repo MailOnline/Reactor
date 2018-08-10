@@ -7,4 +7,5 @@ framework module ReactiveSwift {
 
 module ReactiveSwift.Swift {
     header "ReactiveSwift-Swift.h"
+    requires objc
 }

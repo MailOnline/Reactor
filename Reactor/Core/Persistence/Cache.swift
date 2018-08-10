@@ -1,15 +1,6 @@
-//
-//  Cache.swift
-//  Reactor
-//
-//  Created by Rui Peres on 14/03/2016.
-//  Copyright © 2016 Mail Online. All rights reserved.
-//
-
 import Foundation
 
 final class Cache<T> where T: Hashable {
-    
     private var cache = [Int: T]()
     private let lock = DispatchQueue(label: "cache.queue")
     
@@ -22,7 +13,6 @@ final class Cache<T> where T: Hashable {
     }
     
     subscript(key: Int) -> T? {
-        
         get {
             var value: T?
             lock.sync {
@@ -30,7 +20,6 @@ final class Cache<T> where T: Hashable {
             }
             return value
         }
-        
         set(newValue) {
             lock.sync {
                 self.cache[key] = newValue
@@ -45,9 +34,7 @@ final class Cache<T> where T: Hashable {
     }
     
     func all() -> [T] {
-        
         var all: [T] = []
-        
         lock.sync {
             for key in self.cache.keys {
                 all.append(self.cache[key]!)

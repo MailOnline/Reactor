@@ -1,11 +1,3 @@
-//
-//  Persistence.swift
-//  Reactor
-//
-//  Created by Rui Peres on 21/07/2015.
-//  Copyright © 2015 Mail Online. All rights reserved.
-//
-
 import Result
 import ReactiveSwift
 

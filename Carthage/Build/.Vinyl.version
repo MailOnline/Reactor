@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.10.1",
+  "iOS" : [
+    {
+      "name" : "Vinyl",
+      "hash" : "7e04595dbf562c69383700d959390ac80fb42c3bc05e9a6476ac79e8aa5d48de"
+    }
+  ]
+}
