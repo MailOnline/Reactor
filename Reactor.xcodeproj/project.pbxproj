@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B29AABDF211F14510060293B /* ReactorV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AABDE211F14510060293B /* ReactorV2.swift */; };
 		C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */; };
 		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C75CE1EC1C94C39F006F6458 /* ReactiveSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1EB1C94C39F006F6458 /* ReactiveSwift.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B29AABDE211F14510060293B /* ReactorV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorV2.swift; sourceTree = "<group>"; };
 		C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadUtility.swift; sourceTree = "<group>"; };
 		C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorConfiguration.swift; sourceTree = "<group>"; };
 		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
+				B29AABDE211F14510060293B /* ReactorV2.swift */,
 				C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */,
 				C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */,
 			);
@@ -400,7 +403,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Mail Online";
 				TargetAttributes = {
 					C76D70FB1D8C2AB0000ADF6E = {
@@ -500,6 +503,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B29AABDF211F14510060293B /* ReactorV2.swift in Sources */,
 				C7DFA0271C96CD310068FFE6 /* Persistence.swift in Sources */,
 				C76078301CA0818C0006B3AC /* AlwaysReachable.swift in Sources */,
 				C7DFA0221C9647670068FFE6 /* ParsingHelpers.swift in Sources */,
@@ -583,14 +587,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -633,14 +645,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

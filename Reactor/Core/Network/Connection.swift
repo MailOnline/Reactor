@@ -34,7 +34,7 @@ extension Connection {
         let request = resource.toRequest(self.baseURL)
         
         let networkRequest = self.session
-            .rac_data(with: request)
+            .reactive.data(with: request)
             .mapError { error in ReactorError.server(error.localizedDescription) }
         
         let isReachable: (Bool) -> Response = { isReachable in

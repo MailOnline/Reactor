@@ -1,11 +1,3 @@
-//
-//  ReactorFlow.swift
-//  Reactor
-//
-//  Created by Rui Peres on 15/03/2016.
-//  Copyright © 2016 Mail Online. All rights reserved.
-//
-
 import Result
 import ReactiveSwift
 
@@ -17,7 +9,7 @@ import ReactiveSwift
 public struct ReactorFlow<T> {
     
     public typealias NetworkFlow = (Resource) -> SignalProducer<T, ReactorError>
-    public typealias LoadFromPersistenceFlow = (Void) -> SignalProducer<T, ReactorError>
+    public typealias LoadFromPersistenceFlow = () -> SignalProducer<T, ReactorError>
     public typealias SaveToPersistenceFlow = (T) -> SignalProducer<T, ReactorError>
     
     public var networkFlow: NetworkFlow

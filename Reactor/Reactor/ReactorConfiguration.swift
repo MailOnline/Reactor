@@ -1,11 +1,3 @@
-//
-//  ReactorConfiguration.swift
-//  Reactor
-//
-//  Created by Rui Peres on 21/03/2016.
-//  Copyright © 2016 Mail Online. All rights reserved.
-//
-
 public protocol CoreConfigurable {
     /// If the entire flow should fail, when `saveToPersistenceFlow` fails.
     /// `true` by default.
