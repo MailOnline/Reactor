@@ -1,5 +1,7 @@
-public enum ReactorError: Error, Equatable {
-    case server(String)
+import Result
+
+public enum ReactorError: Error {
+    case server(AnyError)
     case noConnectivity
     case persistence(String)
     case parser(String)

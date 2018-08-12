@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B29AABDF211F14510060293B /* ReactorV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AABDE211F14510060293B /* ReactorV2.swift */; };
+		B29AABE1211FAB2F0060293B /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29AABE0211FAB2F0060293B /* Atomic.swift */; };
 		C7294AD01CA079D000ECF68C /* ReactorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */; };
 		C72BC4EF1C981EDD002CCB11 /* ReactorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */; };
 		C75CE1EC1C94C39F006F6458 /* ReactiveSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75CE1EB1C94C39F006F6458 /* ReactiveSwift.swift */; };
@@ -68,6 +69,7 @@
 
 /* Begin PBXFileReference section */
 		B29AABDE211F14510060293B /* ReactorV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorV2.swift; sourceTree = "<group>"; };
+		B29AABE0211FAB2F0060293B /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		C7294ACC1C9F554E00ECF68C /* ThreadUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadUtility.swift; sourceTree = "<group>"; };
 		C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorConfiguration.swift; sourceTree = "<group>"; };
 		C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactorFlow.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 			children = (
 				C7DFA0431C9703C40068FFE6 /* Reactor.swift */,
 				B29AABDE211F14510060293B /* ReactorV2.swift */,
+				B29AABE0211FAB2F0060293B /* Atomic.swift */,
 				C72BC4EE1C981EDD002CCB11 /* ReactorFlow.swift */,
 				C7294ACF1CA079D000ECF68C /* ReactorConfiguration.swift */,
 			);
@@ -522,6 +525,7 @@
 				C7A509081C93B88E006EE048 /* Network.swift in Sources */,
 				C7A509011C93B6F3006EE048 /* Resource.swift in Sources */,
 				C7DFA0441C9703C40068FFE6 /* Reactor.swift in Sources */,
+				B29AABE1211FAB2F0060293B /* Atomic.swift in Sources */,
 				C7DFA02C1C96CE060068FFE6 /* flip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -678,7 +682,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

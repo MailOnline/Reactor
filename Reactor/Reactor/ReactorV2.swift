@@ -2,25 +2,17 @@ import Foundation
 import enum Result.NoError
 import ReactiveSwift
 
-final class ReactorV2<T> {
-    private let session: URLSession
+public final class ReactorV2<T> {
+    private let connectable: Connectable
+    private let flows: Atomic<ReactorV2.Flows> = Atomic(ReactorV2.Flows())
 
-    fileprivate let tasks: Property<[Task]>
-    fileprivate let tasksObserver: Signal<[Task], NoError>.Observer
-
-    init(session: URLSession = .shared) {
-        self.session = session
-
-        let (tasks, tasksObserver) = Signal<[Task], NoError>.pipe()
-        self.tasks = Property.init(initial: [], then: tasks)
-        self.tasksObserver = tasksObserver
+    public init(connectable: Connectable) {
+        self.connectable = connectable
     }
 }
 
 extension ReactorV2 where T == Data {
     func fetch(with request: URLRequest) -> ReactorV2<T> {
-        let values = tasks.value
-        tasksObserver.send(<#T##event: Signal<[ReactorV2<Data>.Task], NoError>.Event##Signal<[ReactorV2<Data>.Task], NoError>.Event#>)
         return self
     }
 }
@@ -29,13 +21,23 @@ extension ReactorV2 {
     typealias NetworkFlow = (URLRequest) -> SignalProducer<Data, ReactorError>
     typealias ParsingFlow = (Data) -> SignalProducer<T, ReactorError>
     typealias LoadFlow = (String) -> SignalProducer<T, ReactorError>
-    typealias SaveFlow = (T, String) -> SignalProducer<T, ReactorError>
+    typealias SaveFlow = (String) -> (T) -> SignalProducer<T, ReactorError>
 
-    enum Task {
-        case network(NetworkFlow)
-        case parsing(ParsingFlow)
-        case load(LoadFlow)
-        case save(SaveFlow)
+    struct Flows {
+        let networkFlow: NetworkFlow
+        let parsingFlow: ParsingFlow
+        let loadFlow: LoadFlow
+        let saveFlow: SaveFlow
+
+        init(networkFlow: @escaping NetworkFlow = { _ in SignalProducer.empty },
+             parsingFlow: @escaping ParsingFlow = { _ in SignalProducer.empty },
+             loadFlow: @escaping LoadFlow = { _ in SignalProducer.empty },
+             saveFlow: @escaping SaveFlow = { _ in { _ in SignalProducer.empty } }) {
+            self.networkFlow = networkFlow
+            self.parsingFlow = parsingFlow
+            self.loadFlow = loadFlow
+            self.saveFlow = saveFlow
+        }
     }
 }
 
